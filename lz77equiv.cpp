@@ -48,9 +48,9 @@ tuple<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vecto
 }
 
 
-//vector<tuple<unsigned, unsigned, unsigned, Chord> > compress77_eq(vector<Chord> input, unsigned l_buf, unsigned l_prev) {
-//    vector<tuple<unsigned, unsigned, unsigned Chord> > output;
-/*    queue<Chord> buffer;
+vector<tuple<unsigned, unsigned, unsigned, Chord> > compress77_eq(vector<Chord> input, unsigned l_buf, unsigned l_prev) {
+    vector<tuple<unsigned, unsigned, unsigned, Chord> > output;
+    queue<Chord> buffer;
     queue<Chord> preview;
     unsigned input_index = l_prev;
     Chord NC_Chord; NC_Chord.nc = true;
@@ -64,9 +64,9 @@ tuple<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vecto
     }
 
     while(1) {
-        pair<unsigned, unsigned> pref = longest_prefix(qtov(preview), qtov(buffer));
-        if(pref.second < pref.first) {
-            output.push_back(make_tuple(0, 0, preview.front()));
+        tuple<unsigned, unsigned, unsigned> pref = longest_prefix_eq(qtov(preview), qtov(buffer));
+        if(get<1>(pref) < get<0>(pref)) {
+            output.push_back(make_tuple(0, 0, 0, preview.front()));
             buffer.pop();
             buffer.push(preview.front());
             preview.pop();
@@ -79,7 +79,7 @@ tuple<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vecto
                 break;
             }
         } else {
-            FOR(i,pref.second-pref.first+1) {
+            FOR(i,get<1>(pref)-get<0>(pref)+1) {
                 buffer.pop();
                 buffer.push(preview.front());
                 preview.pop();
@@ -89,10 +89,10 @@ tuple<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vecto
                 }
             }
             if(preview.empty()) {
-                output.push_back(make_tuple(l_buf-pref.first, (pref.second-pref.first+1), NC_Chord));
+                output.push_back(make_tuple(l_buf-get<0>(pref), (get<1>(pref)-get<0>(pref)+1), get<2>(pref), NC_Chord));
                 break;
             } else {
-                output.push_back(make_tuple(l_buf-pref.first, (pref.second-pref.first+1), preview.front()));
+                output.push_back(make_tuple(l_buf-get<0>(pref), (get<1>(pref)-get<0>(pref)+1), get<2>(pref), preview.front()));
                 buffer.pop();
                 buffer.push(preview.front());
                 preview.pop();
@@ -106,20 +106,20 @@ tuple<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vecto
             }
         }
     }
-*/
-//    return output;
-//}
 
-//vector<vector<Chord> > print_dictionary_eq(vector<tuple<unsigned, unsigned, unsigned Chord> > dico, unsigned l_buf, unsigned l_prev) {
-//    vector<Chord> reconstruction;
-//    vector<vector<Chord> > res;
-/*    unsigned res_index=-1;
+    return output;
+}
+
+vector<vector<Chord> > print_dictionary_eq(vector<tuple<unsigned, unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev) {
+    vector<Chord> reconstruction;
+    vector<vector<Chord> > res;
+    unsigned res_index=-1;
 
     cout << endl << "Dictionary (for buffer size = " << l_buf << " and preview size = " << l_prev << ") :" << endl;
     FOR(i,dico.size()) {
-        tuple<unsigned, unsigned, Chord> t = dico[i];
+        tuple<unsigned, unsigned, unsigned, Chord> t = dico[i];
         if((get<0>(t) == 0) || (get<1>(t) == 0)) {
-            reconstruction.push_back(get<2>(t));
+            reconstruction.push_back(get<3>(t));
         } else {
             res.push_back(vector<Chord>());
             res_index++;
@@ -128,22 +128,47 @@ tuple<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vecto
                 reconstruction.push_back(c);
                 res[res_index].push_back(c);
             }
-            reconstruction.push_back(get<2>(t));
+            reconstruction.push_back(get<3>(t));
         }
     }
 
-cout << reconstruction << endl << endl;
+// get<2> not taken into account yet !!
+/*cout << reconstruction << endl << endl;
 FOR(i,res.size()) {
-cout << res[i] << endl; }
-*/
-//    return res;
-//}
+cout << res[i] << endl; }*/
 
+    return res;
+}
 
-//map<string, unsigned> allSequences_eq(vector<Chord> input, unsigned threshold) {
-//    map<string, unsigned> res;
+bool equiv(string s1, string s2) {
+    vector<Chord> v1, v2;
+    string ch = "";
+    FOR(i,s1.length()) {
+        if (s1[i]!=';') {
+            ch += s1[i];
+        } else {
+            v1.push_back(utoC((unsigned)(stoul(ch))));
+            ch = "";
+        }
+    }
 
-/*    for (unsigned i=1; i<input.size()+1; i++) {          // length
+    ch = "";
+    FOR(i,s2.length()) {
+        if (s2[i]!=';') {
+            ch += s2[i];
+        } else {
+            v1.push_back(utoC((unsigned)(stoul(ch))));
+            ch = "";
+        }
+    }
+
+    return equivv(v1,v2);
+}
+
+map<string, unsigned> allSequences_eq(vector<Chord> input, unsigned threshold) {
+    map<string, unsigned> res;
+
+    for (unsigned i=1; i<input.size()+1; i++) {          // length
         for (unsigned j=0; j<input.size()-i+1; j++) {    // beginning
             string seq = "";
             for (unsigned k=j; k<i+j; k++) {
@@ -165,15 +190,24 @@ cout << res[i] << endl; }
         }
     }
 
-    std::map<std::string, unsigned>::iterator it, itEnd = res.end();
-    for(it = res.begin(); it!=itEnd; ++it) {
-        if((it->second)<threshold) {
-            res.erase(it->first);
+    std::map<std::string, unsigned>::iterator iti, itj, itEnd = res.end();
+    for(iti = res.begin(); iti!=itEnd; ++iti) {
+        for(itj = res.begin()++; itj!=itEnd; ++itj) {
+            if (equiv(iti->first, itj->first)) {
+                res[iti->first] += itj->second;
+                res.erase(itj->first);
+            }
         }
     }
-*/
-//    return res;
-//}
+
+    for(iti = res.begin(); iti!=itEnd; ++iti) {
+        if((iti->second) < threshold) {
+            res.erase(iti->first);
+        }
+    }
+
+    return res;
+}
 
 bool equiv(Chord c1, Chord c2) {
     if (c1.nc==true) {

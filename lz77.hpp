@@ -41,6 +41,20 @@ ostream& operator<<(ostream &flux, vector<tuple<unsigned, unsigned, Chord> > v);
 ostream& operator<<(ostream &flux, map<string, unsigned> m);
 
 
+
+
+
+
+vector<Chord> qtov(queue<Chord> s);
+unsigned Ntou(NOTE n);
+NOTE utoN(unsigned u);
+unsigned Atou(ACCIDENTAL a);
+ACCIDENTAL utoA(unsigned u);
+unsigned Ctou(Chord c);
+Chord utoC(unsigned u);
+map<string, unsigned> allSequences(vector<Chord> input, unsigned threshold);
+bool operator==(Chord c1, Chord c2);
+
 #endif
 
 
