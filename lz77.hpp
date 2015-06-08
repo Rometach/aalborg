@@ -27,7 +27,7 @@ typedef struct{
 
 
 Chord stoC(string s);
-pair<unsigned, unsigned> longest_prefix(vector<Chord> , vector<Chord> dictionary);
+pair<unsigned, unsigned> longest_prefix(vector<Chord> input, vector<Chord> dictionary);
 vector<tuple<unsigned, unsigned, Chord> > compress77(vector<Chord> input, unsigned l_buf, unsigned l_prev);
 vector<vector<Chord> > print_dictionary(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev);
 map<string, unsigned> allSequences(vector<Chord> input, unsigned threshold);
