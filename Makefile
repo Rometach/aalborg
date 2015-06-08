@@ -1,33 +1,47 @@
 CC = g++
-
 CFLAGS = -g -Wall -std=c++11
 
-OBJ = mainLZ77.o lz77.o lz77equiv.o
-SRCM = mainLZ77.cpp
-SRC = lz77.cpp
+all: LZ77
 
-MAIN = LZ77
+LZ77: mainLZ77.o lz77equiv.o lz77.o
+	$(CC) $(CFLAGS) mainLZ77.o lz77equiv.o lz77.o -o LZ77
 
-all: $(MAIN)
-
-run:
-	make all
-	./$(MAIN)
-
-$(MAIN): lz77equiv.o lz77.o mainLZ77.o
-	$(CC) $(CFLAGS) -o $(MAIN) $(OBJ)
+mainLZ77.o: mainLZ77.cpp
+	$(CC) $(CFLAGS) -c mainLZ77.cpp
 
 lz77equiv.o: lz77equiv.cpp
-	$(CC) $(CFLAGS) -o lz77.o -c lz77equiv.cpp
+	$(CC) $(CFLAGS) -c lz77equiv.cpp
 
 lz77.o: lz77.cpp
-	$(CC) $(CFLAGS) -o lz77.o -c lz77.cpp
+	$(CC) $(CFLAGS) -c lz77.cpp
 
-mainLZ77.o: $(SRCM) lz77.hpp lz77equiv.hpp
-	$(CC) $(CFLAGS) -o mainLZ77.o -c $(SRCM)
+
+#all:
+#	$(CC) $(CFLAGS) -o lz77.o -c lz77.cpp
+#	$(CC) $(CFLAGS) -o lz77equiv.o -c lz77equiv.cpp
+#	$(CC) $(CFLAGS) -o mainLZ77.o -c mainLZ77.cpp
+#	$(CC) $(CFLAGS) -o $(MAIN) lz77equiv.o mainLZ77.o
+#
+#allx: $(MAIN)
+#
+#run:
+#	make all
+#	./$(MAIN)
+#
+#$(MAIN): mainLZ77.o lz77equiv.o mainLZ77.o
+#	$(CC) $(CFLAGS) -o $(MAIN) mainLZ77.o
+#
+#mainLZ77.o: mainLZ77.cpp lz77equiv.hpp
+#	$(CC) $(CFLAGS) -o mainLZ77.o -c mainLZ77.cpp
+#
+#lz77equiv.o: lz77equiv.cpp lz77.hpp
+#	$(CC) $(CFLAGS) -o lz77equiv.o -c lz77equiv.cpp
+#
+#lz77.o: lz77.cpp
+#	$(CC) $(CFLAGS) -o lz77.o -c lz77.cpp
 
 
 clean:
 	rm *.o
 	rm *~
-	rm $(MAIN)
+	rm LZ77

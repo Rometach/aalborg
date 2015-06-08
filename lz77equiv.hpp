@@ -18,7 +18,7 @@ vector<tuple<unsigned, unsigned, unsigned, Chord> > compress77_eq(vector<Chord> 
 vector<vector<Chord> > print_dictionary_eq(vector<tuple<unsigned, unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev);
 map<string, unsigned> allSequences_eq(vector<Chord> input, unsigned threshold);
 bool equiv(Chord c1, Chord c2);
-bool equiv(vector<Chord> v1, vector<Chord> v2);
+bool equivv(vector<Chord> v1, vector<Chord> v2);
 
 unsigned operator-(Chord c1, Chord c2);
 /*ostream& operator<<(ostream &flux, Chord c);

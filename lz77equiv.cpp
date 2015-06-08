@@ -17,27 +17,35 @@ using namespace std;
 
 
 /* Not optimal implementation */
-//pair<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vector<Chord> dictionary) {
-//    int lp_begin=1, lp_end=0;
-/*    unsigned initial_dictionary_size = dictionary.size();
+tuple<unsigned, unsigned, unsigned> longest_prefix_eq(vector<Chord> input, vector<Chord> dictionary) {
+    int lp_begin=1, lp_end=0, dif=-1;
+    unsigned initial_dictionary_size = dictionary.size();
 
     FOR(i,input.size())
         dictionary.push_back(input[i]);
 
     FOR(i,initial_dictionary_size) {
+        int diftemp = -1;
+        if (equiv(dictionary[i],input[0])) {
+            diftemp = dictionary[i]-input[0];
+        }
         FOR(j,input.size()) {
-            if (dictionary[i+j] != input[j]) {
+            if (!equiv(dictionary[i+j],input[j])) {
+                break;
+            } else if (diftemp != (int)(dictionary[i+j]-input[j])) {
                 break;
             } else {
                 if ((int)j>(lp_end-lp_begin)) {
                     lp_begin = i;
                     lp_end = i+j;
+                    dif = diftemp;
                 }
             }
         }
-    }*/
-//    return make_tuple(lp_begin, lp_end, 0);
-//}
+    }
+
+    return make_tuple(lp_begin, lp_end, dif);
+}
 
 
 //vector<tuple<unsigned, unsigned, unsigned, Chord> > compress77_eq(vector<Chord> input, unsigned l_buf, unsigned l_prev) {
@@ -179,7 +187,7 @@ bool equiv(Chord c1, Chord c2) {
     }
 }
 
-bool equiv(vector<Chord> v1, vector<Chord> v2) {
+bool equivv(vector<Chord> v1, vector<Chord> v2) {
     if(v1.size()!=v2.size()) {
         return false;
     } else if ((v1.size()==0) || (v2.size()==0)) {

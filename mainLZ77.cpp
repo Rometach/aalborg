@@ -1,3 +1,4 @@
+#include "lz77equiv.hpp"
 #include "lz77.hpp"
 
 #define FOR(i,n) for(unsigned i=0;i<unsigned(n);i++)
