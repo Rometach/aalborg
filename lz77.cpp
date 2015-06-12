@@ -68,6 +68,25 @@ Chord stoC(string s) {
     return res;
 }
 
+vector<vector<Chord> > chords_from_file(string filename) {
+    ifstream data(filename);
+    vector<vector<Chord> > res;
+    unsigned csindex=-1;
+
+    string next_chord;
+    while(getline(data,next_chord)) {
+        if(next_chord[0] == '@') {
+            break;
+        } else if (next_chord[0] == '=') {
+            res.push_back(vector<Chord> ());
+            csindex++;
+        } else {
+            res[csindex].push_back(stoC(next_chord));
+        }
+    }
+    return res;
+}
+
 /* Not optimal implementation */
 pair<unsigned, unsigned> longest_prefix(vector<Chord> input, vector<Chord> dictionary) {
     int lp_begin=1, lp_end=0;

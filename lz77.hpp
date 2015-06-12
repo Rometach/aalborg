@@ -18,13 +18,14 @@ enum ACCIDENTAL {NONE, MOLL, DUR};
 
 typedef unsigned HARM;
 
-typedef struct{
+struct Chord {
     bool nc;
     NOTE n;
     ACCIDENTAL a;
     HARM h;
-} Chord;
-
+//    struct Chord* simclass;
+};
+typedef struct Chord Chord;
 
 /* INTERESTING FUNCTIONS*/
 /* Computes the longest prefix of 'input' in 'dictionary+input', beginning in 'dictionary'
@@ -44,6 +45,8 @@ map<string, unsigned> allSequences(vector<Chord> input, unsigned threshold);
 
 
 /* USEFUL AUXILIARY PROCEDURES */
+/* Reads and stores the 'Chord' sequences described in data_file */
+vector<vector<Chord> > chords_from_file(string filename);
 /* Computes a 'Chord' from the string description in input file */
 Chord stoC(string s);
 /* Converts a queue of Chords into a vector */
@@ -68,7 +71,14 @@ ostream& operator<<(ostream &flux, vector<tuple<unsigned, unsigned, Chord> > v);
 ostream& operator<<(ostream &flux, map<string, unsigned> m);
 
 
-
+// TODO
+// distance -> equivalence classes
+// composertools
+//
+//
+//
+//
+//
 
 
 #endif
