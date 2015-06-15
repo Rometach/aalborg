@@ -129,36 +129,30 @@ vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Cho
     return res;
 }
 
-static bool compare_aux(pair<vector<Chord>, unsigned> x, pair<vector<Chord>, unsigned> y) {
+static bool compare_aux_occ(pair<vector<Chord>, unsigned> x, pair<vector<Chord>, unsigned> y) {
     return (x.second >= y.second);
 }
 
-static void add_chords_to_table(vector<pair<vector<Chord>, unsigned> > &table, vector<Chord> v) {
+static void add_chords_to_table(vector<vector<Chord> > &table, vector<Chord> v) {
     bool is_present=false;
     FOR(i,table.size()) {
-        if(table[i].first==v) {
-            table[i].second++;
+        if(table[i]==v) {
             is_present=true;
             break;
         }
     }
     if(!is_present) {
-        table.push_back(make_pair(v, 2));
+        table.push_back(v);
     }
-/*cout << "Hey!" << endl;
-FOR(i,table.size()) {
-    cout << table[i].first << endl;
-}
-cout << "Bye Bye!" << endl << endl;*/
 }
 
-vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, unsigned occ_thres, unsigned metric, double threshold) {
+vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
     vector<pair<vector<Chord>, unsigned> > res;
+    vector<vector<Chord> > res_aux;
 
     for (unsigned i=1; i<input.size(); i++) {   // diagonal
         bool in_sequence=false;
         unsigned begin, length=0;
-        vector<pair<vector<Chord>, unsigned> > diago_res;
         for(unsigned j=0; j<input.size()-i; j++) {
             if (similar(input[i+j], input[j], metric, threshold)) {
                 if(in_sequence) {
@@ -170,35 +164,31 @@ vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, uns
                 }
             } else {
                 if(in_sequence) {
-                    vector<Chord> sequence_to_add (input.begin()+begin,input.begin()+begin+length);
-                    add_chords_to_table(diago_res, sequence_to_add);
+                    vector<Chord> sequence_to_add (input.begin()+begin, input.begin()+begin+length);
+                    add_chords_to_table(res_aux, sequence_to_add);
                     in_sequence = false;
                 }
             }
         }
         if(in_sequence) {
-            vector<Chord> sequence_to_add (input.begin()+begin,input.begin()+begin+length);
-            add_chords_to_table(diago_res, sequence_to_add);
-        }
-        FOR(j,diago_res.size()) {
-            add_chords_to_table(res, diago_res[j].first);
+            vector<Chord> sequence_to_add (input.begin()+begin, input.begin()+begin+length);
+            add_chords_to_table(res_aux, sequence_to_add);
         }
     }
 
-/*    vector<pair<vector<Chord>, unsigned> > res;
-    for (auto &it : res_aux) {
-        if (it.second >= occ_thres) {
-            vector<Chord> v;
-            unsigned begin = it.first/input.size();
-            unsigned length = it.first % input.size();
-            for(unsigned i=begin; i<begin+length; i++) {
-                v.push_back(input[i]);
+    FOR(i,res_aux.size()) {
+        if(res_aux[i].size()>=lg_thres) {
+            res.push_back(make_pair(res_aux[i],0));
+            FOR(j,input.size()) {
+                vector<Chord> v (input.begin()+j, input.begin()+j+res_aux[i].size());
+                if(v==res_aux[i]) {
+                    res[i].second++;
+                }
             }
-            res.push_back(make_pair(v,it.second));
         }
-    }*/
+    }
 
-    std::sort (res.begin(), res.end(), compare_aux);
+    std::sort(res.begin(), res.end(), compare_aux_occ);
     FOR(i,res.size()) {
         if (res[i].second < occ_thres) {
             res.erase(res.begin()+i,res.end());

@@ -27,6 +27,6 @@ vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Cho
 
 /* Computes exhaustively every subsequence of 'input' and the number of times similarity-equivalent sequences occur;
    outputs all sequences that occur >= than 'occ_thres' times, along with their number of occurences */
-vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, unsigned occ_thres, unsigned metric=0, double threshold=0);
+vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric=0, double threshold=0);
 
 #endif

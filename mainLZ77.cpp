@@ -8,7 +8,8 @@
 #define THRESHOLD 0.9
 #define LBUF 10
 #define LPREV 10
-#define OCC_THRESHOLD 10
+#define OCC_THRES 10
+#define LG_THRES 2
 
 using namespace std;
 
@@ -37,7 +38,7 @@ int main(int argc, char** argv)
         }
     }
 
-//    vector<Chord> input = chordsequences[0];
+//    vector<Chord> input = chordsequences[4];
 
     cout << "Input chord sequence:" << endl;
     cout << input << endl;
@@ -48,7 +49,7 @@ int main(int argc, char** argv)
     vector<vector<Chord> > x = print_dictionary_sim(compressed_data, LBUF, LPREV);
 
     cout << "Repeated sequences:" << endl;
-    vector<pair<vector<Chord>, unsigned> > complete_dictionary = allSequences_sim(input, OCC_THRESHOLD, METRIC, THRESHOLD);
+    vector<pair<vector<Chord>, unsigned> > complete_dictionary = allSequences_sim(input, OCC_THRES, LG_THRES, METRIC, THRESHOLD);
     cout << complete_dictionary;
 
     return 0;
