@@ -87,7 +87,17 @@ vector<vector<Chord> > chords_from_file(string filename) {
     return res;
 }
 
-/* Not optimal implementation */
+vector<Chord> qtov(queue<Chord> s) {
+    queue<Chord> s_temp = s;
+    vector<Chord> res;
+    while(!s_temp.empty()) {
+        res.push_back(s_temp.front());
+        s_temp.pop();
+    }
+    return res;
+}
+
+/* Not optimal implementation */ /*
 pair<unsigned, unsigned> longest_prefix(vector<Chord> input, vector<Chord> dictionary) {
     int lp_begin=1, lp_end=0;
     unsigned initial_dictionary_size = dictionary.size();
@@ -108,16 +118,6 @@ pair<unsigned, unsigned> longest_prefix(vector<Chord> input, vector<Chord> dicti
         }
     }
     return make_pair(lp_begin, lp_end);
-}
-
-vector<Chord> qtov(queue<Chord> s) {
-    queue<Chord> s_temp = s;
-    vector<Chord> res;
-    while(!s_temp.empty()) {
-        res.push_back(s_temp.front());
-        s_temp.pop();
-    }
-    return res;
 }
 
 vector<tuple<unsigned, unsigned, Chord> > compress77(vector<Chord> input, unsigned l_buf, unsigned l_prev) {
@@ -209,7 +209,7 @@ FOR(i,res.size()) {
 cout << res[i] << endl; }
 
     return res;
-}
+} */
 
 unsigned Ntou(NOTE n) {
     switch(n) {
@@ -380,6 +380,19 @@ bool operator!=(Chord c1, Chord c2) {
     return !(c1==c2);
 }
 
+bool operator==(vector<Chord> v1, vector<Chord> v2) {
+    if(v1.size() != v2.size()) {
+        return false;
+    } else {
+        FOR(i,v1.size()) {
+            if(v1[i]!=v2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
 ostream& operator<<(ostream &flux, Chord c) {
     if(c.nc) {
         flux << "NC";
@@ -431,7 +444,7 @@ ostream& operator<<(ostream &flux, vector<Chord> v) {
 }
 
 ostream& operator<<(ostream &flux, tuple<unsigned, unsigned, Chord> t) {
-    flux << "(" << get<0>(t) << ", " << get<1>(t) << ", " << get<2>(t) << ")" << endl;
+    flux << "(" << get<0>(t) << ", " << get<1>(t) << ", " << get<2>(t) << ")";
     return flux;
 }
 

@@ -1,11 +1,14 @@
-#include "lz77equiv.hpp"
-#include "lz77similar.hpp"
+#include "analysis.hpp"
+#include "similarities.hpp"
 #include "lz77.hpp"
 
 #define FOR(i,n) for(unsigned i=0;i<unsigned(n);i++)
 
 #define METRIC 0
 #define THRESHOLD 0.9
+#define LBUF 10
+#define LPREV 10
+#define OCC_THRESHOLD 10
 
 using namespace std;
 
@@ -27,13 +30,25 @@ int main(int argc, char** argv)
 {
     vector<vector<Chord> > chordsequences = chords_from_file("chordSequences.txt");
 
-    cout << chordsequences[0];
-    vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(chordsequences[0], 10, 10, METRIC, THRESHOLD);
+    vector<Chord> input;
+    FOR(i,chordsequences.size()) {
+        FOR(j,chordsequences[i].size()) {
+            input.push_back(chordsequences[i][j]);
+        }
+    }
 
+//    vector<Chord> input = chordsequences[0];
+
+    cout << "Input chord sequence:" << endl;
+    cout << input << endl;
+    vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, LBUF, LPREV, METRIC, THRESHOLD);
+
+    cout << "LZ77 compression (for buffer size = " << LBUF << " and preview size = " << LPREV << ") :" << endl;
     cout << compressed_data << endl;
-    vector<vector<Chord> > x = print_dictionary_sim(compressed_data, 10, 10);
+    vector<vector<Chord> > x = print_dictionary_sim(compressed_data, LBUF, LPREV);
 
-    vector<pair<vector<Chord>, unsigned> > complete_dictionary = allSequences_sim(chordsequences[0], 0, METRIC, THRESHOLD);
+    cout << "Repeated sequences:" << endl;
+    vector<pair<vector<Chord>, unsigned> > complete_dictionary = allSequences_sim(input, OCC_THRESHOLD, METRIC, THRESHOLD);
     cout << complete_dictionary;
 
     return 0;

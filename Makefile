@@ -3,20 +3,23 @@ CFLAGS = -g -Wall -std=c++11
 
 all: LZ77
 
-LZ77: mainLZ77.o lz77similar.o lz77equiv.o lz77.o
-	$(CC) $(CFLAGS) mainLZ77.o lz77similar.o lz77equiv.o lz77.o -o LZ77
+LZ77: mainLZ77.o analysis.o similarities.o lz77.o
+	$(CC) $(CFLAGS) mainLZ77.o analysis.o similarities.o lz77.o -o LZ77
+
+lz77.o: lz77.cpp
+	$(CC) $(CFLAGS) -c lz77.cpp
+
+similarities.o: similarities.cpp
+	$(CC) $(CFLAGS) -c similarities.cpp
+
+analysis.o: analysis.cpp
+	$(CC) $(CFLAGS) -c analysis.cpp
 
 mainLZ77.o: mainLZ77.cpp
 	$(CC) $(CFLAGS) -c mainLZ77.cpp
 
-lz77similar.o: lz77similar.cpp
-	$(CC) $(CFLAGS) -c lz77similar.cpp
 
-lz77equiv.o: lz77equiv.cpp
-	$(CC) $(CFLAGS) -c lz77equiv.cpp
 
-lz77.o: lz77.cpp
-	$(CC) $(CFLAGS) -c lz77.cpp
 
 
 #all:
