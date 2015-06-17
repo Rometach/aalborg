@@ -102,7 +102,7 @@ vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, un
     return output;
 }
 
-vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev) {
+vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev, ostream &flux) {
     vector<Chord> reconstruction;
     vector<vector<Chord> > res;
     unsigned res_index=-1;
@@ -123,8 +123,8 @@ vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Cho
     }
 //cout << reconstruction << endl << endl;
     FOR(i,res.size()) {
-    cout << res[i]; }
-    cout << endl;
+    flux << res[i]; }
+    flux << endl;
 
     return res;
 }

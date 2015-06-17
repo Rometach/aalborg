@@ -480,3 +480,12 @@ ostream& operator<<(ostream &flux, map<string, unsigned> m) {
     return flux;
 }
 
+ostream& operator<<(ostream &flux, vector<pair<vector<Chord>, unsigned> > v) {
+    FOR(i,v.size()) {
+        FOR(j,v[i].first.size()) {
+            flux << v[i].first[j] << " ";
+        }
+        flux << ": " << v[i].second << endl;
+    }
+    return flux;
+}

@@ -14,19 +14,6 @@
 using namespace std;
 
 
-
-ostream& operator<<(ostream &flux, vector<pair<vector<Chord>, unsigned> > v) {
-    FOR(i,v.size()) {
-        FOR(j,v[i].first.size()) {
-            flux << v[i].first[j] << " ";
-        }
-        flux << ": " << v[i].second << endl;
-    }
-    return flux;
-}
-
-
-
 int main(int argc, char** argv)
 {
     vector<vector<Chord> > chordsequences = chords_from_file("chordSequences.txt");
@@ -46,7 +33,7 @@ int main(int argc, char** argv)
 
     cout << "LZ77 compression (for buffer size = " << LBUF << " and preview size = " << LPREV << ") :" << endl;
     cout << compressed_data << endl;
-    vector<vector<Chord> > x = print_dictionary_sim(compressed_data, LBUF, LPREV);
+    vector<vector<Chord> > x = print_dictionary_sim(compressed_data, LBUF, LPREV, cout);
 
     cout << "Repeated sequences:" << endl;
     vector<pair<vector<Chord>, unsigned> > complete_dictionary = allSequences_sim(input, OCC_THRES, LG_THRES, METRIC, THRESHOLD);
