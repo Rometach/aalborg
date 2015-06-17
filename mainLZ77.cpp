@@ -8,7 +8,7 @@
 #define THRESHOLD 0.9
 #define LBUF 10
 #define LPREV 10
-#define OCC_THRES 10
+#define OCC_THRES 5
 #define LG_THRES 2
 
 using namespace std;

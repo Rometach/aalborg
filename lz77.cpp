@@ -368,12 +368,15 @@ map<string, unsigned> allSequences(vector<Chord> input, unsigned threshold) {
 bool operator==(Chord c1, Chord c2) {
     if ((c1.nc == true) && (c2.nc == true)) {
         return true;
+    } else if ((c1.nc == true) || (c2.nc ==true)) {
+        return false;
     } else {
         if ((c1.n == c2.n) && (c1.a == c2.a) && (c1.h == c2.h)) {
             return true;
+        } else {
+            return false;
         }
     }
-    return false;
 }
 
 bool operator!=(Chord c1, Chord c2) {
@@ -381,14 +384,18 @@ bool operator!=(Chord c1, Chord c2) {
 }
 
 bool operator==(vector<Chord> v1, vector<Chord> v2) {
+//cout << "Bonjour !" << endl;
     if(v1.size() != v2.size()) {
+//cout << "Au revoir 1 !" << endl;
         return false;
     } else {
         FOR(i,v1.size()) {
             if(v1[i]!=v2[i]) {
+//cout << "Au revoir 2 !" << endl;
                 return false;
             }
         }
+//cout << "Au revoir 3 !" << endl;
         return true;
     }
 }

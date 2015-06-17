@@ -130,7 +130,7 @@ vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Cho
 }
 
 static bool compare_aux_occ(pair<vector<Chord>, unsigned> x, pair<vector<Chord>, unsigned> y) {
-    return (x.second >= y.second);
+    return (x.second > y.second);
 }
 
 static void add_chords_to_table(vector<vector<Chord> > &table, vector<Chord> v) {
@@ -144,6 +144,23 @@ static void add_chords_to_table(vector<vector<Chord> > &table, vector<Chord> v) 
     if(!is_present) {
         table.push_back(v);
     }
+}
+
+static unsigned nb_occ(vector<Chord> input, vector<Chord> pattern) {
+    unsigned res=0;
+    FOR(i,input.size()-pattern.size()) {
+        bool equal = true;
+        FOR(j,pattern.size()) {
+            if(input[i+j]!=pattern[j]) {
+                equal = false;
+                break;
+            }
+        }
+        if(equal) {
+            res++;
+        }
+    }
+    return res;
 }
 
 vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
@@ -178,13 +195,7 @@ vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, uns
 
     FOR(i,res_aux.size()) {
         if(res_aux[i].size()>=lg_thres) {
-            res.push_back(make_pair(res_aux[i],0));
-            FOR(j,input.size()) {
-                vector<Chord> v (input.begin()+j, input.begin()+j+res_aux[i].size());
-                if(v==res_aux[i]) {
-                    res[i].second++;
-                }
-            }
+            res.push_back(make_pair(res_aux[i],nb_occ(input,res_aux[i])));
         }
     }
 
