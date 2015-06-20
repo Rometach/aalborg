@@ -53,7 +53,7 @@ void main_test_similarities(vector<Chord> data) {
     /* Equality */
     FOR(i,data.size()) {
         FOR(j,data.size()) {
-            matrixb[i][j] = similar(data[i], data[j], 0);
+            matrixb[i][j] = similar(input[i], input[j], 0);
         }
     }
     // output
@@ -62,7 +62,7 @@ void main_test_similarities(vector<Chord> data) {
     for(double thres=0; thres<=1; thres+=0.05) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
-                matrixb[i][j] = similar(data[i], data[j], 1, thres);
+                matrixb[i][j] = similar(input[i], input[j], 1, thres);
             }
         }
         // output
@@ -71,7 +71,7 @@ void main_test_similarities(vector<Chord> data) {
     /* PCS-Prime */
     FOR(i,data.size()) {
         FOR(j,data.size()) {
-            matrixb[i][j] = similar(data[i], data[j], 2);
+            matrixb[i][j] = similar(input[i], input[j], 2);
         }
     }
     // output
@@ -79,7 +79,7 @@ void main_test_similarities(vector<Chord> data) {
     /* Translation */
     FOR(i,data.size()) {
         FOR(j,data.size()) {
-            matrixb[i][j] = similar(data[i], data[j], 3);
+            matrixb[i][j] = similar(input[i], input[j], 3);
         }
     }
     // output
@@ -88,7 +88,7 @@ void main_test_similarities(vector<Chord> data) {
     for(unsigned thres=33; thres>=0; thres--) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
-                matrixb[i][j] = similar(data[i], data[j], 4, thres);
+                matrixb[i][j] = similar(input[i], input[j], 4, thres);
             }
         }
         // output
@@ -98,7 +98,7 @@ void main_test_similarities(vector<Chord> data) {
     for(double thres=0; thres<=1; thres+=0.05) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
-                matrixb[i][j] = similar(data[i], data[j], 5, thres);
+                matrixb[i][j] = similar(input[i], input[j], 5, thres);
             }
         }
         // output
@@ -108,7 +108,7 @@ void main_test_similarities(vector<Chord> data) {
     for(double thres=0; thres<=1; thres+=0.05) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
-                matrixb[i][j] = similar(data[i], data[j], 6, thres);
+                matrixb[i][j] = similar(input[i], input[j], 6, thres);
             }
         }
         // output
@@ -118,7 +118,7 @@ void main_test_similarities(vector<Chord> data) {
     for(double thres=1; thres>=0; thres-=0.05) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
-                matrixb[i][j] = similar(data[i], data[j], 7, thres);
+                matrixb[i][j] = similar(input[i], input[j], 7, thres);
             }
         }
         // output
@@ -128,7 +128,7 @@ void main_test_similarities(vector<Chord> data) {
     for(double thres=1; thres>=0; thres-=0.05) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
-                matrixb[i][j] = similar(data[i], data[j], 8, thres);
+                matrixb[i][j] = similar(input[i], input[j], 8, thres);
             }
         }
         // output

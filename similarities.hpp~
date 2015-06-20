@@ -25,7 +25,7 @@ using namespace std;
 bool similar(Chord c1, Chord c2, unsigned metric=0, double threshold=0);
 /* Test function computing the binary similarity matrix for 'data' with every implemented metric
    and several threshold values */
-void main_test_similarities(vector<Chord> data);
+void main_test_similarities(vector<Chord> data) {
 
 
 /* USEFUL AUXILIARY PROCEDURES */
