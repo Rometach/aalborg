@@ -45,10 +45,25 @@ bool similar(Chord c1, Chord c2, unsigned metric, double threshold) {
     exit(-1);
 }
 
+static void print_matrix_aux(vector<vector<bool> > matrixb, vector<Chord> data, string filename) {
+    ofstream print_file(filename);
+    print_file << data.size() << endl << endl;
+    FOR(i,data.size()) {
+        print_file << data[i] << endl;
+    }
+    print_file << endl;
+    FOR(i,matrixb.size()) {
+        FOR(j,matrixb[i].size()) {
+            print_file << matrixb[i][j] << " ";
+        }
+        print_file << endl;
+    }
+    print_file.close();
+}
+
 void main_test_similarities(vector<Chord> data) {
-//    vector<vector<unsigned> > matrixu (data.size(), vector<unsigned> (data.size(), 0));
-//    vector<vector<double> > matrixd (data.size(), vector<double> (data.size(), 0.0));
-    vector<vector<bool> > matrixb (data.size(), vector<bool> (data.size(), 0.0));
+    vector<vector<bool> > matrixb (data.size(), vector<bool> (data.size(), false));
+    ofstream list("draws/FILESLIST.txt");
 
     /* Equality */
     FOR(i,data.size()) {
@@ -56,7 +71,8 @@ void main_test_similarities(vector<Chord> data) {
             matrixb[i][j] = similar(data[i], data[j], 0);
         }
     }
-    // output
+    print_matrix_aux(matrixb, data, "draws/equality.txt");
+    list << "equality.txt" << endl;
 
     /* F1-distance */
     for(double thres=0; thres<=1; thres+=0.05) {
@@ -65,7 +81,8 @@ void main_test_similarities(vector<Chord> data) {
                 matrixb[i][j] = similar(data[i], data[j], 1, thres);
             }
         }
-        // output
+        print_matrix_aux(matrixb, data, "draws/F1("+to_string((int)(thres*100))+").txt");
+        list << "F1("+to_string((int)(thres*100))+").txt" << endl;
     }
 
     /* PCS-Prime */
@@ -74,7 +91,8 @@ void main_test_similarities(vector<Chord> data) {
             matrixb[i][j] = similar(data[i], data[j], 2);
         }
     }
-    // output
+    print_matrix_aux(matrixb, data, "draws/PCSprime.txt");
+    list << "PCSprime.txt" << endl;
 
     /* Translation */
     FOR(i,data.size()) {
@@ -82,18 +100,19 @@ void main_test_similarities(vector<Chord> data) {
             matrixb[i][j] = similar(data[i], data[j], 3);
         }
     }
-    // output
+    print_matrix_aux(matrixb, data, "draws/translation.txt");
+    list << "translation.txt" << endl;
 
     /* Morris */
-    for(unsigned thres=33; thres>=0; thres--) {
+    for(double thres=33; thres>=0; thres--) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
                 matrixb[i][j] = similar(data[i], data[j], 4, thres);
             }
         }
-        // output
+        print_matrix_aux(matrixb, data, "draws/Morris("+to_string((int)thres)+").txt");
+        list << "Morris("+to_string((int)thres)+").txt" << endl;
     }
-
     /* Rahn */
     for(double thres=0; thres<=1; thres+=0.05) {
         FOR(i,data.size()) {
@@ -101,7 +120,8 @@ void main_test_similarities(vector<Chord> data) {
                 matrixb[i][j] = similar(data[i], data[j], 5, thres);
             }
         }
-        // output
+        print_matrix_aux(matrixb, data, "draws/Rahn("+to_string((int)(thres*100))+").txt");
+        list << "Rahn("+to_string((int)(thres*100))+").txt" << endl;
     }
 
     /* Lewin */
@@ -111,7 +131,8 @@ void main_test_similarities(vector<Chord> data) {
                 matrixb[i][j] = similar(data[i], data[j], 6, thres);
             }
         }
-        // output
+        print_matrix_aux(matrixb, data, "draws/Lewin("+to_string((int)(thres*100))+").txt");
+        list << "Lewin("+to_string((int)(thres*100))+").txt" << endl;
     }
 
     /* Teitelbaum */
@@ -121,7 +142,8 @@ void main_test_similarities(vector<Chord> data) {
                 matrixb[i][j] = similar(data[i], data[j], 7, thres);
             }
         }
-        // output
+        print_matrix_aux(matrixb, data, "draws/Teitelbaum("+to_string((int)(thres*100))+").txt");
+        list << "Teitelbaum("+to_string((int)(thres*100))+").txt" << endl;
     }
 
     /* Isaacson */
@@ -131,8 +153,11 @@ void main_test_similarities(vector<Chord> data) {
                 matrixb[i][j] = similar(data[i], data[j], 8, thres);
             }
         }
-        // output
+        print_matrix_aux(matrixb, data, "draws/Isaacson("+to_string((int)(thres*100))+").txt");
+        list << "Isaacson("+to_string((int)(thres*100))+").txt" << endl;
     }
+
+    list.close();
 }
 
 
@@ -165,8 +190,9 @@ set<unsigned> PCS(Chord c) {
 
 static set<unsigned> reduce_PCS_table(vector<vector<unsigned> > rotation_table) {
     unsigned min_dist = 24;
-    unsigned last = rotation_table[0].size();
+    unsigned last = rotation_table[0].size()-1;
     while(rotation_table.size()!=1) {
+        vector<unsigned> to_erase;
         FOR(i,rotation_table.size()) {
             if(abs((int)rotation_table[i][0] - (int)rotation_table[i][last]) < (int)min_dist) {
                 min_dist = abs((int)rotation_table[i][0] - (int)rotation_table[i][last]);
@@ -174,16 +200,15 @@ static set<unsigned> reduce_PCS_table(vector<vector<unsigned> > rotation_table) 
         }
         FOR(i,rotation_table.size()) {
             if(abs((int)rotation_table[i][0] - (int)rotation_table[i][last]) > (int)min_dist) {
-                rotation_table.erase(rotation_table.begin()+i);
+                to_erase.push_back(i);
             }
+        }
+        for(int i=to_erase.size()-1; i>=0; i--) {
+            rotation_table.erase(rotation_table.begin()+to_erase[i]);
         }
         last++; last %= rotation_table[0].size(); last += (last==0 ? 1 : 0);
     }
     set<unsigned> res;
-    FOR(i,rotation_table[0].size()) {
-        rotation_table[0][i] %= 12;
-    }
-    std::sort(rotation_table[0].begin(),rotation_table[0].end());
     unsigned offset = rotation_table[0][0];
     FOR(i,rotation_table[0].size()) {
         res.insert(rotation_table[0][i]-offset);
@@ -199,9 +224,9 @@ static vector<vector<unsigned> > rot_table(set<unsigned> s) {
     std::sort(rotation_table[0].begin(),rotation_table[0].end());
     for(unsigned i=1; i<rotation_table.size(); i++) {
         FOR(j,rotation_table[0].size()) {
-            unsigned u = rotation_table[0][(i+j)%rotation_table.size()];
-            u += (j >= rotation_table[0].size() ? 12 : 0);
-            rotation_table[j].push_back(u);
+            unsigned u = rotation_table[0][(i+j)%rotation_table[0].size()];
+            u += ((i+j) >= rotation_table[0].size() ? 12 : 0);
+            rotation_table[i].push_back(u);
         }
     }
     return rotation_table;
@@ -211,9 +236,14 @@ set<unsigned> PCS_prime(set<unsigned> s) {
     vector<vector<unsigned> > rotation_table = rot_table(s);
     set<unsigned> original = reduce_PCS_table(rotation_table);
 
-    set<unsigned> inverted;
+    vector<unsigned> inverted_v;
     for(auto x : original) {
-        inverted.insert(12-x);
+        inverted_v.push_back((12-x)%12);
+    }
+    std::sort(inverted_v.begin(),inverted_v.end());
+    set<unsigned> inverted;
+    FOR(i,inverted_v.size()) {
+        inverted.insert(inverted_v[i]);
     }
     rotation_table.clear();
     rotation_table = rot_table(inverted);
@@ -226,8 +256,14 @@ set<unsigned> PCS_prime(set<unsigned> s) {
     for(auto x : inverted) {
         final_choice[1].push_back(x);
     }
+    bool equal = true;
+    FOR(i,final_choice[0].size()) {
+        if(final_choice[0][i] != final_choice[1][i]) {
+            equal = false;
+        }
+    }
 
-    return reduce_PCS_table(final_choice);
+    return (equal ? original : reduce_PCS_table(final_choice));
 }
 
 
@@ -336,8 +372,11 @@ vector<unsigned> interval_vector(set<unsigned> s) {
     for(auto x : s) {
         for(auto y : s) {
             unsigned dif = (x>y) ? (x-y) : (y-x);
+            if(dif>6) {
+                dif = 12-dif;
+            }
             if (dif!=0) {
-                res[dif]++;
+                res[dif-1]++;
             }
         }
     }

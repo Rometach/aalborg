@@ -18,14 +18,17 @@ int main(int argc, char** argv)
 {
     vector<vector<Chord> > chordsequences = chords_from_file("chordSequences.txt");
 
-    vector<Chord> input;
+/*    vector<Chord> input;
     FOR(i,chordsequences.size()) {
         FOR(j,chordsequences[i].size()) {
             input.push_back(chordsequences[i][j]);
         }
     }
+*/
+    vector<Chord> input = chordsequences[0];
 
-//    vector<Chord> input = chordsequences[4];
+    main_test_similarities(input);
+    return 0;
 
     cout << "Input chord sequence:" << endl;
     cout << input << endl;

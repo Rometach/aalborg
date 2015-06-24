@@ -489,3 +489,13 @@ ostream& operator<<(ostream &flux, vector<pair<vector<Chord>, unsigned> > v) {
     }
     return flux;
 }
+
+ostream& operator<<(ostream &flux, set<unsigned> s) {
+    flux << "[";
+    for(auto x : s) {
+        flux << x << ",";
+    }
+    flux << "]";
+    return flux;
+}
+

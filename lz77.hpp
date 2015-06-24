@@ -6,6 +6,7 @@
 #include <tuple>
 #include <queue>
 #include <map>
+#include <set>
 
 #ifndef __LZ77_HPP__
 #define __LZ77_HPP__
@@ -53,10 +54,12 @@ bool operator!=(Chord c1, Chord c2);
 bool operator==(vector<Chord> v1, vector<Chord> v2);
 ostream& operator<<(ostream &flux, Chord c);
 ostream& operator<<(ostream &flux, vector<Chord> v);
-ostream& operator<<(ostream &flux, tuple<unsigned, unsigned, Chord> t);
-ostream& operator<<(ostream &flux, vector<tuple<unsigned, unsigned, Chord> > v);
+ostream& operator<<(ostream &flux, set<unsigned> s);
 ostream& operator<<(ostream &flux, map<string, unsigned> m);
+ostream& operator<<(ostream &flux, tuple<unsigned, unsigned, Chord> t);
 ostream& operator<<(ostream &flux, vector<pair<vector<Chord>, unsigned> > v);
+ostream& operator<<(ostream &flux, vector<tuple<unsigned, unsigned, Chord> > v);
+
 
 #endif
 
