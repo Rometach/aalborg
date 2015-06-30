@@ -27,8 +27,8 @@ int main(int argc, char** argv)
 */
     vector<Chord> input = chordsequences[0];
 
-    main_test_similarities(input);
-    return 0;
+//    main_test_similarities(input);
+//    return 0;
 
     cout << "Input chord sequence:" << endl;
     cout << input << endl;

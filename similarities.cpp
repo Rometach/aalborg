@@ -41,6 +41,8 @@ bool similar(Chord c1, Chord c2, unsigned metric, double threshold) {
         return (similarity_index(c1,c2) < threshold) ? true : false;
     } else if(metric==8) {
         return (IcVSIM(c1,c2) < threshold) ? true : false;
+    } else if(metric==9) {
+        return fundamental_eq(c1,c2);
     }
     exit(-1);
 }
@@ -156,6 +158,15 @@ void main_test_similarities(vector<Chord> data) {
         print_matrix_aux(matrixb, data, "draws/Isaacson("+to_string((int)(thres*100))+").txt");
         list << "Isaacson("+to_string((int)(thres*100))+").txt" << endl;
     }
+
+    /* Fundamental notes */
+    FOR(i,data.size()) {
+        FOR(j,data.size()) {
+            matrixb[i][j] = fundamental_eq(data[i], data[j]);
+        }
+    }
+    print_matrix_aux(matrixb, data, "draws/fundamental.txt");
+    list << "fundamental.txt" << endl;
 
     list.close();
 }
@@ -453,4 +464,9 @@ double IcVSIM(Chord c1, Chord c2) {
     }
     res = sqrt(res/6);
     return res;
+}
+
+/* (9) Fundamental note */
+bool fundamental_eq(Chord c1, Chord c2) {
+    return ((c1.n==c2.n) && (c1.a==c2.a));
 }

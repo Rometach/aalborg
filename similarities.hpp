@@ -72,6 +72,10 @@ void main_test_similarities(vector<Chord> data);
     /* Computes Isaacson's similarity (standard deviation of the difference between the interval vectors of 'c1' and 'c2') */
     double IcVSIM(Chord c1, Chord c2);
 
+    /* (9) Equality based only on fundamental notes */
+    /* Returns 'true' if and only if the fundamental notes of 'c1' and 'c2' are the same */
+    bool fundamental_eq(Chord c1, Chord c2);
+
 
 /* SUMMARY OF IMPLEMENTED SIMILARITIES */
 /* 0 : equality
@@ -83,5 +87,6 @@ void main_test_similarities(vector<Chord> data);
    6 : Lewin (http://www.jstor.org/stable/832999)
    7 : Teitelbaum (http://www.jstor.org/stable/843150)
    8 : Isaacson (http://www.jstor.org/stable/843860)
+   9 : fundamental notes
 */
 #endif
