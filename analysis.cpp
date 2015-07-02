@@ -102,7 +102,7 @@ vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, un
     return output;
 }
 
-vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev, ostream &flux) {
+vector<vector<Chord> > dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev) {
     vector<Chord> reconstruction;
     vector<vector<Chord> > res;
     unsigned res_index=-1;
@@ -121,12 +121,53 @@ vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Cho
             reconstruction.push_back(get<2>(t));
         }
     }
-//cout << reconstruction << endl << endl;
-    FOR(i,res.size()) {
-    flux << res[i]; }
-    flux << endl;
-
     return res;
+}
+
+static bool sort_aux_patterns(vector<Chord> v1, vector<Chord> v2) {
+    if(v1.size()==v2.size()) {
+        FOR(i,v1.size()) {
+            if (Ntou(v1[i].n)<Ntou(v2[i].n)) {
+                return true;
+            } else if (Atou(v1[i].a)<Atou(v2[i].a)) {
+                return true;
+            } else if (v1[i].h<v2[i].h) {
+                return true;
+            }
+        }
+        return false;
+    } else return (v1.size()>v2.size());
+}
+
+void print_dictionary_sim(vector<vector<Chord> > patterns, unsigned occ_thres, unsigned lg_thres, ostream &flux) {
+    std::sort(patterns.begin(), patterns.end(), sort_aux_patterns);
+    vector<tuple<vector<Chord>,unsigned> > patterns_occ;
+
+    FOR(i,patterns.size()) {
+        unsigned count=0;
+        for(unsigned j=i; j<patterns.size(); j++) {
+            if(patterns[j]==patterns[i]) {
+                count++;
+            } else {
+                i=j-1;
+                patterns_occ.push_back(make_tuple(patterns[i],count));
+                break;
+            }
+        }
+    }
+
+    FOR(i,patterns_occ.size()) {
+        if(get<0>(patterns_occ[i]).size() < lg_thres) {
+            break;
+        }
+        if(get<1>(patterns_occ[i]) >= occ_thres) {
+            FOR(j,get<0>(patterns_occ[i]).size()) {
+                flux << get<0>(patterns_occ[i])[j];
+            }
+            flux << " : " << get<1>(patterns_occ[i]) << endl;
+        }
+    }
+    flux << endl;
 }
 
 static bool compare_aux_occ(pair<vector<Chord>, unsigned> x, pair<vector<Chord>, unsigned> y) {

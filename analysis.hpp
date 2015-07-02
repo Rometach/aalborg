@@ -27,9 +27,12 @@ pair<unsigned, unsigned> longest_prefix_sim(vector<Chord> input, vector<Chord> d
    with buffer and preview sizes 'l_buf' and 'l_pref' */
 vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, unsigned l_buf, unsigned l_prev, unsigned metric=0, double threshold=0);
 
-/* Computes and outputs the decompression of the LZ77-compressed sequence 'dico', done using parameters 'l_buf' and 'l_pref';
-   prints the (similarity-equivalent) sequences used in the compressed dictionary in flux */
-vector<vector<Chord> > print_dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev, ostream &flux);
+/* Computes and outputs the decompression of the LZ77-compressed sequence 'dico', done using parameters 'l_buf' and 'l_pref' */
+vector<vector<Chord> > dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev);
+
+/* Prints the (similarity-equivalent) sequences used in the compressed dictionary in flux
+   if they occur >= than 'occ_thres' times and are of length >= 'lg_thres' */
+void print_dictionary_sim(vector<vector<Chord> > patterns, unsigned occ_thres, unsigned lg_thres, ostream &flux);
 
 /* Computes exhaustively every repeated (similarity-equivalently, at least twice) subsequence of 'input'
    and the number of times similarity-equivalent sequences occur;
