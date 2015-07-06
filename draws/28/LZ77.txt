@@ -1,0 +1,43 @@
+Input chord sequence:
+F
+G m7  
+C 7  
+F
+G m7  
+C m7  
+F +7  
+Bb 7b9  
+Bb m7  
+Eb 7  
+F
+G m7  
+A m7  
+D 7  
+G m7  
+G m7  
+C 7  
+F
+D 7b9  
+G m7  
+C 7  
+
+LZ77 compression of size 13 (compression factor: 1.61538) :
+(0, 0, F)
+(0, 0, G m7  )
+(0, 0, C 7  )
+(3, 2, C m7  )
+(0, 0, F +7  )
+(0, 0, Bb 7b9  )
+(0, 0, Bb m7  )
+(0, 0, Eb 7  )
+(10, 2, A m7  )
+(0, 0, D 7  )
+(13, 1, G m7  )
+(14, 2, D 7b9  )
+(18, 2, NC)
+
+Patterns:
+G m7  C 7   : 1
+C 7  F : 1
+FG m7   : 2
+

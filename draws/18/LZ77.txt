@@ -1,0 +1,105 @@
+Input chord sequence:
+D m6  
+E halfdim7  
+A 7b9  
+D m  
+E halfdim7  
+A 7b9  
+D m  
+A halfdim7  
+D 7b9  
+G m  
+G m7  
+B m7  
+E 7  
+G m7  
+C 7  
+F
+F 7  
+E halfdim7  
+A 7  
+D M7  
+E halfdim7  
+A 7  
+D m6  
+E halfdim7  
+A 7b9  
+D m  
+E halfdim7  
+A 7b9  
+D m  
+A halfdim7  
+D 7b9  
+G m  
+G m7  
+B m7  
+E 7  
+G m7  
+C 7  
+F
+F 7  
+E halfdim7  
+A 7  
+D M7  
+D M7  
+A halfdim7  
+D 7b9  
+G m  
+G m  
+G halfdim7  
+C 7b9  
+F
+F 7  
+E halfdim7  
+A 7b9  
+D m  
+E halfdim7  
+A 7b9  
+D m  
+E halfdim7  
+A 7b9  
+D m  
+Bb 7  
+A 7  
+D m  
+E halfdim7  
+A 7  
+
+LZ77 compression of size 25 (compression factor: 2.6) :
+(0, 0, D m6  )
+(0, 0, E halfdim7  )
+(0, 0, A 7b9  )
+(0, 0, D m  )
+(3, 3, A halfdim7  )
+(0, 0, D 7b9  )
+(0, 0, G m  )
+(0, 0, G m7  )
+(0, 0, B m7  )
+(0, 0, E 7  )
+(3, 1, C 7  )
+(0, 0, F)
+(0, 0, F 7  )
+(16, 1, A 7  )
+(0, 0, D M7  )
+(3, 2, D m6  )
+(22, 19, D M7  )
+(36, 3, G m  )
+(0, 0, G halfdim7  )
+(0, 0, C 7b9  )
+(34, 3, A 7b9  )
+(50, 4, E halfdim7  )
+(56, 2, Bb 7  )
+(43, 1, D m  )
+(46, 2, NC)
+
+Patterns:
+E halfdim7  A 7b9  D m  E halfdim7  A 7b9  D m  A halfdim7  D 7b9  G m  G m7  B m7  E 7  G m7  C 7  FF 7  E halfdim7  A 7  D M7   : 1
+D m  E halfdim7  A 7b9  D m   : 1
+FF 7  E halfdim7   : 1
+A halfdim7  D 7b9  G m   : 1
+E halfdim7  A 7b9  D m   : 1
+A 7b9  D m   : 1
+E halfdim7  A 7   : 2
+A 7   : 1
+E halfdim7   : 1
+

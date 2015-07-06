@@ -10,6 +10,10 @@
 #include <map>
 #include <set>
 
+#include <sys/types.h>
+#include <stdio.h>
+#include <unistd.h>
+
 #include "similarities.hpp"
 #include "lz77.hpp"
 
@@ -66,8 +70,9 @@ static void print_matrix_aux(vector<vector<bool> > matrixb, vector<Chord> data, 
 void main_test_similarities(vector<Chord> data) {
     vector<vector<bool> > matrixb (data.size(), vector<bool> (data.size(), false));
     ofstream list("draws/FILESLIST.txt");
+    pid_t pid;
 
-    /* Equality */
+    // Equality
     FOR(i,data.size()) {
         FOR(j,data.size()) {
             matrixb[i][j] = similar(data[i], data[j], 0);
@@ -75,9 +80,15 @@ void main_test_similarities(vector<Chord> data) {
     }
     print_matrix_aux(matrixb, data, "draws/equality.txt");
     list << "equality.txt" << endl;
+    pid = fork();
+    if(pid != 0) {
+        std::system("java -jar DrawMatrices.jar draws/equality.txt");
+        exit(0);
+    }
 
-    /* F1-distance */
-    for(double thres=0; thres<=1; thres+=0.05) {
+    // F1-distance
+    set<double> f1set = {0.7, 0.8, 0.9, 0.9, 1.0};
+    for(double thres : f1set) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
                 matrixb[i][j] = similar(data[i], data[j], 1, thres);
@@ -85,9 +96,15 @@ void main_test_similarities(vector<Chord> data) {
         }
         print_matrix_aux(matrixb, data, "draws/F1("+to_string((int)(thres*100))+").txt");
         list << "F1("+to_string((int)(thres*100))+").txt" << endl;
+        pid = fork();
+        if(pid != 0) {
+            string s = "java -jar DrawMatrices.jar draws/F1\\("+to_string((int)(thres*100))+"\\).txt";
+            std::system(s.c_str());
+            exit(0);
+        }
     }
 
-    /* PCS-Prime */
+    // PCS-Prime
     FOR(i,data.size()) {
         FOR(j,data.size()) {
             matrixb[i][j] = similar(data[i], data[j], 2);
@@ -95,8 +112,13 @@ void main_test_similarities(vector<Chord> data) {
     }
     print_matrix_aux(matrixb, data, "draws/PCSprime.txt");
     list << "PCSprime.txt" << endl;
+    pid = fork();
+    if(pid != 0) {
+        std::system("java -jar DrawMatrices.jar draws/PCSprime.txt");
+        exit(0);
+    }
 
-    /* Translation */
+    // Translation
     FOR(i,data.size()) {
         FOR(j,data.size()) {
             matrixb[i][j] = similar(data[i], data[j], 3);
@@ -104,9 +126,15 @@ void main_test_similarities(vector<Chord> data) {
     }
     print_matrix_aux(matrixb, data, "draws/translation.txt");
     list << "translation.txt" << endl;
+    pid = fork();
+    if(pid != 0) {
+        std::system("java -jar DrawMatrices.jar draws/translation.txt");
+        exit(0);
+    }
 
-    /* Morris */
-    for(double thres=33; thres>=0; thres--) {
+    // Morris
+    set<double> morrisset = {1, 2, 3, 4};
+    for(double thres : morrisset) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
                 matrixb[i][j] = similar(data[i], data[j], 4, thres);
@@ -114,9 +142,17 @@ void main_test_similarities(vector<Chord> data) {
         }
         print_matrix_aux(matrixb, data, "draws/Morris("+to_string((int)thres)+").txt");
         list << "Morris("+to_string((int)thres)+").txt" << endl;
+        pid = fork();
+        if(pid != 0) {
+            string s = "java -jar DrawMatrices.jar draws/Morris\\("+to_string((int)thres)+"\\).txt";
+            std::system(s.c_str());
+            exit(0);
+        }
     }
-    /* Rahn */
-    for(double thres=0; thres<=1; thres+=0.05) {
+
+    // Rahn
+    set<double> rahnset = {0.4, 0.45, 0.5, 0.55, 0.6};
+    for(double thres : rahnset) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
                 matrixb[i][j] = similar(data[i], data[j], 5, thres);
@@ -124,10 +160,17 @@ void main_test_similarities(vector<Chord> data) {
         }
         print_matrix_aux(matrixb, data, "draws/Rahn("+to_string((int)(thres*100))+").txt");
         list << "Rahn("+to_string((int)(thres*100))+").txt" << endl;
+        pid = fork();
+        if(pid != 0) {
+            string s = "java -jar DrawMatrices.jar draws/Rahn\\("+to_string((int)(thres*100))+"\\).txt";
+            std::system(s.c_str());
+            exit(0);
+        }
     }
 
-    /* Lewin */
-    for(double thres=0; thres<=1; thres+=0.05) {
+    // Lewin
+    set<double> lewinset = {0.4, 0.45, 0.5, 0.55, 0.6};
+    for(double thres : lewinset) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
                 matrixb[i][j] = similar(data[i], data[j], 6, thres);
@@ -135,10 +178,16 @@ void main_test_similarities(vector<Chord> data) {
         }
         print_matrix_aux(matrixb, data, "draws/Lewin("+to_string((int)(thres*100))+").txt");
         list << "Lewin("+to_string((int)(thres*100))+").txt" << endl;
+        pid = fork();
+        if(pid != 0) {
+            string s = "java -jar DrawMatrices.jar draws/Lewin\\("+to_string((int)(thres*100))+"\\).txt";
+            std::system(s.c_str());
+            exit(0);
+        }
     }
 
-    /* Teitelbaum */
-    for(double thres=1; thres>=0; thres-=0.05) {
+    // Teitelbaum
+/*    for(double thres=1; thres>=0; thres-=0.05) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
                 matrixb[i][j] = similar(data[i], data[j], 7, thres);
@@ -146,10 +195,17 @@ void main_test_similarities(vector<Chord> data) {
         }
         print_matrix_aux(matrixb, data, "draws/Teitelbaum("+to_string((int)(thres*100))+").txt");
         list << "Teitelbaum("+to_string((int)(thres*100))+").txt" << endl;
+        pid = fork();
+        if(pid != 0) {
+            string s = "java -jar DrawMatrices.jar draws/Teitelbaum\\("+to_string((int)(thres*100))+"\\).txt";
+            std::system(s.c_str());
+            exit(0);
+        }
     }
-
-    /* Isaacson */
-    for(double thres=1; thres>=0; thres-=0.05) {
+*/
+    // Isaacson
+    set<double> isaacsonset = {0, 0.5, 0.25, 0.5};
+    for(double thres : isaacsonset) {
         FOR(i,data.size()) {
             FOR(j,data.size()) {
                 matrixb[i][j] = similar(data[i], data[j], 8, thres);
@@ -157,9 +213,15 @@ void main_test_similarities(vector<Chord> data) {
         }
         print_matrix_aux(matrixb, data, "draws/Isaacson("+to_string((int)(thres*100))+").txt");
         list << "Isaacson("+to_string((int)(thres*100))+").txt" << endl;
+        pid = fork();
+        if(pid != 0) {
+            string s = "java -jar DrawMatrices.jar draws/Isaacson\\("+to_string((int)(thres*100))+"\\).txt";
+            std::system(s.c_str());
+            exit(0);
+        }
     }
 
-    /* Fundamental notes */
+    // Fundamental notes
     FOR(i,data.size()) {
         FOR(j,data.size()) {
             matrixb[i][j] = fundamental_eq(data[i], data[j]);
@@ -167,6 +229,11 @@ void main_test_similarities(vector<Chord> data) {
     }
     print_matrix_aux(matrixb, data, "draws/fundamental.txt");
     list << "fundamental.txt" << endl;
+    pid = fork();
+    if(pid != 0) {
+        std::system("java -jar DrawMatrices.jar draws/fundamental.txt");
+        exit(0);
+    }
 
     list.close();
 }

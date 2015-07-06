@@ -1,0 +1,53 @@
+Input chord sequence:
+C
+F m  
+C dim  
+C 7  
+Db dim  
+Gb m  
+Gb m  
+Db
+Gb
+Ab m7sus4  
+Gb dim  
+Gb
+Ab dim  
+Bb m  
+Bb m  
+F
+E dim  
+E 7  
+A dim  
+A
+D dim  
+D 7  
+G dim  
+G
+
+LZ77 compression of size 21 (compression factor: 1.14286) :
+(0, 0, C)
+(0, 0, F m  )
+(0, 0, C dim  )
+(0, 0, C 7  )
+(0, 0, Db dim  )
+(0, 0, Gb m  )
+(1, 1, Db)
+(0, 0, Gb)
+(0, 0, Ab m7sus4  )
+(0, 0, Gb dim  )
+(3, 1, Ab dim  )
+(0, 0, Bb m  )
+(1, 1, F)
+(0, 0, E dim  )
+(0, 0, E 7  )
+(0, 0, A dim  )
+(0, 0, A)
+(0, 0, D dim  )
+(0, 0, D 7  )
+(0, 0, G dim  )
+(0, 0, G)
+
+Patterns:
+Bb m   : 1
+Gb : 1
+

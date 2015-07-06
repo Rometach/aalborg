@@ -47,6 +47,11 @@ vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, un
     unsigned input_index = l_prev;
     Chord NC_Chord; NC_Chord.nc = true;
 
+    if(l_buf > input.size())
+        l_buf = input.size();
+    if(l_prev > input.size())
+        l_prev = input.size();
+
     FOR(i,l_buf) {
         buffer.push(NC_Chord);
     }
