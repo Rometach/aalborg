@@ -255,3 +255,245 @@ vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, uns
 
     return res;
 }
+
+vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
+    vector<vector<Chord> > patterns;
+
+    // Compute all closed patterns
+    for (unsigned i=1; i<input.size(); i++) {   // diagonal
+        bool in_sequence=false;
+        unsigned begin, length=0;
+        for(unsigned j=0; j<input.size()-i; j++) {
+            if (similar(input[i+j], input[j], metric, threshold)) {
+                if(in_sequence) {
+                    length++;
+                } else {
+                    in_sequence=true;
+                    begin=j;
+                    length=1;
+                }
+            } else {
+                if(in_sequence) {
+                    vector<Chord> sequence_to_add (input.begin()+begin, input.begin()+begin+length);
+                    patterns.push_back(sequence_to_add);
+                    in_sequence = false;
+                }
+            }
+        }
+        if(in_sequence) {
+            vector<Chord> sequence_to_add (input.begin()+begin, input.begin()+begin+length);
+            patterns.push_back(sequence_to_add);
+        }
+    }
+
+    // Add single notes
+    for (Chord c : input) {
+        vector<Chord> v (1,c);
+        patterns.push_back(v);
+    }
+
+    std::sort(patterns.begin(), patterns.end(), sort_aux_patterns);
+
+    // Reduce
+    FOR(i,patterns.size()-1) {
+        while(similar(patterns[i], patterns[i+1], metric, threshold)) {
+            patterns.erase(patterns.begin()+i+1);
+            if(i==patterns.size()-1) {
+                break;
+            }
+        }
+    }
+
+    // Compute the positions
+    vector<tuple<vector<Chord>, vector<unsigned> > > res;
+    FOR(i,patterns.size()) {
+        vector<unsigned> positions;
+        FOR(j,input.size()-patterns[i].size()+1) {
+            vector<Chord> sequence_to_compare(input.begin()+j, input.begin()+j+patterns[i].size()); // -1 ?
+            if(similar(sequence_to_compare, patterns[i], metric, threshold)) {
+                positions.push_back(j);
+            }
+        }
+        res.push_back(make_tuple(patterns[i],positions));
+    }
+
+    return res;
+}
+
+static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_1(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
+    vector<tuple<vector<Chord>, vector<unsigned> > > res;
+    vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
+    vector<unsigned> cost (patterns.size(),0);
+    FOR(i,cost.size()) {
+        cost[i] = get<0>(patterns[i]).size() + get<1>(patterns[i]).size();
+    }
+
+    unsigned size = 0;
+    FOR(i, patterns.size()) {
+        if((get<0>(patterns[i]).size()+get<1>(patterns[i])[get<1>(patterns[i]).size()-1]) > size) {
+            size = get<0>(patterns[i]).size()+get<1>(patterns[i])[get<1>(patterns[i]).size()-1];
+        }
+    }
+    vector<bool> coverture (size, false);
+    unsigned total_covered = 0;
+
+    while(1) {
+        if(total_covered == coverture.size()) {
+            break;
+        }
+
+        vector<unsigned> gain (patterns.size(),0);
+        FOR(i,gain.size()) {
+            vector<bool> coverture_aux = coverture;
+            FOR(j,get<1>(patterns[i]).size()) {
+                FOR(k,get<0>(patterns[i]).size()) {
+                    coverture_aux[get<1>(patterns[i])[j]+k] = true;
+                }
+            }
+            FOR(j, coverture_aux.size()) {
+                gain[i] += coverture_aux[j] ? 1 : 0;
+            }
+            gain[i] -= total_covered;
+        }
+
+        int max_benefit=0;
+        unsigned arg_max_benefit=0;
+        FOR(i,patterns.size()) {
+            if(((int)gain[i])-((int)cost[i]) > max_benefit) {
+                max_benefit = ((int)gain[i])-((int)cost[i]);
+                arg_max_benefit = i;
+            }
+        }
+        FOR(i,get<1>(patterns[arg_max_benefit]).size()) {
+            FOR(j,get<0>(patterns[arg_max_benefit]).size()) {
+                if(coverture[get<1>(patterns[arg_max_benefit])[i]+j] == false) {
+                    total_covered++;
+                    coverture[get<1>(patterns[arg_max_benefit])[i]+j] = true;
+                }
+            }
+        }
+        res.push_back(patterns[arg_max_benefit]);
+        patterns.erase(patterns.begin()+arg_max_benefit);
+        cost.erase(cost.begin()+arg_max_benefit);
+    }
+
+    return res;
+}
+
+static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_2(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
+    vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
+    vector<vector<unsigned> > covertures (patterns.size(), vector<unsigned> (input.size(), 0));
+    FOR(i, patterns.size()) {
+        FOR(j, get<1>(patterns[i]).size()) {
+            FOR(k, get<0>(patterns[i]).size()) {
+                covertures[i][get<1>(patterns[i])[j]+k] = 1;
+            }
+        }
+    }
+
+    vector<unsigned> coverture (input.size(), 0);
+    FOR(i, coverture.size()) {
+        FOR(j, covertures.size()) {
+            coverture[i] += covertures[j][i];
+        }
+    }
+
+    while(1) {
+        unsigned cost_max=0;
+        unsigned arg_cost_max=0;
+        FOR(i,patterns.size()) {
+            if(get<0>(patterns[i]).size()+get<1>(patterns[i]).size() > cost_max) {
+                cost_max = get<0>(patterns[i]).size()+get<1>(patterns[i]).size() > cost_max;
+                arg_cost_max = i;
+            }
+        }
+        FOR(i,coverture.size()) {
+            coverture[i] -= covertures[arg_cost_max][i];
+            if (coverture[i] == 0) {
+                return patterns;
+            }
+        }
+        patterns.erase(patterns.begin()+arg_cost_max);
+        covertures.erase(covertures.begin()+arg_cost_max);
+    }
+}
+
+vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
+    vector<tuple<vector<Chord>, vector<unsigned> > > v1 = compress_patterns_sim_aux_1(input, occ_thres, lg_thres, metric, threshold);
+    vector<tuple<vector<Chord>, vector<unsigned> > > v2 = compress_patterns_sim_aux_2(input, occ_thres, lg_thres, metric, threshold);
+    return (compression_factor(input, v1) > compression_factor(input, v2)) ? v1 : v2;
+}
+
+double compression_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression) {
+    unsigned res_aux=0;
+    FOR(i,compression.size()) {
+        res_aux += get<0>(compression[i]).size() + get<1>(compression[i]).size();
+    }
+
+    return ((double)input.size())/((double)res_aux);
+}
+
+double loss_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression, unsigned metric, unsigned threshold) {
+
+    return 0;
+}
+
+//static unsigned median(vector<unsigned> v) {
+//    std::nth_element(v.begin(), v.begin() + v.size()/2, v.end());
+//    return v[v.size()/2];
+//}
+
+static double mean(vector<unsigned> v) {
+    double res=0;
+    FOR(i,v.size()) {
+        res += v[i];
+    }
+    return (res/((double)v.size()));
+}
+
+void segmentation(vector<Chord> input, ostream& flux) {
+    vector<unsigned> scores (input.size(), 0);
+
+    set<pair<unsigned,double> > measures;
+    measures.insert(make_pair(1,0.8));      // F1
+    measures.insert(make_pair(8,0.5));      // Isaacson
+    measures.insert(make_pair(4,3));        // Morris
+
+    for(auto p : measures) {
+        vector<unsigned> score_aux(input.size(),0);
+        FOR(i,input.size()) {
+            FOR(j,input.size()) {
+                score_aux[i] += similar(input[i], input[j], p.first, p.second) ? 1 : 0;
+            }
+        }
+        double mean_aux = mean(score_aux);
+        FOR(i,score_aux.size()) {
+            scores[i] += (score_aux[i] < mean_aux) ? 1 : 0;
+        }
+    }
+
+    measures.clear();
+    measures.insert(make_pair(6,0.5));      // Lewin
+    measures.insert(make_pair(5,0.4));      // Rahn
+
+    for(auto p : measures) {
+        vector<unsigned> score_aux(input.size(),0);
+        FOR(i,input.size()) {
+            FOR(j,input.size()) {
+                score_aux[i] += similar(input[i], input[j], p.first, p.second) ? 1 : 0;
+            }
+        }
+        double mean_aux = mean(score_aux);
+        FOR(i,score_aux.size()) {
+            scores[i] += (score_aux[i] > mean_aux) ? 1 : 0;
+        }
+    }
+
+    FOR(i,scores.size()) {
+        if(scores[i] >= 3) {
+            flux << "[" << input[i] << "] ";
+        } else {
+            flux << input[i] << " ";
+        }
+    }
+}

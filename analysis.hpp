@@ -40,4 +40,16 @@ void print_dictionary_sim(vector<vector<Chord> > patterns, unsigned occ_thres, u
    along with their number of occurences */
 vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric=0, double threshold=0);
 
+
+
+
+vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric=0, double threshold=0);
+
+vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric=0, double threshold=0);
+
+double compression_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression);
+double loss_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression, unsigned metric=0, unsigned threshold=0);
+
+void segmentation(vector<Chord> input, ostream& flux);
+
 #endif

@@ -23,6 +23,7 @@ using namespace std;
    its value corresponds to the choice of metric between the following functions
    the possbilities are summed up at the end of the file */
 bool similar(Chord c1, Chord c2, unsigned metric=0, double threshold=0);
+bool similar(vector<Chord> v1, vector<Chord> v2, unsigned metric, double threshold);
 /* Test function computing the binary similarity matrix for 'data' with every implemented metric
    and several threshold values */
 void main_test_similarities(vector<Chord> data);
@@ -65,15 +66,15 @@ void main_test_similarities(vector<Chord> data);
     double lewin(Chord c1, Chord c2);
 
     /* (7) Teitelbaum (http://www.jstor.org/stable/843150) */
-    /* Computes Teitelbaum's similarity index (euclidian distance) between 'c1' and 'c2' */
+    /* Computes Teitelbaum's similarity index (euclidian distance) between the interval vectors of 'c1' and 'c2' */
     double similarity_index(Chord c1, Chord c2);
 
     /* (8) Isaacson (http://www.jstor.org/stable/843860) */
     /* Computes Isaacson's similarity (standard deviation of the difference between the interval vectors of 'c1' and 'c2') */
     double IcVSIM(Chord c1, Chord c2);
 
-    /* (9) Equality based only on fundamental notes */
-    /* Returns 'true' if and only if the fundamental notes of 'c1' and 'c2' are the same */
+    /* (9) Equality based only on root notes */
+    /* Returns 'true' if and only if the root notes of 'c1' and 'c2' are the same */
     bool fundamental_eq(Chord c1, Chord c2);
 
 

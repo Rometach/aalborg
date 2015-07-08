@@ -51,6 +51,18 @@ bool similar(Chord c1, Chord c2, unsigned metric, double threshold) {
     exit(-1);
 }
 
+bool similar(vector<Chord> v1, vector<Chord> v2, unsigned metric, double threshold) {
+    if(v1.size() != v2.size()) {
+        return false;
+    }
+    FOR(i,v1.size()) {
+        if (!similar(v1[i], v2[i], metric, threshold)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 static void print_matrix_aux(vector<vector<bool> > matrixb, vector<Chord> data, string filename) {
     ofstream print_file(filename);
     print_file << data.size() << endl << endl;
