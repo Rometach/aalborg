@@ -132,16 +132,26 @@ vector<vector<Chord> > dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > 
 static bool sort_aux_patterns(vector<Chord> v1, vector<Chord> v2) {
     if(v1.size()==v2.size()) {
         FOR(i,v1.size()) {
-            if (Ntou(v1[i].n)<Ntou(v2[i].n)) {
-                return true;
-            } else if (Atou(v1[i].a)<Atou(v2[i].a)) {
-                return true;
-            } else if (v1[i].h<v2[i].h) {
-                return true;
+            if(v1[i].nc == true) {
+                if(v2[i].nc == false) {
+                    return true;
+                }
+            } else if(v2[i].nc == true) {
+                return false;
+            } else {
+                if (Ntou(v1[i].n)<Ntou(v2[i].n)) {
+                    return true;
+                } else if (Atou(v1[i].a)<Atou(v2[i].a)) {
+                    return true;
+                } else if (v1[i].h<v2[i].h) {
+                    return true;
+                }
             }
         }
         return false;
-    } else return (v1.size()>v2.size());
+    } else {
+        return (v1.size()>v2.size());
+    }
 }
 
 void print_dictionary_sim(vector<vector<Chord> > patterns, unsigned occ_thres, unsigned lg_thres, ostream &flux) {
@@ -258,7 +268,7 @@ vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, uns
 
 vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
     vector<vector<Chord> > patterns;
-
+cout << "aaaaaaaaaaaaaaaaaaaaaaaaaa" << endl;
     // Compute all closed patterns
     for (unsigned i=1; i<input.size(); i++) {   // diagonal
         bool in_sequence=false;
@@ -291,19 +301,17 @@ vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> 
         vector<Chord> v (1,c);
         patterns.push_back(v);
     }
-
-    std::sort(patterns.begin(), patterns.end(), sort_aux_patterns);
-
+cout << "bbbbbbbbbbbbbbbbbbb" << endl;
     // Reduce
     FOR(i,patterns.size()-1) {
-        while(similar(patterns[i], patterns[i+1], metric, threshold)) {
-            patterns.erase(patterns.begin()+i+1);
-            if(i==patterns.size()-1) {
-                break;
+        for(unsigned j=i+1; j<patterns.size(); j++) {
+            if(similar(patterns[i], patterns[j], metric, threshold)) {
+                patterns.erase(patterns.begin()+j);
+                j--;
             }
         }
     }
-
+cout << "ccccccccccccccc" << endl;
     // Compute the positions
     vector<tuple<vector<Chord>, vector<unsigned> > > res;
     FOR(i,patterns.size()) {
@@ -316,18 +324,23 @@ vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> 
         }
         res.push_back(make_tuple(patterns[i],positions));
     }
-
+cout << "ddddddddddddddddddddddddd" << endl;
     return res;
 }
 
+static unsigned weight(tuple<vector<Chord>, vector<unsigned> > t) {
+    return (get<0>(t).size()+get<1>(t).size());
+}
+
 static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_1(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
+cout << "Bonjour !" << endl;
     vector<tuple<vector<Chord>, vector<unsigned> > > res;
     vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
     vector<unsigned> cost (patterns.size(),0);
     FOR(i,cost.size()) {
-        cost[i] = get<0>(patterns[i]).size() + get<1>(patterns[i]).size();
+        cost[i] = weight(patterns[i]);
     }
-
+cout << "::::" << endl;
     unsigned size = 0;
     FOR(i, patterns.size()) {
         if((get<0>(patterns[i]).size()+get<1>(patterns[i])[get<1>(patterns[i]).size()-1]) > size) {
@@ -336,7 +349,7 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
     }
     vector<bool> coverture (size, false);
     unsigned total_covered = 0;
-
+cout << "Au revoir !" << endl;
     while(1) {
         if(total_covered == coverture.size()) {
             break;
@@ -373,6 +386,31 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
             }
         }
         res.push_back(patterns[arg_max_benefit]);
+
+        FOR(i,patterns.size()) {
+            if(i!=arg_max_benefit) {
+                FOR(j,get<1>(patterns[i]).size()) {
+                    bool useless = true;
+                    FOR(k,get<0>(patterns[i]).size()) {
+                        useless = useless && coverture[get<1>(patterns[i])[j]+k];
+                    }
+                    if(useless) {
+                        get<1>(patterns[i]).erase(get<1>(patterns[i]).begin()+j);
+                        j--;
+                    }
+                }
+                cost[i] = weight(patterns[i]);
+                if(get<1>(patterns[i]).size()==0) {
+                    patterns.erase(patterns.begin()+i);
+                    cost.erase(cost.begin()+i);
+                    if(i < arg_max_benefit) {
+                        arg_max_benefit--;
+                    }
+                    i--;
+                }
+            }
+        }
+
         patterns.erase(patterns.begin()+arg_max_benefit);
         cost.erase(cost.begin()+arg_max_benefit);
     }
@@ -380,68 +418,158 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
     return res;
 }
 
+static bool compare_aux_pat(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
+    return weight(t1) > weight(t2);
+}
+
 static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_2(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
     vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
-    vector<vector<unsigned> > covertures (patterns.size(), vector<unsigned> (input.size(), 0));
+    vector<unsigned> coverture (input.size(), 0);
     FOR(i, patterns.size()) {
         FOR(j, get<1>(patterns[i]).size()) {
             FOR(k, get<0>(patterns[i]).size()) {
-                covertures[i][get<1>(patterns[i])[j]+k] = 1;
+                coverture[get<1>(patterns[i])[j]+k]++;
             }
-        }
-    }
-
-    vector<unsigned> coverture (input.size(), 0);
-    FOR(i, coverture.size()) {
-        FOR(j, covertures.size()) {
-            coverture[i] += covertures[j][i];
         }
     }
 
     while(1) {
-        unsigned cost_max=0;
-        unsigned arg_cost_max=0;
+        std::sort(patterns.begin(), patterns.end(), compare_aux_pat);
+        bool finished = true;
         FOR(i,patterns.size()) {
-            if(get<0>(patterns[i]).size()+get<1>(patterns[i]).size() > cost_max) {
-                cost_max = get<0>(patterns[i]).size()+get<1>(patterns[i]).size() > cost_max;
-                arg_cost_max = i;
+            FOR(j,get<1>(patterns[i]).size()) {
+                bool useless = true;
+                FOR(k,get<0>(patterns[i]).size()) {
+                    if(coverture[get<1>(patterns[i])[j]+k] == 1) {
+                        useless = false;
+                    }
+                }
+                if(useless) {
+                    FOR(k,get<0>(patterns[i]).size()) {
+                        coverture[get<1>(patterns[i])[j]+k]--;
+                    }
+                    get<1>(patterns[i]).erase(get<1>(patterns[i]).begin()+j);
+                    j--;
+                    finished = false;
+                }
+            }
+            if (get<1>(patterns[i]).size() == 0) {
+                patterns.erase(patterns.begin()+i);
+                i--;
             }
         }
-        FOR(i,coverture.size()) {
-            coverture[i] -= covertures[arg_cost_max][i];
-            if (coverture[i] == 0) {
-                return patterns;
-            }
+        if (finished) {
+            return patterns;
         }
-        patterns.erase(patterns.begin()+arg_cost_max);
-        covertures.erase(covertures.begin()+arg_cost_max);
     }
 }
 
 vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
+cout << "1111111111" << endl;
     vector<tuple<vector<Chord>, vector<unsigned> > > v1 = compress_patterns_sim_aux_1(input, occ_thres, lg_thres, metric, threshold);
+cout << "2222222222" << endl;
     vector<tuple<vector<Chord>, vector<unsigned> > > v2 = compress_patterns_sim_aux_2(input, occ_thres, lg_thres, metric, threshold);
+cout << "3333333333" << endl;
     return (compression_factor(input, v1) > compression_factor(input, v2)) ? v1 : v2;
 }
 
 double compression_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression) {
     unsigned res_aux=0;
     FOR(i,compression.size()) {
-        res_aux += get<0>(compression[i]).size() + get<1>(compression[i]).size();
+        res_aux += weight(compression[i]);
     }
 
     return ((double)input.size())/((double)res_aux);
 }
 
-double loss_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression, unsigned metric, unsigned threshold) {
+static bool compare_aux_pat_occ(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
+    return (get<0>(t1).size() > get<1>(t2).size());
+}
 
-    return 0;
+static bool compare_aux_pat_occ_inv(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
+    return (get<0>(t1).size() >= get<1>(t2).size());
+}
+
+double loss_factor_aux(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression) {
+    Chord c; c.nc = true;
+    vector<Chord> reconstruction (input.size(), c);
+    std::sort(compression.begin(), compression.end(), compare_aux_pat_occ);
+    FOR(i,compression.size()) {
+        FOR(j,get<1>(compression[i]).size()) {
+            FOR(k,get<0>(compression[i]).size()) {
+                reconstruction[get<1>(compression[i])[j]+k] = get<0>(compression[i])[k];
+            }
+        }
+    }
+
+    unsigned exact=0;
+    FOR(i,input.size()) {
+        if(reconstruction[i] == input[i]) {
+            exact++;
+        }
+    }
+
+    return (((double)exact)/((double)input.size()));
+}
+
+double loss_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression) {
+    std::sort(compression.begin(), compression.end(), compare_aux_pat_occ_inv);
+    vector<tuple<vector<Chord>, vector<unsigned> > > compression_aux = compression;
+    FOR(i,compression.size()) {
+        FOR(j,get<1>(compression[i]).size()) {
+            FOR(k,get<0>(compression[i]).size()) {
+                get<0>(compression_aux[i])[k] = input[get<1>(compression[i])[j]+k];
+            }
+            if(loss_factor_aux(input, compression_aux) < loss_factor_aux(input, compression)) {
+                compression = compression_aux;
+            } else {
+                compression_aux = compression;
+            }
+        }
+    }
+
+    return loss_factor_aux(input, compression);
 }
 
 //static unsigned median(vector<unsigned> v) {
 //    std::nth_element(v.begin(), v.begin() + v.size()/2, v.end());
 //    return v[v.size()/2];
 //}
+
+void main_compression(vector<vector<Chord> > chordsequences) {
+    vector<double> thresholds = {0,0.85,0,0,2,0.4,0.5,0,0.5,0};
+    vector<double> mean (chordsequences.size(), 0);
+    FOR(i,10) {
+        cout << "MEASURE " << i << endl;
+        if(i==7) {
+            continue;
+        }
+        FOR(j, chordsequences.size()) {
+//if(j==16) {
+    cout << endl << endl << endl << chordsequences[j] << endl;
+//}
+            vector<tuple<vector<Chord>, vector<unsigned> > > compression = compress_patterns_sim(chordsequences[j], 0, 0, i, thresholds[i]);
+            cout << "Piece " << j << ": " << compression_factor(chordsequences[j], compression) << endl;
+            FOR(k, compression.size()) {
+                cout << '\t';
+                FOR(l, get<0>(compression[k]).size()) {
+                    cout << get<0>(compression[k])[l] << " ";
+                }
+                cout << " : ";
+                FOR(l, get<1>(compression[k]).size()) {
+                    cout << get<1>(compression[k])[l] << " ";
+                }
+                cout << endl;
+            }
+            mean[i] += compression_factor(chordsequences[j], compression);
+        }
+        cout << endl;
+    }
+    cout << endl;
+    FOR(i,10) {
+        cout << "Mean " << i << ": " << (mean[i]/chordsequences.size()) << endl;
+    }
+}
 
 static double mean(vector<unsigned> v) {
     double res=0;
@@ -497,3 +625,5 @@ void segmentation(vector<Chord> input, ostream& flux) {
         }
     }
 }
+
+

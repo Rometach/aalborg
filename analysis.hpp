@@ -48,7 +48,9 @@ vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> 
 vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric=0, double threshold=0);
 
 double compression_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression);
-double loss_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression, unsigned metric=0, unsigned threshold=0);
+double loss_factor(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression);
+
+void main_compression(vector<vector<Chord> > chordsequences);
 
 void segmentation(vector<Chord> input, ostream& flux);
 

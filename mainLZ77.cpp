@@ -13,10 +13,23 @@
 
 using namespace std;
 
+void nc_reduce(vector<vector<Chord> > &v) {
+    FOR(i,v.size()) {
+        FOR(j,v[i].size()) {
+            if(v[i][j].nc) {
+                v[i].erase(v[i].begin()+j);
+                j--;
+            }
+        }
+    }
+}
 
 int main(int argc, char** argv)
 {
     vector<vector<Chord> > chordsequences = chords_from_file("chordSequences.txt");
+    chordsequences.erase(chordsequences.begin()+3);
+    nc_reduce(chordsequences);
+
 /*
     vector<Chord> input;
     FOR(i,chordsequences.size()) {
@@ -36,37 +49,7 @@ int main(int argc, char** argv)
 //    }
 //    return 0;
 
-    cout << chordsequences[16];
-
-    vector<double> thresholds = {0,0.85,0,0,2,0.4,0.5,0,0.5,0};
-    vector<double> mean (chordsequences.size(), 0);
-    FOR(i,10) {
-        cout << "MEASURE " << i << endl;
-        if(i==7) {
-            continue;
-        }
-        FOR(j, chordsequences.size()) {
-            vector<tuple<vector<Chord>, vector<unsigned> > > compression = compress_patterns_sim(chordsequences[j], OCC_THRES, LG_THRES, i, thresholds[i]);
-            cout << "Piece " << j << ": " << compression_factor(chordsequences[j], compression) << endl;
-            FOR(k, compression.size()) {
-                cout << '\t';
-                FOR(l, get<0>(compression[k]).size()) {
-                    cout << get<0>(compression[k])[l] << " ";
-                }
-                cout << " : ";
-                FOR(l, get<1>(compression[k]).size()) {
-                    cout << get<1>(compression[k])[l] << " ";
-                }
-                cout << endl;
-            }
-            mean[i] += compression_factor(chordsequences[j], compression);
-        }
-        cout << endl;
-    }
-    cout << endl;
-    FOR(i,10) {
-        cout << "Mean " << i << ": " << (mean[i]/chordsequences.size()) << endl;
-    }    
+    main_compression(chordsequences);
     return 0;
 
     FOR(i,chordsequences.size()) {
