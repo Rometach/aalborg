@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 
     vector<Chord> input;
     FOR(i,chordsequences.size()) {
-//FOR(i,10) {
+//FOR(i,5) {
         FOR(j,chordsequences[i].size()) {
             input.push_back(chordsequences[i][j]);
         }
@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     cout << "Overall compression" << endl;
     vector<double> thresholds = {0,0.85,0,0,2,0.8,0.8,15,0.5,0};
     FOR(i,10) {
-        if(i!=11) {
+        if(i!=0) {
             continue;
         }
         cout << "Measure " << i << " (threshold " << thresholds[i] << ")" << endl;

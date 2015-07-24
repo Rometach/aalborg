@@ -266,6 +266,15 @@ vector<pair<vector<Chord>, unsigned> > allSequences_sim(vector<Chord> input, uns
     return res;
 }
 
+static void add_pattern_aux(vector<Chord> sequence_to_add, vector<vector<Chord> > &patterns, unsigned metric, double threshold) {
+    FOR(i,patterns.size()) {
+        if (similar(patterns[i], sequence_to_add, metric, threshold)) {
+            return;
+        }
+    }
+    patterns.push_back(sequence_to_add);
+}
+
 vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
     vector<vector<Chord> > patterns;
 
@@ -285,25 +294,25 @@ vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> 
             } else {
                 if(in_sequence) {
                     vector<Chord> sequence_to_add (input.begin()+begin, input.begin()+begin+length);
-                    patterns.push_back(sequence_to_add);
+                    add_pattern_aux(sequence_to_add, patterns, metric, threshold);
                     in_sequence = false;
                 }
             }
         }
         if(in_sequence) {
             vector<Chord> sequence_to_add (input.begin()+begin, input.begin()+begin+length);
-            patterns.push_back(sequence_to_add);
+            add_pattern_aux(sequence_to_add, patterns, metric, threshold);
         }
     }
 
     // Add single notes
     for (Chord c : input) {
         vector<Chord> v (1,c);
-        patterns.push_back(v);
+        add_pattern_aux(v, patterns, metric, threshold);
     }
 
     // Reduce
-    FOR(i,patterns.size()-1) {
+/*    FOR(i,patterns.size()-1) {
         for(unsigned j=i+1; j<patterns.size(); j++) {
             if(similar(patterns[i], patterns[j], metric, threshold)) {
                 patterns.erase(patterns.begin()+j);
@@ -311,7 +320,7 @@ vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> 
             }
         }
     }
-
+*/
     // Compute the positions
     vector<tuple<vector<Chord>, vector<unsigned> > > res;
     FOR(i,patterns.size()) {
@@ -345,22 +354,15 @@ static unsigned weight(tuple<vector<Chord>, vector<unsigned> > t) {
     return (get<0>(t).size()+get<1>(t).size());
 }
 
-static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_1(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
+static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_1(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > patterns, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
     vector<tuple<vector<Chord>, vector<unsigned> > > res;
-    vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
+
     vector<unsigned> cost (patterns.size(),0);
     FOR(i,cost.size()) {
         cost[i] = weight(patterns[i]);
     }
 
-    unsigned size = 0;
-    FOR(i, patterns.size()) {
-        if((get<0>(patterns[i]).size()+get<1>(patterns[i])[get<1>(patterns[i]).size()-1]) > size) {
-            size = get<0>(patterns[i]).size()+get<1>(patterns[i])[get<1>(patterns[i]).size()-1];
-        }
-    }
-
-    vector<bool> coverture (size, false);
+    vector<bool> coverture (input.size(), false);
     unsigned total_covered = 0;
 
     while(1) {
@@ -368,6 +370,7 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
             break;
         }
 
+        // Compute possible gain for every pattern
         vector<unsigned> gain (patterns.size(),0);
         FOR(i,gain.size()) {
             vector<bool> coverture_aux = coverture;
@@ -382,6 +385,7 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
             gain[i] -= total_covered;
         }
 
+        // Find pattern with maximum gain
         int max_benefit=0;
         unsigned arg_max_benefit=0;
         FOR(i,patterns.size()) {
@@ -390,6 +394,7 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
                 arg_max_benefit = i;
             }
         }
+        // Add it and update coverture
         FOR(i,get<1>(patterns[arg_max_benefit]).size()) {
             FOR(j,get<0>(patterns[arg_max_benefit]).size()) {
                 if(coverture[get<1>(patterns[arg_max_benefit])[i]+j] == false) {
@@ -400,6 +405,7 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
         }
         res.push_back(patterns[arg_max_benefit]);
 
+        // Remove redundant occurences of other patterns
         FOR(i,patterns.size()) {
             if(i!=arg_max_benefit) {
                 FOR(j,get<1>(patterns[i]).size()) {
@@ -408,7 +414,8 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
                         useless = useless && coverture[get<1>(patterns[i])[j]+k];
                     }
                     if(useless) {
-                        get<1>(patterns[i]).erase(get<1>(patterns[i]).begin()+j);
+                        get<1>(patterns[i])[j] = get<1>(patterns[i]).back();
+                        get<1>(patterns[i]).pop_back();
                         j--;
                     }
                 }
@@ -435,8 +442,7 @@ static bool compare_aux_pat(tuple<vector<Chord>, vector<unsigned> > t1, tuple<ve
     return weight(t1) > weight(t2);
 }
 
-static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_2(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
-    vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
+static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_2(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > patterns, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
     vector<unsigned> coverture (input.size(), 0);
     FOR(i, patterns.size()) {
         FOR(j, get<1>(patterns[i]).size()) {
@@ -507,9 +513,49 @@ static double loss_factor_aux(vector<Chord> input, vector<tuple<vector<Chord>, v
 }
 
 static vector<tuple<vector<Chord>, vector<unsigned> > > minimize_loss(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
-    vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
+//    vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
     std::sort(compression.begin(), compression.end(), compare_aux_pat_occ);
+
+    Chord c; c.nc = true;
+    vector<tuple<Chord, unsigned> > reconstruction (input.size(), tuple<Chord,unsigned> (c, 0));
+    FOR(i,compression.size()) {
+        FOR(j,get<1>(compression[i]).size()) {
+            FOR(k,get<0>(compression[i]).size()) {
+                reconstruction[get<1>(compression[i])[j]+k] = make_tuple(get<0>(compression[i])[k],i);
+            }
+        }
+    }
+
+    unsigned exact=0;
+    FOR(i,input.size()) {
+        if(get<0>(reconstruction[i]) == input[i]) {
+            exact++;
+        }
+    }
+
     vector<tuple<vector<Chord>, vector<unsigned> > > compression_aux = compression;
+    FOR(i,compression.size()) {
+        FOR(j,get<1>(compression[i]).size()) {
+            int dif=0;
+            FOR(k,get<0>(compression[i]).size()) {
+                if (get<1>(reconstruction[get<1>(compression[i])[j]+k]) == i) {
+                    if(get<0>(reconstruction[get<1>(compression[i])[j]+k]) == input[i]) {
+                        dif--;
+                    }
+                    if(get<0>(reconstruction[get<1>(compression[i])[j]+k]) == get<0>(compression[i])[k]) {
+                        dif++;
+                    }
+                }
+            }
+            if(dif > 0) {
+                FOR(k,get<0>(compression[i]).size()) {
+                    get<0>(compression[i])[k] = input[get<1>(compression[i])[j]+k];
+                }
+            }
+        }
+    }
+
+/*
     for(int i=compression.size()-1; i>=0; i--) {
         FOR(j,get<1>(compression[i]).size()) {
             FOR(k,get<0>(compression[i]).size()) {
@@ -521,15 +567,16 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > minimize_loss(vector<Cho
                 compression_aux = compression;
             }
         }
-    }
+    }*/
     return compression;
 }
 
 vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
 cout << "111111111" << endl;
-    vector<tuple<vector<Chord>, vector<unsigned> > > v1 = compress_patterns_sim_aux_1(input, occ_thres, lg_thres, metric, threshold);
+    vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
+    vector<tuple<vector<Chord>, vector<unsigned> > > v1 = compress_patterns_sim_aux_1(input, patterns, occ_thres, lg_thres, metric, threshold);
 cout << "222222222" << endl;
-    vector<tuple<vector<Chord>, vector<unsigned> > > v2 = compress_patterns_sim_aux_2(input, occ_thres, lg_thres, metric, threshold);
+    vector<tuple<vector<Chord>, vector<unsigned> > > v2 = compress_patterns_sim_aux_2(input, patterns, occ_thres, lg_thres, metric, threshold);
 cout << "333333333" << endl;
     v1 = minimize_loss(input, v1, occ_thres, lg_thres, metric, threshold);
     v2 = minimize_loss(input, v2, occ_thres, lg_thres, metric, threshold);
