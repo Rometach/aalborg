@@ -43,9 +43,7 @@ int main(int argc, char** argv)
 
 //    main_LZ77(chordsequences, LBUF, LPREV, OCC_THRES, LG_THRES, METRIC, THRESHOLD);
     vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, LBUF, LPREV, METRIC, THRESHOLD);
-    cout << compressed_data << endl;
     cout << "Overall LZ77 compression" << endl;
-    cout << "Input size: " << input.size() << endl << "Compressed size: " << compressed_data.size() << " " << (compressed_data.size())*3 << endl;
     cout << "Compression factor: " << (((double)input.size())/((double)compressed_data.size()*3)) << endl;
 
 //    main_segmentation(chordsequences)
