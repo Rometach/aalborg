@@ -6,78 +6,50 @@
 
 #define METRIC 0
 #define THRESHOLD 0.9
-#define LBUF 100 //1469
-#define LPREV 100 //1469
+#define LBUF 1469
+#define LPREV 1469
 #define OCC_THRES 0
 #define LG_THRES 0
 
 using namespace std;
 
-void nc_reduce(vector<vector<Chord> > &v) {
-    FOR(i,v.size()) {
-        FOR(j,v[i].size()) {
-            if(v[i][j].nc) {
-                v[i].erase(v[i].begin()+j);
-                j--;
-            }
-        }
-    }
-}
-
 int main(int argc, char** argv)
 {
     vector<vector<Chord> > chordsequences = chords_from_file("chordSequences.txt");
-    chordsequences.erase(chordsequences.begin()+3);
     nc_reduce(chordsequences);
 
-/*
     vector<Chord> input;
     FOR(i,chordsequences.size()) {
+//FOR(i,10) {
         FOR(j,chordsequences[i].size()) {
             input.push_back(chordsequences[i][j]);
         }
     }
-*/
-    vector<Chord> input = chordsequences[0];
 
-//    main_test_similarities(input);
-//    return 0;
+//    vector<Chord> input = chordsequences[0];
 
-//    for(vector<Chord> v : chordsequences) {
-//        segmentation(v, cout);
-//        cout << endl << endl;
-//    }
-//    return 0;
-
-    main_compression(chordsequences);
-    return 0;
-
-    FOR(i,chordsequences.size()) {
-        if(i != 3) {
-            vector<Chord> input = chordsequences[i];
-            while(input[0].nc == true)
-                input.erase(input.begin());
-            string filename = "draws/"+to_string(i)+"/LZ77.txt";
-            ofstream print_file(filename.c_str());
-
-            print_file << "Input chord sequence:" << endl;
-            print_file << input << endl;
-            vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, LBUF, LPREV, METRIC, THRESHOLD);
-
-            print_file << "LZ77 compression of size " << compressed_data.size();
-            print_file << " (compression factor: " << (((double)input.size())/((double)compressed_data.size())) << ") :" << endl;
-        //    cout << " (for buffer size = " << LBUF << " and preview size = " << LPREV << ") :" << endl;
-            print_file << compressed_data << endl;
-            vector<vector<Chord> > patterns = dictionary_sim(compressed_data, LBUF, LPREV);
-            print_file << "Patterns:" << endl;
-            print_dictionary_sim(patterns, OCC_THRES, LG_THRES, print_file);
-
-            print_file.close();
+//    main_compression(chordsequences);
+    cout << "Overall compression" << endl;
+    vector<double> thresholds = {0,0.85,0,0,2,0.8,0.8,15,0.5,0};
+    FOR(i,10) {
+        if(i!=11) {
+            continue;
         }
+        cout << "Measure " << i << " (threshold " << thresholds[i] << ")" << endl;
+        vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, OCC_THRES, LG_THRES, i, thresholds[i]);
+        cout << "Compression factor: " << compression_factor(input, total_compression) << endl;
+        cout << "Loss factor: " << loss_factor(input, total_compression) << endl << endl;
     }
-//    cout << "Repeated sequences:" << endl;
-//    vector<pair<vector<Chord>, unsigned> > complete_dictionary = allSequences_sim(input, OCC_THRES, LG_THRES, METRIC, THRESHOLD);
-//    cout << complete_dictionary;
+
+//    main_LZ77(chordsequences, LBUF, LPREV, OCC_THRES, LG_THRES, METRIC, THRESHOLD);
+    vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, LBUF, LPREV, METRIC, THRESHOLD);
+    cout << compressed_data << endl;
+    cout << "Overall LZ77 compression" << endl;
+    cout << "Input size: " << input.size() << endl << "Compressed size: " << compressed_data.size() << " " << (compressed_data.size())*3 << endl;
+    cout << "Compression factor: " << (((double)input.size())/((double)compressed_data.size()*3)) << endl;
+
+//    main_segmentation(chordsequences)
 
     return 0;
 }
+

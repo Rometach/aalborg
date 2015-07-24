@@ -36,8 +36,10 @@ typedef struct Chord Chord;
 vector<vector<Chord> > chords_from_file(string filename);
 /* Computes a 'Chord' from the string description in input file */
 Chord stoC(string s);
-/* Converts a queue of Chords into a vector */
+/* Converts a queue of 'Chord's into a vector */
 vector<Chord> qtov(queue<Chord> s);
+/* Removes all 'NC' 'Chord's from v */
+void nc_reduce(vector<vector<Chord> > &v);
 /* Attribute an unsigned integer to every 'NOTE', 'ACCIDENTAL' and 'Chord' */
 unsigned Ntou(NOTE n);
 unsigned Atou(ACCIDENTAL a);

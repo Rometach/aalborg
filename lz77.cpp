@@ -365,6 +365,17 @@ map<string, unsigned> allSequences(vector<Chord> input, unsigned threshold) {
     return res;
 }
 
+void nc_reduce(vector<vector<Chord> > &v) {
+    FOR(i,v.size()) {
+        FOR(j,v[i].size()) {
+            if(v[i][j].nc) {
+                v[i].erase(v[i].begin()+j);
+                j--;
+            }
+        }
+    }
+}
+
 bool operator==(Chord c1, Chord c2) {
     if ((c1.nc == true) && (c2.nc == true)) {
         return true;
