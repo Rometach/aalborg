@@ -1,0 +1,147 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[francais,english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{bookman}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{calc}
+\usepackage{setspace}
+\usepackage[boxruled,vlined,french]{algorithm2e}
+
+\setlength{\voffset}{-3.75cm}
+\setlength{\hoffset}{-2.6cm}
+\setlength{\oddsidemargin}{2.75cm}
+\setlength{\topmargin}{2in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topskip}{0in}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex plus0.4ex minus0.2ex}
+\setlength{\textwidth}{16.25cm}
+\setlength{\textheight}{21cm}
+\renewcommand{\baselinestretch}{1.5}
+\flushbottom
+\setcounter{page}{1}
+\setcounter{tocdepth}{2}
+
+\SetKw{Edb}{Effet de bord}
+\SetKw{Et}{et}
+\SetKw{Ou}{ou}
+\SetKw{De}{de}
+\SetKw{A}{à}
+\SetKwBlock{Debut}{Début}{Fin}
+\SetKwIF{Si}{SinonSi}{Sinon}{Si}{alors}{Sinon si}{Sinon}{FinSi}
+\SetKwFor{Pour}{Pour}{faire}{FinPour}
+\SetKwFor{PourTout}{Pour tout}{faire}{FinPour}
+\SetKwFor{TantQue}{Tant que}{faire}{FinTantQue}
+\SetKw{Retour}{retourner}
+
+\newcommand{\anym}{anym???}
+\newcommand{\guill}[1]{«~#1~»}
+
+\newtheorem{probleme}{Problème}
+
+
+% $$$ Faire une Titlepage un peu plus jolie...
+\title{ \Large Internship report \\ \LARGE TITRE???}
+
+\author{\normalsize Romain \textsc{Versaevel}, M1 Informatique Fondamentale, ENS de Lyon \\ \normalsize Tutored by David \textsc{Meredith}, Associate professor at Aalborg University\\}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+%J'ai suivi dans le cadre de ma formation, en Licence 3 d'Informatique à l'ENS de Lyon un stage de recherche d'une durée de six semaines, du 2 juin au 11 juillet 2014. Ce stage s'est déroulé au LIMSI (Laboratoire d'Informatique pour la Mécanique et les Sciences de l'Ingénieur), laboratoire CNRS situé sur le campus de l'université Paris-Sud, à Orsay, dans le groupe TLP (Traitement des Langues parlées, ou Spoken Language Processing Group). J'étais encadré par M. François Yvon, chercheur au LIMSI, animateur du thème \guill{Traduction automatique}.
+
+%Le sujet de ce stage était d'analyser l'algorithme d'alignement multilingue \anym, conçu et implémenté par Adrien Lardilleux en 2009, disponible sur \cite{anymalign}, et utilisé par le LIMSI pour diverses applications.
+
+%Ce rapport est divisé en quatre parties. Dans la première, je présente le contexte dans lequel s'inscrit mon travail, le domaine de la traduction automatique. Dans la deuxième, je présente l'algorithme que j'ai étudié et l'analyse qui en avait déjà été réalisée. Dans les troisième et quatrième, je présente les résultats de ma propre analyse, empirique (confrontation avec des mesures d'association) et théorique.
+
+
+\section{Computer music}
+
+\subsection{Presentation and overview}
+\subsubsection{History}
+\subsubsection{Goals} % redondant...
+\subsubsection{Fields}
+
+\subsection{Computational music analysis}
+\subsection{Presentation}
+% dire ici les généralités (compression, markov vs. grammars) utiles ensuite ?
+
+\subsection{Several techniques}
+\subsubsection{Schenker} %?\\
+\subsubsection{FP1}
+\subsubsection{FP2}
+\subsubsection{FP3}
+\subsubsection{FP4}
+\subsubsection{COSIATEC}
+\subsubsection{Grammar induction}
+
+
+\section{Analysing jazz chord sequences}
+
+\subsection{Motivation}
+
+\subsection{Chord similarities}
+
+\subsection{Compression}
+
+\subsection{Segmentation}
+
+\subsection{Results}
+
+
+
+\section{Other and further work}
+
+\subsection{The Lr2Cr8 project}
+
+
+
+\section{Conclusion}
+
+
+\section{Bibliographie}
+
+\bibliographystyle{plain}
+\bibliography{mabiblio}
+
+\newpage
+\section{Annexes}
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
