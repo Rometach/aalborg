@@ -1,0 +1,223 @@
+% GOLD ABDALLAH !!!
+
+
+% Grammars
+
+@article{de2009modeling,
+  title={Modeling harmonic similarity using a generative grammar of tonal harmony},
+  author={De Haas, W Bas and Rohrmeier, Martin and Veltkamp, Remco C and Wiering, Frans},
+  year={2009},
+  publisher={International Society for Music Information Retrieval (ISMIR)}
+}
+
+@article{steedman1984generative,
+  title={A generative grammar for jazz chord sequences},
+  author={Steedman, Mark J},
+  journal={Music Perception},
+  pages={52--77},
+  year={1984},
+  publisher={JSTOR}
+}
+
+@article{rohrmeier2011towards,
+  title={Towards a generative syntax of tonal harmony},
+  author={Rohrmeier, Martin},
+  journal={Journal of Mathematics and Music},
+  volume={5},
+  number={1},
+  pages={35--53},
+  year={2011},
+  publisher={Taylor \& Francis}
+}
+
+@article{johnson1991jazz,
+  title={Jazz improvisation: A theory at the computational level},
+  author={Johnson-Laird, Philip N},
+  journal={Representing musical structure, London},
+  pages={291--325},
+  year={1991}
+}
+
+
+@article{survey1
+  title={Grammatical inference: Introduction and survey-Part I},
+  author={Fu, King-Sun and Booth, Taylor L},
+  journal={IEEE Transactions on Systems, Man, and Cybernetics},
+  volume={1},
+  number={SMC-5},
+  pages={95--111},
+  year={1975}
+}
+
+@article{survey2
+  title={Grammatical inference: Introduction and survey-Part II},
+  author={Fu, King-Sun and Booth, Taylor L},
+  journal={IEEE Transactions on Pattern Analysis \& Machine Intelligence},
+  number={3},
+  pages={360--375},
+  year={1986},
+  publisher={IEEE}
+}
+
+@article{de2005bibliographical,
+  title={A bibliographical study of grammatical inference},
+  author={De La Higuera, Colin},
+  journal={Pattern recognition},
+  volume={38},
+  number={9},
+  pages={1332--1348},
+  year={2005},
+  publisher={Elsevier}
+}
+
+@article{o2009fragment,
+  title={Fragment grammars: Exploring computation and reuse in language},
+  author={O'Donnell, Timothy J and Tenenbaum, Joshua B and Goodman, Noah D},
+  year={2009}
+}
+
+@inproceedings{chen1995bayesian,
+  title={Bayesian grammar induction for language modeling},
+  author={Chen, Stanley F},
+  booktitle={Proceedings of the 33rd annual meeting on Association for Computational Linguistics},
+  pages={228--235},
+  year={1995},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{schabes1993parsing,
+  title={Parsing the Wall Street Journal with the inside-outside algorithm},
+  author={Schabes, Yves and Roth, Michal and Osborne, Randy},
+  booktitle={Proceedings of the sixth conference on European chapter of the Association for Computational Linguistics},
+  pages={341--347},
+  year={1993},
+  organization={Association for Computational Linguistics}
+}
+
+@incollection{kurihara2006variational,
+  title={Variational Bayesian grammar induction for natural language},
+  author={Kurihara, Kenichi and Sato, Taisuke},
+  booktitle={Grammatical Inference: Algorithms and Applications},
+  pages={84--96},
+  year={2006},
+  publisher={Springer}
+}
+
+@techreport{crespi1970mechanical,
+  title={The mechanical acquisition of precedence grammars},
+  author={Crespi-Reghizzi, Stefano},
+  year={1970},
+  institution={DTIC Document}
+}
+
+
+
+
+
+
+
+
+
+% Association measures
+
+@book{forte,
+  title={The structure of atonal music},
+  author={Forte, Allen},
+  volume={304},
+  year={1973},
+  publisher={Yale University Press}
+}
+
+@article{morris,
+  title={A similarity index for pitch-class sets},
+  author={Morris, Robert},
+  journal={Perspectives of New Music},
+  pages={445--460},
+  year={1979},
+  publisher={JSTOR}
+}
+
+@article{rahn,
+  title={Relating sets},
+  author={Rahn, John},
+  journal={Perspectives of New Music},
+  pages={483--498},
+  year={1979},
+  publisher={JSTOR}
+}
+
+@article{isaacson,
+  title={Similarity of interval-class content between pitch-class sets: the IcVSIM relation},
+  author={Isaacson, Eric J},
+  journal={Journal of music theory},
+  pages={1--28},
+  year={1990},
+  publisher={JSTOR}
+}
+
+@article{teitelbaum,
+  title={Intervallic relations in atonal music},
+  author={Teitelbaum, Richard},
+  journal={Journal of Music Theory},
+  pages={72--127},
+  year={1965},
+  publisher={JSTOR}
+}
+
+@article{lewin,
+  title={A response to a response: on Pcset relatedness},
+  author={Lewin, David},
+  journal={Perspectives of new music},
+  pages={498--502},
+  year={1979},
+  publisher={JSTOR}
+}
+
+
+
+
+
+
+
+
+
+
+% Patterns
+
+@inproceedings{aucouturier2002finding,
+  title={Finding repeating patterns in acoustic musical signals: Applications for audio thumbnailing},
+  author={Aucouturier, Jean-Julien and Sandler, Mark},
+  booktitle={Audio Engineering Society Conference: 22nd International Conference: Virtual, Synthetic, and Entertainment Audio},
+  year={2002},
+  organization={Audio Engineering Society}
+}
+
+
+
+
+
+
+
+
+
+
+% Divers
+
+% The harmonic musical surface and two novel representation schemes Emilios Cambouropoulos
+
+@book{rameau,
+  title={Nouveau syst{\^e}me de musique th{\'e}orique, o{\`u} l'on d{\'e}couvre le principe de toutes les r{\`e}gles n{\'e}cessaires {\`a} la pratique: pour servir d'introduction au Trait{\'e} de l'harmonie},
+  author={Rameau, Jean Philippe},
+  year={1726},
+  publisher={De l}
+}
+
+@article{lempelziv,
+  title={A universal algorithm for sequential data compression},
+  author={Ziv, Jacob and Lempel, Abraham},
+  journal={IEEE Transactions on information theory},
+  volume={23},
+  number={3},
+  pages={337--343},
+  year={1977}
+}

@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: rapport.aux
+The style file: plain.bst
+Database file #1: mabiblio.bib
+Warning--empty journal in de2009modeling
+Warning--there's a number but no volume in survey2
+Warning--empty journal in o2009fragment
+You've used 21 entries,
+            2118 wiz_defined-function locations,
+            624 strings with 7159 characters,
+and the built_in function-call counts, 7051 in all, are:
+= -- 746
+> -- 215
+< -- 11
++ -- 94
+- -- 66
+* -- 403
+:= -- 1109
+add.period$ -- 67
+call.type$ -- 21
+change.case$ -- 95
+chr.to.int$ -- 0
+cite$ -- 24
+duplicate$ -- 321
+empty$ -- 590
+format.name$ -- 66
+if$ -- 1546
+int.to.chr$ -- 0
+int.to.str$ -- 21
+missing$ -- 22
+newline$ -- 108
+num.names$ -- 42
+pop$ -- 110
+preamble$ -- 1
+purify$ -- 75
+quote$ -- 0
+skip$ -- 246
+stack$ -- 0
+substring$ -- 520
+swap$ -- 102
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 80
+warning$ -- 3
+while$ -- 82
+width$ -- 23
+write$ -- 231
+(There were 3 warnings)

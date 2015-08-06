@@ -1,0 +1,122 @@
+\begin{thebibliography}{10}
+
+\bibitem{aucouturier2002finding}
+Jean-Julien Aucouturier and Mark Sandler.
+\newblock Finding repeating patterns in acoustic musical signals: Applications
+  for audio thumbnailing.
+\newblock In {\em Audio Engineering Society Conference: 22nd International
+  Conference: Virtual, Synthetic, and Entertainment Audio}. Audio Engineering
+  Society, 2002.
+
+\bibitem{chen1995bayesian}
+Stanley~F Chen.
+\newblock Bayesian grammar induction for language modeling.
+\newblock In {\em Proceedings of the 33rd annual meeting on Association for
+  Computational Linguistics}, pages 228--235. Association for Computational
+  Linguistics, 1995.
+
+\bibitem{crespi1970mechanical}
+Stefano Crespi-Reghizzi.
+\newblock The mechanical acquisition of precedence grammars.
+\newblock Technical report, DTIC Document, 1970.
+
+\bibitem{de2009modeling}
+W~Bas De~Haas, Martin Rohrmeier, Remco~C Veltkamp, and Frans Wiering.
+\newblock Modeling harmonic similarity using a generative grammar of tonal
+  harmony.
+\newblock 2009.
+
+\bibitem{de2005bibliographical}
+Colin De~La~Higuera.
+\newblock A bibliographical study of grammatical inference.
+\newblock {\em Pattern recognition}, 38(9):1332--1348, 2005.
+
+\bibitem{forte}
+Allen Forte.
+\newblock {\em The structure of atonal music}, volume 304.
+\newblock Yale University Press, 1973.
+
+\bibitem{survey1}
+King-Sun Fu and Taylor~L Booth.
+\newblock Grammatical inference: Introduction and survey-part i.
+\newblock {\em IEEE Transactions on Systems, Man, and Cybernetics},
+  1(SMC-5):95--111, 1975.
+
+\bibitem{survey2}
+King-Sun Fu and Taylor~L Booth.
+\newblock Grammatical inference: Introduction and survey-part ii.
+\newblock {\em IEEE Transactions on Pattern Analysis \& Machine Intelligence},
+  (3):360--375, 1986.
+
+\bibitem{isaacson}
+Eric~J Isaacson.
+\newblock Similarity of interval-class content between pitch-class sets: the
+  icvsim relation.
+\newblock {\em Journal of music theory}, pages 1--28, 1990.
+
+\bibitem{johnson1991jazz}
+Philip~N Johnson-Laird.
+\newblock Jazz improvisation: A theory at the computational level.
+\newblock {\em Representing musical structure, London}, pages 291--325, 1991.
+
+\bibitem{kurihara2006variational}
+Kenichi Kurihara and Taisuke Sato.
+\newblock Variational bayesian grammar induction for natural language.
+\newblock In {\em Grammatical Inference: Algorithms and Applications}, pages
+  84--96. Springer, 2006.
+
+\bibitem{lewin}
+David Lewin.
+\newblock A response to a response: on pcset relatedness.
+\newblock {\em Perspectives of new music}, pages 498--502, 1979.
+
+\bibitem{morris}
+Robert Morris.
+\newblock A similarity index for pitch-class sets.
+\newblock {\em Perspectives of New Music}, pages 445--460, 1979.
+
+\bibitem{o2009fragment}
+Timothy~J O'Donnell, Joshua~B Tenenbaum, and Noah~D Goodman.
+\newblock Fragment grammars: Exploring computation and reuse in language.
+\newblock 2009.
+
+\bibitem{rahn}
+John Rahn.
+\newblock Relating sets.
+\newblock {\em Perspectives of New Music}, pages 483--498, 1979.
+
+\bibitem{rameau}
+Jean~Philippe Rameau.
+\newblock {\em Nouveau syst{\^e}me de musique th{\'e}orique, o{\`u} l'on
+  d{\'e}couvre le principe de toutes les r{\`e}gles n{\'e}cessaires {\`a} la
+  pratique: pour servir d'introduction au Trait{\'e} de l'harmonie}.
+\newblock De l, 1726.
+
+\bibitem{rohrmeier2011towards}
+Martin Rohrmeier.
+\newblock Towards a generative syntax of tonal harmony.
+\newblock {\em Journal of Mathematics and Music}, 5(1):35--53, 2011.
+
+\bibitem{schabes1993parsing}
+Yves Schabes, Michal Roth, and Randy Osborne.
+\newblock Parsing the wall street journal with the inside-outside algorithm.
+\newblock In {\em Proceedings of the sixth conference on European chapter of
+  the Association for Computational Linguistics}, pages 341--347. Association
+  for Computational Linguistics, 1993.
+
+\bibitem{steedman1984generative}
+Mark~J Steedman.
+\newblock A generative grammar for jazz chord sequences.
+\newblock {\em Music Perception}, pages 52--77, 1984.
+
+\bibitem{teitelbaum}
+Richard Teitelbaum.
+\newblock Intervallic relations in atonal music.
+\newblock {\em Journal of Music Theory}, pages 72--127, 1965.
+
+\bibitem{lempelziv}
+Jacob Ziv and Abraham Lempel.
+\newblock A universal algorithm for sequential data compression.
+\newblock {\em IEEE Transactions on information theory}, 23(3):337--343, 1977.
+
+\end{thebibliography}

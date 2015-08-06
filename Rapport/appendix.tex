@@ -1,0 +1,298 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[boxruled,vlined,english]{algorithm2e}
+\usepackage[francais,english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{latexsym}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bookman}
+\usepackage{amsthm}
+\usepackage{amscd}
+\usepackage{color}
+\usepackage{calc}
+
+\setlength{\voffset}{-3.75cm}
+\setlength{\hoffset}{-2.6cm}
+\setlength{\oddsidemargin}{2.75cm}
+\setlength{\topmargin}{2in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topskip}{0in}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex plus0.4ex minus0.2ex}
+\setlength{\textwidth}{16.25cm}
+\setlength{\textheight}{21cm}
+\renewcommand{\baselinestretch}{1.5}
+\flushbottom
+\setcounter{page}{1}
+\setcounter{tocdepth}{2}
+
+\SetKw{Edb}{Side effect}
+\SetKw{Et}{and}
+\SetKw{Ou}{or}
+\SetKw{De}{from}
+\SetKw{A}{to}
+\SetKw{Par}{by}
+\SetKwBlock{Debut}{Begin}{End}
+\SetKwIF{Si}{SinonSi}{Sinon}{If}{then}{Else if}{Else}{EndIf}
+\SetKwFor{Pour}{For}{do}{EndFor}
+\SetKwFor{PourTout}{For all}{do}{EndFor}
+\SetKwFor{TantQue}{While}{do}{EndWhile}
+\SetKw{Retour}{Return}
+
+\newcommand{\guill}[1]{``#1''}
+\newcommand{\bigO}[1]{\mathcal O\left( #1 \right)}
+\newcommand{\bigOmega}[1]{\Omega\left( #1 \right)}
+\newcommand{\bigTheta}[1]{\Theta\left( #1 \right)}
+
+\newtheorem{prob}{Problem}
+
+
+% ??? Faire une Titlepage un peu plus jolie...
+\title{ \Large Internship report \\ \LARGE TITRE???}
+
+\author{\normalsize Romain \textsc{Versaevel}, M1 Informatique Fondamentale, ENS de Lyon \\ \normalsize Tutored by David \textsc{Meredith}, Associate professor at Aalborg University\\}
+
+\date{\today}
+
+\begin{document}
+
+%\maketitle
+
+\tableofcontents
+\newpage
+
+
+\section{List and definitions of all similarity measures}
+
+\subsubsection*{Equality}
+
+\begin{equation}
+\mathfrak{M}_{eq}(C_1,C_2) = 1 \Leftrightarrow C_1 = C_2
+\end{equation}
+
+
+
+\section{LZ77: a full example example}
+
+Here I give an example of an execution of the LZ77 algorithm (without restriction on the buffer and preview sizes). The algorithm pseudo-code is recalled in algorithm \ref{algolz77}.
+
+\begin{algorithm}
+\setstretch{1.5}
+\caption{LZ77 \label{algolz77}}
+\SetKwData{jjj}{j} \SetKwData{III}{I} \SetKwData{nnn}{n} \SetKwData{pref}{$\pi$} \SetKwData{aaa}{a} \SetKwData{bbb}{b} \SetKwData{buffer}{buffer} \SetKwData{LLL}{L}
+\SetKwFunction{push}{push} \SetKwFunction{pop}{pop} \SetKwFunction{front}{front} \SetKwFunction{size}{size}
+
+\KwIn{Queue of Chords $\III=(C_1, \dots, C_n)$.}
+\KwOut{Queue of triples $\LLL=(a_j,b_j,C_{i_j})_j$.}
+
+\Debut
+{
+	\buffer $\leftarrow$ empty queue 
+
+	\TantQue{\III is not empty}
+	{
+		\pref $\leftarrow$ longest prefix of \III in $(\buffer\cdot\III)$, beginning in \buffer
+
+		\aaa $\leftarrow$ $\size(\buffer)$ $-$ (beginning index of \pref (in \buffer)) ($0$ if none)
+
+		\bbb $\leftarrow$ length of \pref ($0$ if none)
+
+		\Pour{\jjj \De $1$ \A \bbb}
+		{
+			$\buffer.\push(\front(\III))$
+
+			$\III.\pop()$
+		}
+		$\LLL.\push(\aaa,\bbb,\front(\III))$
+
+		$\buffer.\push(\front(\III))$
+
+		$\III.\pop()$
+	}
+	\Retour \LLL
+}
+\end{algorithm}
+
+Let us consider the input data $\texttt{I}=ABCABCABD$. The letters represent chords with no particular harmonic indication (regular major chords). However they could obviously represent anything else: the LZ77 algorithm is a general algorithm for any stream of symbols.
+
+During the execution, this input will be gradually transferred to the \texttt{buffer}, which is originally empty: \\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Step}&\multicolumn{9}{|c|}{\textbf{Buffer}} & \multicolumn{9}{|c|}{\textbf{Input} (\guill{preview})} \\
+\hline
+0&&&&&&&&&&A&B&C&A&B&C&A&B&D\\
+\hline
+\end{tabular} \\
+
+We are looking for the longest prefix of $ABCABCABD$ beginning in \texttt{buffer}: \texttt{buffer} is empty and so is the longest prefix. So we add to the result \texttt{L} the triple $(0,0,A)$ ($A$ being the first symbol of \texttt{I}) and we transfer the front of \texttt{I} to the \texttt{buffer}. We obtain: \\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Step}&\multicolumn{9}{|c|}{\textbf{Buffer}} & \multicolumn{9}{|c|}{\textbf{Input} (\guill{preview})} \\
+\hline
+0&&&&&&&&&&A&B&C&A&B&C&A&B&D\\
+\hline
+1&&&&&&&&&A&B&C&A&B&C&A&B&D&\\
+\hline
+\end{tabular} \\
+
+Again, the longest prefix of $BCABCABD$ beginning in \texttt{buffer} is empty. We add to the result \texttt{L} the triple $(0,0,B)$ and we transfer the front of \texttt{I} to the \texttt{buffer}. The same happens once again (no prefix of $CABCABD$ beginning in \texttt{buffer}$=AB$). We obtain: \\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Step}&\multicolumn{9}{|c|}{\textbf{Buffer}} & \multicolumn{9}{|c|}{\textbf{Input} (\guill{preview})} \\
+\hline
+0&&&&&&&&&&A&B&C&A&B&C&A&B&D\\
+\hline
+1&&&&&&&&&A&B&C&A&B&C&A&B&D&\\
+\hline
+2&&&&&&&&A&B&C&A&B&C&A&B&D&&\\
+\hline
+3&&&&&&&A&B&C&A&B&C&A&B&D&&&\\
+\hline
+\end{tabular} \\
+
+Now, we have the prefix $ABCAB$ of $ABCABD$ which begins in the \texttt{buffer}. We can add $(3-0,5,D)=(3,5,D)$ to \texttt{L}. This step could be intriguing because $(3,5,D)$ means \guill{go $3$ symbols back and rewrite the $5$ next}. What will happen is that we will indeed rewrite the $3$ last symbols $ABC$ and the first $2$ we just added: $AB$.
+
+\texttt{I} is then empty: the algorithm returns \texttt{L} = $(0,0,A)$, $(0,0,B)$, $(0,0,C)$, $(3,5,D)$.
+
+Considering Chords have the same size as integers, our original sequence had a weight of $9$ and the output of $4\cdot3=12$. The compression factor is then $\frac{9}{12}=0.75$, which is bad (it is lower than $1$ the \guill{compressed} sequence is in fact heavier than the input); this is completely normal on small instances.
+
+
+
+\section{Diagonal pattern decomposition: all algorithms}
+
+\subsection*{Listing the patterns}
+
+Algorithm \ref{patlist} shows how the diagonal patterns are selected.
+
+\begin{algorithm}
+\setstretch{1.5}
+\caption{Pattern listing \label{patlist}}
+\SetKwData{iii}{i} \SetKwData{jjj}{j} \SetKwData{III}{I} \SetKwData{Pat}{$\Pi$} \SetKwData{pattern}{$\pi$}
+\SetKwFunction{insert}{insert} \SetKwFunction{similar}{similar}
+
+\KwIn{Sequence of chords $\III=(C_1, \dots, C_n)$.}
+\KwOut{List of patterns $\Pat=(\pi_1, \dots, \pi_m)$.}
+
+\Debut
+{
+	\Pour {\iii \De $2$ \A $|\III|$} {
+		$\pattern \longleftarrow \emptyset$
+		
+		\Pour {\jjj \De $1$ \A $(|\III|-\iii)$} {
+			\Si{$\similar(C_{i+j},C_j)$} {
+				\pattern $\longleftarrow \pattern + C_j$
+			}
+			\Sinon {
+				$\Pat.\insert(\pattern)$
+				
+				$\pattern \longleftarrow \emptyset$
+			}
+		}
+	}
+
+	\Retour \Pat
+}
+\end{algorithm}
+
+Where \texttt{insert} creates a new pattern in $\Pi$ if $\pi$ has not been seen yet, or adds an occurrence to it if it is already in $\Pi$. With a hash table, this is performed in $\bigO{1}$. In my implementation, I did not use a hash table so an exhaustive search for the pattern has to be done. Comparing the possibly new pattern $\pi$ with a pattern already in $\Pi$ is $\bigO{1}$ if they have different lengths and $\bigO{|\pi|}$ if they have the same length. There can be at most $\bigO{|I|^2}$ patterns in $\Pi$, among them at most $|I|$ of size $|\pi|$, and $|\pi|$ is at most $|I|$. Hence this step has a cost of $\bigO{|I|^2+|I|\cdot|I|}=\bigO{|I|^2}$.
+
+Overall complexity is then $\bigO{|I|^2}$ with a hash table and $\bigO{|I|^4}$ in my current implementation.
+
+
+\subsection*{Set cover}
+
+Algorithms \ref{setcover1} and \ref{setcover2} describe the two heuristics I use for the set cover problem.
+
+
+\begin{algorithm}
+\setstretch{1.5}
+\caption{Set cover 1 \label{setcover1}}
+\SetKwData{Pat}{$\Pi$} \SetKwData{Patpat}{$\Pi'$} \SetKwData{pat}{$\pi$} \SetKwData{patstar}{$\pi^*$}
+\SetKwFunction{gain}{gain} \SetKwFunction{front}{front}
+
+\KwIn{List of patterns \Pat.}
+\KwOut{Cover \Patpat (initially empty).}
+
+\Debut {	
+	\TantQue{true} {
+		\ForAll{$\pat \in \Pat$} {
+			$\gain[\pat] \leftarrow (\#\{\text{uncovered elements covered by } \pat\} - |\pat|)$
+		}
+	
+		\patstar $\leftarrow$ pattern of maximal \gain
+
+		\Patpat $\leftarrow \Patpat \cup \{\patstar\}$ ; \Pat $\leftarrow \Pat - \{\patstar\}$
+		
+		\Si{\Patpat covers the whole piece} {
+			\Retour \Patpat
+		}
+		
+		\ForAll{$\pat \in \Pat$} {
+			Remove every useless occurrence of $\pat$
+		}
+	}
+}
+\end{algorithm}
+
+For algorithm \ref{setcover1}, computing \texttt{gain} or determining the useless occurrences of a pattern can be $\bigO{|I|^2}$ (in the --extreme-- worst case of a pattern of length $|I|/2$ occurring $|I|/2$, for instance). There can be $\bigO{|I|^2}$ in $\Pi$ and at most $\bigO{|I|}$ steps are necessary. Overall worst-case complexity is then be $\bigO{|I|^5}$. Yet, the actual running time is very reasonable, and lower than algorithm \ref{patlist}; a more precise analysis could be carried to have a better idea of the complexity.
+
+\begin{algorithm}
+\setstretch{1.5}
+\caption{Set cover 2 \label{setcover2}}
+\SetKwData{iii}{i} 
+\SetKwData{Pat}{$\Pi$} \SetKwData{Patpat}{$\Pi'$} \SetKwData{pat}{$\pi$}  \SetKwData{patstar}{$\pi^*$}
+\SetKwFunction{gain}{gain} \SetKwFunction{weight}{weight} \SetKwFunction{sort}{sort}
+
+\KwIn{List of patterns \Pat.}
+\KwOut{Cover \Patpat (initially equal to \Pat).}
+
+\Debut {
+	\sort \Patpat by decreasing length
+
+	\Pour{$\iii$ \De $1$ \A $|\Patpat|$} {
+		Remove every useless occurrence of $\Patpat[\iii]$
+	}
+	\Retour \Patpat
+}
+\end{algorithm}
+
+For algorithm \ref{setcover2}, there can be $\bigO{|I|^2}$ patterns and browsing the occurrences of a pattern to determine if they can be removed or not may take $\bigO{|I|^2}$. Sorting costing only $\bigO{|I|\cdot\log(|I|)}$, overall worst-case complexity is $\bigO{|I|^4}$; but as for algorithm \ref{setcover1} the actual running time is short.
+
+
+\subsection*{Maximizing the recovery factor}
+
+
+
+\section{PLOTS???}
+
+\section{Implementation details}
+
+
+
+\section{Bibliography}
+\nocite{*}
+
+\bibliographystyle{plain}
+\bibliography{mabiblio}
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
