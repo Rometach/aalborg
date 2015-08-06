@@ -20,7 +20,6 @@ int main(int argc, char** argv)
 
     vector<Chord> input;
     FOR(i,chordsequences.size()) {
-//FOR(i,5) {
         FOR(j,chordsequences[i].size()) {
             input.push_back(chordsequences[i][j]);
         }
@@ -28,14 +27,19 @@ int main(int argc, char** argv)
 
 //    vector<Chord> input = chordsequences[0];
 
+    main_plot_compression(input);
+    return 0;
+
 //    main_compression(chordsequences);
     cout << "Overall compression" << endl;
     vector<double> thresholds = {0,0.85,0,0,2,0.8,0.8,15,0.5,0};
+
     FOR(i,10) {
-        if(i!=0) {
-            continue;
-        }
         cout << "Measure " << i << " (threshold " << thresholds[i] << ")" << endl;
+        vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, LBUF, LPREV, i, thresholds[i]);
+        cout << "Compression factor: " << (((double)input.size())/((double)compressed_data.size()*3)) << endl << endl;
+        continue;
+
         vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, OCC_THRES, LG_THRES, i, thresholds[i]);
         cout << "Compression factor: " << compression_factor(input, total_compression) << endl;
         cout << "Loss factor: " << loss_factor(input, total_compression) << endl << endl;

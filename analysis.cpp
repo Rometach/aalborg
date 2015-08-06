@@ -19,15 +19,17 @@
 using namespace std;
 
 
-pair<unsigned, unsigned> longest_prefix_sim(vector<Chord> input, vector<Chord> dictionary, unsigned metric, double threshold) {
+pair<unsigned, unsigned> longest_prefix_sim(vector<Chord> preview, vector<Chord> buffer, unsigned metric, double threshold) {
     int lp_begin=1, lp_end=0;
-    unsigned initial_dictionary_size = dictionary.size();
+    unsigned initial_dictionary_size = buffer.size();
 
-    FOR(i,input.size())
-        dictionary.push_back(input[i]);
+    FOR(i,preview.size()) {
+        buffer.push_back(preview[i]);
+	}
+
     FOR(i,initial_dictionary_size) {
-        FOR(j,input.size()) {
-            if (!similar(dictionary[i+j],input[j], metric, threshold)) {
+        FOR(j,preview.size()) {
+            if (!similar(buffer[i+j], preview[j], metric, threshold)) {
                 break;
             } else {
                 if ((int)j>(lp_end-lp_begin)) {
@@ -37,6 +39,7 @@ pair<unsigned, unsigned> longest_prefix_sim(vector<Chord> input, vector<Chord> d
             }
         }
     }
+
     return make_pair(lp_begin, lp_end);
 }
 
@@ -52,10 +55,6 @@ vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, un
     if(l_prev > input.size())
         l_prev = input.size();
 
-    FOR(i,l_buf) {
-        buffer.push(NC_Chord);
-    }
-
     FOR(i,l_prev) {
         preview.push(input[i]);
     }
@@ -64,7 +63,9 @@ vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, un
         pair<unsigned, unsigned> pref = longest_prefix_sim(qtov(preview), qtov(buffer), metric, threshold);
         if(pref.second < pref.first) {
             output.push_back(make_tuple(0, 0, preview.front()));
-            buffer.pop();
+			if(buffer.size()==l_buf) {
+	            buffer.pop();
+			}
             buffer.push(preview.front());
             preview.pop();
             if(input_index < input.size()) {
@@ -107,7 +108,7 @@ vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, un
     return output;
 }
 
-vector<vector<Chord> > dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico, unsigned l_buf, unsigned l_prev) {
+vector<vector<Chord> > dictionary_sim(vector<tuple<unsigned, unsigned, Chord> > dico) {
     vector<Chord> reconstruction;
     vector<vector<Chord> > res;
     unsigned res_index=-1;
@@ -279,7 +280,7 @@ vector<tuple<vector<Chord>, vector<unsigned> > > get_patterns_sim(vector<Chord> 
     vector<vector<Chord> > patterns;
 
     // Compute all closed patterns
-    for (unsigned i=1; i<input.size(); i++) {   // diagonal
+    for (unsigned i=1; i<=input.size(); i++) {   // diagonal
         bool in_sequence=false;
         unsigned begin, length=0;
         for(unsigned j=0; j<input.size()-i; j++) {
@@ -439,8 +440,16 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
 }
 
 static bool compare_aux_pat(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
-    return weight(t1) > weight(t2);
+    return weight(t1) < weight(t2);
 }
+
+static bool compare_aux_pat_occ(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
+    return (get<1>(t1).size() > get<1>(t2).size());
+}
+
+//static bool compare_aux_pat_occ_inv(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
+//    return (get<0>(t1).size() >= get<1>(t2).size());
+//}
 
 static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_aux_2(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > patterns, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
     vector<unsigned> coverture (input.size(), 0);
@@ -482,14 +491,6 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim_au
         }
     }
 }
-
-static bool compare_aux_pat_occ(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
-    return (get<1>(t1).size() > get<1>(t2).size());
-}
-
-//static bool compare_aux_pat_occ_inv(tuple<vector<Chord>, vector<unsigned> > t1, tuple<vector<Chord>, vector<unsigned> > t2) {
-//    return (get<0>(t1).size() >= get<1>(t2).size());
-//}
 
 static double loss_factor_aux(vector<Chord> input, vector<tuple<vector<Chord>, vector<unsigned> > > compression) {
     Chord c; c.nc = true;
@@ -555,32 +556,21 @@ static vector<tuple<vector<Chord>, vector<unsigned> > > minimize_loss(vector<Cho
         }
     }
 
-/*
-    for(int i=compression.size()-1; i>=0; i--) {
-        FOR(j,get<1>(compression[i]).size()) {
-            FOR(k,get<0>(compression[i]).size()) {
-                get<0>(compression_aux[i])[k] = input[get<1>(compression[i])[j]+k];
-            }
-            if(loss_factor_aux(input, compression_aux) > loss_factor_aux(input, compression)) {
-                compression = compression_aux;
-            } else {
-                compression_aux = compression;
-            }
-        }
-    }*/
     return compression;
 }
 
 vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim(vector<Chord> input, unsigned occ_thres, unsigned lg_thres, unsigned metric, double threshold) {
-cout << "111111111" << endl;
     vector<tuple<vector<Chord>, vector<unsigned> > > patterns = get_patterns_sim(input, occ_thres, lg_thres, metric, threshold);
     vector<tuple<vector<Chord>, vector<unsigned> > > v1 = compress_patterns_sim_aux_1(input, patterns, occ_thres, lg_thres, metric, threshold);
-cout << "222222222" << endl;
     vector<tuple<vector<Chord>, vector<unsigned> > > v2 = compress_patterns_sim_aux_2(input, patterns, occ_thres, lg_thres, metric, threshold);
-cout << "333333333" << endl;
     v1 = minimize_loss(input, v1, occ_thres, lg_thres, metric, threshold);
     v2 = minimize_loss(input, v2, occ_thres, lg_thres, metric, threshold);
-cout << "444444444" << endl;
+if(compression_factor(input, v1) > compression_factor(input, v2)) {
+    cout << "v111111111 !" << endl;
+}
+else {
+    cout << "v222222222 !" << endl;
+}
     return (compression_factor(input, v1) > compression_factor(input, v2)) ? v1 : v2;
 }
 
@@ -703,7 +693,7 @@ void main_LZ77(vector<vector<Chord> > chordsequences, unsigned l_buf, unsigned l
             print_file << "LZ77 compression of size " << compressed_data.size();
             print_file << " (compression factor: " << (((double)input.size())/((double)compressed_data.size()*3)) << ") :" << endl;
             print_file << compressed_data << endl;
-            vector<vector<Chord> > patterns = dictionary_sim(compressed_data, l_buf, l_prev);
+            vector<vector<Chord> > patterns = dictionary_sim(compressed_data);
             print_file << "Patterns:" << endl;
             print_dictionary_sim(patterns, occ_thres, lg_thres, print_file);
 
@@ -719,5 +709,159 @@ void main_segmentation(vector<vector<Chord> > chordsequences) {
         segmentation(v, cout);
         cout << endl << endl;
     }
+}
+
+void main_plot_compression(vector<Chord> input) {
+    // F1-distance
+    ofstream file_f1("plots/F1.dat");
+    file_f1 << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.05) {
+        cout << "F1 : " << thres << endl;
+        vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, 0, 0, 1, thres);
+        file_f1 << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+cout << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+    }
+    file_f1.close();
+
+    // Morris
+    ofstream file_morris("plots/Morris.dat");
+    file_morris << "# Threshold\tCompression\tRecovery" << endl;
+    for(unsigned thres=1; thres<=20; thres+=1) {
+        cout << "Morris : " << thres << endl;
+        vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, 0, 0, 4, thres);
+        file_morris << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+cout << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+    }
+    file_morris.close();
+
+    // Rahn
+    ofstream file_rahn("plots/Rahn.dat");
+    file_rahn << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.025) {
+        cout << "Rahn : " << thres << endl;
+        vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, 0, 0, 5, thres);
+        file_rahn << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+cout << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+    }
+    file_rahn.close();
+
+    // Lewin
+    ofstream file_lewin("plots/Lewin.dat");
+    file_lewin << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.025) {
+        cout << "Lewin : " << thres << endl;
+        vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, 0, 0, 6, thres);
+        file_lewin << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+cout << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+    }
+    file_lewin.close();
+
+    // Teitelbaum
+    ofstream file_teitelbaum("plots/Teitelbaum.dat");
+    file_teitelbaum << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=10; thres+=0.025) {
+        cout << "Teitelbaum : " << thres << endl;
+        vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, 0, 0, 7, thres);
+        file_teitelbaum << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+cout << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+    }
+    file_teitelbaum.close();
+
+    // Isaacson
+    ofstream file_isaacson("plots/Isaacson.dat");
+    file_isaacson << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.025) {
+        cout << "Isaacson : " << thres << endl;
+        vector<tuple<vector<Chord>, vector<unsigned> > > total_compression = compress_patterns_sim(input, 0, 0, 8, thres);
+        file_isaacson << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+cout << thres << '\t' << compression_factor(input, total_compression) << '\t' << loss_factor(input, total_compression) << endl;
+    }
+    file_isaacson.close();
+}
+
+
+void main_plot_lz77(vector<Chord> input) {
+    // F1-distance
+    ofstream file_f1("plots/F1.dat");
+    file_f1 << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.025) {
+        cout << "F1 : " << thres << endl;
+        vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, 1469, 1469, 1, thres);
+        file_f1 << thres << '\t' << (((double)input.size())/((double)compressed_data.size()*3)) << '\t' << loss_factor_lz77(input, compressed_data) << endl;
+    }
+    file_f1.close();
+
+    // Morris
+    ofstream file_morris("plots/Morris.dat");
+    file_morris << "# Threshold\tCompression\tRecovery" << endl;
+    for(unsigned thres=1; thres<=20; thres++) {
+        cout << "Morris : " << thres << endl;
+        vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, 1469, 1469, 4, thres);
+        file_morris << thres << '\t' << (((double)input.size())/((double)compressed_data.size()*3)) << '\t' << loss_factor_lz77(input, compressed_data) << endl;
+    }
+    file_morris.close();
+
+    // Rahn
+    ofstream file_rahn("plots/Rahn.dat");
+    file_rahn << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.025) {
+        cout << "Rahn : " << thres << endl;
+        vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, 1469, 1469, 5, thres);
+        file_rahn << thres << '\t' << (((double)input.size())/((double)compressed_data.size()*3)) << '\t' << loss_factor_lz77(input, compressed_data) << endl;
+    }
+    file_rahn.close();
+
+    // Lewin
+    ofstream file_lewin("plots/Lewin.dat");
+    file_lewin << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.025) {
+        cout << "Lewin : " << thres << endl;
+        vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, 1469, 1469, 6, thres);
+        file_lewin << thres << '\t' << (((double)input.size())/((double)compressed_data.size()*3)) << '\t' << loss_factor_lz77(input, compressed_data) << endl;
+    }
+    file_lewin.close();
+
+    // Teitelbaum
+    ofstream file_teitelbaum("plots/Teitelbaum.dat");
+    file_teitelbaum << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.05; thres<=20; thres+=0.5) {
+        cout << "Teitelbaum : " << thres << endl;
+        vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, 1469, 1469, 7, thres);
+        file_teitelbaum << thres << '\t' << (((double)input.size())/((double)compressed_data.size()*3)) << '\t' << loss_factor_lz77(input, compressed_data) << endl;
+    }
+    file_teitelbaum.close();
+
+    // Isaacson
+    ofstream file_isaacson("plots/Isaacson.dat");
+    file_isaacson << "# Threshold\tCompression\tRecovery" << endl;
+    for(double thres=0.025; thres<=1; thres+=0.025) {
+        cout << "Isaacson : " << thres << endl;
+        vector<tuple<unsigned, unsigned, Chord> > compressed_data = compress77_sim(input, 1469, 1469, 8, thres);
+        file_isaacson << thres << '\t' << (((double)input.size())/((double)compressed_data.size()*3)) << '\t' << loss_factor_lz77(input, compressed_data) << endl;
+    }
+    file_isaacson.close();
+}
+
+double loss_factor_lz77(vector<Chord> input, vector<tuple<unsigned, unsigned, Chord> > compression) {
+    vector<Chord> reconstruction;
+    FOR(i,compression.size()) {
+        tuple<unsigned, unsigned, Chord> t = compression[i];
+        if((get<0>(t) == 0) || (get<1>(t) == 0)) {
+            reconstruction.push_back(get<2>(t));
+        } else {
+            FOR(j,get<1>(t)) {
+                Chord c = reconstruction[reconstruction.size()-get<0>(t)];
+                reconstruction.push_back(c);
+            }
+            reconstruction.push_back(get<2>(t));
+        }
+    }
+	double exact=0;
+	FOR(i,input.size()) {
+		if(input[i]==reconstruction[i]) {
+			exact++;
+		}
+	}
+	return (exact/((double)input.size()));
 }
 
