@@ -3,48 +3,48 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: rapport.aux
 The style file: plain.bst
 Database file #1: mabiblio.bib
-Warning--empty journal in de2009modeling
+Warning--empty journal in jazzgrammar1
 Warning--there's a number but no volume in survey2
-Warning--empty journal in o2009fragment
-You've used 21 entries,
+Warning--empty year in patminr
+You've used 25 entries,
             2118 wiz_defined-function locations,
-            624 strings with 7159 characters,
-and the built_in function-call counts, 7051 in all, are:
-= -- 746
-> -- 215
-< -- 11
-+ -- 94
-- -- 66
-* -- 403
-:= -- 1109
-add.period$ -- 67
-call.type$ -- 21
-change.case$ -- 95
+            645 strings with 7716 characters,
+and the built_in function-call counts, 7857 in all, are:
+= -- 812
+> -- 248
+< -- 10
++ -- 108
+- -- 76
+* -- 450
+:= -- 1246
+add.period$ -- 76
+call.type$ -- 25
+change.case$ -- 113
 chr.to.int$ -- 0
-cite$ -- 24
-duplicate$ -- 321
-empty$ -- 590
-format.name$ -- 66
-if$ -- 1546
+cite$ -- 28
+duplicate$ -- 355
+empty$ -- 676
+format.name$ -- 76
+if$ -- 1709
 int.to.chr$ -- 0
-int.to.str$ -- 21
-missing$ -- 22
-newline$ -- 108
-num.names$ -- 42
-pop$ -- 110
+int.to.str$ -- 25
+missing$ -- 25
+newline$ -- 126
+num.names$ -- 48
+pop$ -- 132
 preamble$ -- 1
-purify$ -- 75
+purify$ -- 89
 quote$ -- 0
-skip$ -- 246
+skip$ -- 271
 stack$ -- 0
-substring$ -- 520
+substring$ -- 541
 swap$ -- 102
-text.length$ -- 11
+text.length$ -- 10
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 80
+type$ -- 96
 warning$ -- 3
-while$ -- 82
-width$ -- 23
-write$ -- 231
+while$ -- 87
+width$ -- 27
+write$ -- 266
 (There were 3 warnings)

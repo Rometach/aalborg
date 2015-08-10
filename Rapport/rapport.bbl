@@ -1,5 +1,12 @@
 \begin{thebibliography}{10}
 
+\bibitem{goldabdallah}
+Gold~NE Abdallah~SA.
+\newblock Comparing models of symbolic music using probabilistic grammars and
+  probabilistic programming.
+\newblock In {\em Joint Sound and Music Computing Conference and International
+  Computer Music Conference 2014}, 2014.
+
 \bibitem{aucouturier2002finding}
 Jean-Julien Aucouturier and Mark Sandler.
 \newblock Finding repeating patterns in acoustic musical signals: Applications
@@ -8,25 +15,24 @@ Jean-Julien Aucouturier and Mark Sandler.
   Conference: Virtual, Synthetic, and Entertainment Audio}. Audio Engineering
   Society, 2002.
 
-\bibitem{chen1995bayesian}
-Stanley~F Chen.
-\newblock Bayesian grammar induction for language modeling.
-\newblock In {\em Proceedings of the 33rd annual meeting on Association for
-  Computational Linguistics}, pages 228--235. Association for Computational
-  Linguistics, 1995.
+\bibitem{markov3}
+Darrell Conklin and Christina Anagnostopoulou.
+\newblock Representation and discovery of multiple viewpoint patterns.
+\newblock In {\em Proceedings of the International Computer Music Conference},
+  pages 479--485. Citeseer, 2001.
 
-\bibitem{crespi1970mechanical}
+\bibitem{bracket2}
 Stefano Crespi-Reghizzi.
 \newblock The mechanical acquisition of precedence grammars.
 \newblock Technical report, DTIC Document, 1970.
 
-\bibitem{de2009modeling}
+\bibitem{jazzgrammar1}
 W~Bas De~Haas, Martin Rohrmeier, Remco~C Veltkamp, and Frans Wiering.
 \newblock Modeling harmonic similarity using a generative grammar of tonal
   harmony.
 \newblock 2009.
 
-\bibitem{de2005bibliographical}
+\bibitem{bibliogrammar}
 Colin De~La~Higuera.
 \newblock A bibliographical study of grammatical inference.
 \newblock {\em Pattern recognition}, 38(9):1332--1348, 2005.
@@ -54,31 +60,46 @@ Eric~J Isaacson.
   icvsim relation.
 \newblock {\em Journal of music theory}, pages 1--28, 1990.
 
-\bibitem{johnson1991jazz}
+\bibitem{jazzgrammar4}
 Philip~N Johnson-Laird.
 \newblock Jazz improvisation: A theory at the computational level.
 \newblock {\em Representing musical structure, London}, pages 291--325, 1991.
 
-\bibitem{kurihara2006variational}
-Kenichi Kurihara and Taisuke Sato.
-\newblock Variational bayesian grammar induction for natural language.
-\newblock In {\em Grammatical Inference: Algorithms and Applications}, pages
-  84--96. Springer, 2006.
+\bibitem{patminr}
+Olivier Lartillot.
+\newblock Patminr: In-depth motivic analysis of symbolic monophonic sequences.
+\newblock {\em Music Information Retrieval Evaluation eXchange}.
 
 \bibitem{lewin}
 David Lewin.
 \newblock A response to a response: on pcset relatedness.
 \newblock {\em Perspectives of new music}, pages 498--502, 1979.
 
+\bibitem{Lrn2Cre8}
+Lrn2cre8 project homepage: http://lrn2cre8.eu/.
+
+\bibitem{cosiatec}
+David Meredith.
+\newblock Cosiatec and siateccompress: Pattern discovery by geometric
+  compression.
+\newblock In {\em International Society for Music Information Retrieval
+  Conference}, 2013.
+
 \bibitem{morris}
 Robert Morris.
 \newblock A similarity index for pitch-class sets.
 \newblock {\em Perspectives of New Music}, pages 445--460, 1979.
 
-\bibitem{o2009fragment}
-Timothy~J O'Donnell, Joshua~B Tenenbaum, and Noah~D Goodman.
-\newblock Fragment grammars: Exploring computation and reuse in language.
-\newblock 2009.
+\bibitem{markov1}
+Fran{\c{c}}ois Pachet, Pierre Roy, Gabriele Barbieri, and Sony~CSL Paris.
+\newblock Finite-length markov processes with constraints.
+\newblock {\em transition}, 6(1/3), 2001.
+
+\bibitem{markov2}
+Marcus~T Pearce and Geraint~A Wiggins.
+\newblock Auditory expectation: the information dynamics of music perception
+  and cognition.
+\newblock {\em Topics in cognitive science}, 4(4):625--652, 2012.
 
 \bibitem{rahn}
 John Rahn.
@@ -92,19 +113,19 @@ Jean~Philippe Rameau.
   pratique: pour servir d'introduction au Trait{\'e} de l'harmonie}.
 \newblock De l, 1726.
 
-\bibitem{rohrmeier2011towards}
+\bibitem{jazzgrammar2}
 Martin Rohrmeier.
 \newblock Towards a generative syntax of tonal harmony.
 \newblock {\em Journal of Mathematics and Music}, 5(1):35--53, 2011.
 
-\bibitem{schabes1993parsing}
+\bibitem{bracket1}
 Yves Schabes, Michal Roth, and Randy Osborne.
 \newblock Parsing the wall street journal with the inside-outside algorithm.
 \newblock In {\em Proceedings of the sixth conference on European chapter of
   the Association for Computational Linguistics}, pages 341--347. Association
   for Computational Linguistics, 1993.
 
-\bibitem{steedman1984generative}
+\bibitem{jazzgrammar3}
 Mark~J Steedman.
 \newblock A generative grammar for jazz chord sequences.
 \newblock {\em Music Perception}, pages 52--77, 1984.

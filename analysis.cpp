@@ -87,10 +87,10 @@ vector<tuple<unsigned, unsigned, Chord> > compress77_sim(vector<Chord> input, un
                 }
             }
             if(preview.empty()) {
-                output.push_back(make_tuple(l_buf-pref.first, (pref.second-pref.first+1), NC_Chord));
+                output.push_back(make_tuple(buffer.size()-pref.first, (pref.second-pref.first+1), NC_Chord));
                 break;
             } else {
-                output.push_back(make_tuple(l_buf-pref.first, (pref.second-pref.first+1), preview.front()));
+                output.push_back(make_tuple(buffer.size()-pref.first, (pref.second-pref.first+1), preview.front()));
                 buffer.pop();
                 buffer.push(preview.front());
                 preview.pop();
@@ -565,12 +565,6 @@ vector<tuple<vector<Chord>, vector<unsigned> > > compress_patterns_sim(vector<Ch
     vector<tuple<vector<Chord>, vector<unsigned> > > v2 = compress_patterns_sim_aux_2(input, patterns, occ_thres, lg_thres, metric, threshold);
     v1 = minimize_loss(input, v1, occ_thres, lg_thres, metric, threshold);
     v2 = minimize_loss(input, v2, occ_thres, lg_thres, metric, threshold);
-if(compression_factor(input, v1) > compression_factor(input, v2)) {
-    cout << "v111111111 !" << endl;
-}
-else {
-    cout << "v222222222 !" << endl;
-}
     return (compression_factor(input, v1) > compression_factor(input, v2)) ? v1 : v2;
 }
 
