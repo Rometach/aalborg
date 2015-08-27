@@ -1,0 +1,9 @@
+\beamer@endinputifotherversion {3.24pt}
+\select@language {french}
+\beamer@sectionintoc {1}{LZ77}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Diagonal patterns}{20}{0}{1}
+\beamer@sectionintoc {2}{Mesures de similarit\IeC {\'e}}{30}{0}{2}
+\beamer@subsectionintoc {2}{1}{Similarity measures}{31}{0}{2}
+\beamer@sectionintoc {3}{R\IeC {\'e}sultats}{35}{0}{3}
+\beamer@subsectionintoc {3}{1}{Comparison between measures}{38}{0}{3}
+\beamer@subsectionintoc {3}{2}{Comparison between algorithms}{43}{0}{3}

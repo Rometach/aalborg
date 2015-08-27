@@ -1,0 +1,12 @@
+\beamer@endinputifotherversion {3.24pt}
+\select@language {french}
+\beamer@sectionintoc {1}{Motivation, definitions}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Motivation, definitions}{4}{0}{1}
+\beamer@sectionintoc {2}{Compression algorithms}{11}{0}{2}
+\beamer@subsectionintoc {2}{1}{LZ77}{12}{0}{2}
+\beamer@subsectionintoc {2}{2}{Diagonal patterns}{29}{0}{2}
+\beamer@sectionintoc {3}{Similarity measures}{39}{0}{3}
+\beamer@subsectionintoc {3}{1}{Similarity measures}{40}{0}{3}
+\beamer@sectionintoc {4}{Results}{44}{0}{4}
+\beamer@subsectionintoc {4}{1}{Comparison between measures}{47}{0}{4}
+\beamer@subsectionintoc {4}{2}{Comparison between algorithms}{52}{0}{4}

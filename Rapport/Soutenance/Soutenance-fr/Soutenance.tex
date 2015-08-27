@@ -1,0 +1,543 @@
+\documentclass[10pt]{beamer}
+
+\usepackage[francais]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{bookman}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{calc}
+\usepackage{setspace}
+\usepackage[boxruled,vlined,french]{algorithm2e}
+\usepackage{times}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+%\setlength{\voffset}{-3.75cm}
+%\setlength{\hoffset}{-2.6cm}
+%\setlength{\oddsidemargin}{2.75cm}
+%\setlength{\topmargin}{2in}
+%\setlength{\headheight}{0in}
+%\setlength{\headsep}{0in}
+%\setlength{\topskip}{0in}
+\setlength{\parindent}{0cm}
+%\setlength{\parskip}{1ex plus0.4ex minus0.2ex}
+%\setlength{\textwidth}{16.25cm}
+%\setlength{\textheight}{21cm}
+%\renewcommand{\baselinestretch}{1.5}
+\flushbottom
+\setcounter{page}{1}
+\setcounter{tocdepth}{1}
+
+\SetKw{Edb}{Effet de bord}
+\SetKw{Et}{et}
+\SetKw{Ou}{ou}
+\SetKw{De}{de}
+\SetKw{A}{à}
+\SetKwBlock{Debut}{Début}{Fin}
+\SetKwIF{Si}{SinonSi}{Sinon}{Si}{alors}{Sinon si}{Sinon}{FinSi}
+\SetKwFor{Pour}{Pour}{faire}{FinPour}
+\SetKwFor{PourTout}{Pour tout}{faire}{FinPour}
+\SetKwFor{TantQue}{Tant que}{faire}{FinTantQue}
+\SetKw{Retour}{retourner}
+
+\definecolor{bleuclair}{rgb}{0.2,0.9,8}
+\definecolor{rose}{rgb}{1,0.5,0.7}
+\definecolor{orange}{rgb}{1,0.6,0}
+
+
+\newcommand{\guill}[1]{«~#1~»}
+
+\usetikzlibrary{arrows,shapes}
+
+
+
+\usetheme{Singapore}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Plan}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\defbeamertemplate*{footline}{infolines theme}
+{
+ \hbox{
+  \begin{beamercolorbox}[wd=.22\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \insertshortauthor%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.57\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \insertshorttitle%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.13\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertshortdate{}%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.08\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \insertframenumber/\inserttotalframenumber%
+  \end{beamercolorbox}}%
+}
+
+
+
+\title[Analyse de suites d'accords de jazz]{\large Soutenance de stage \\ \Large Analyse de suites d'accords de jazz}
+\institute{ENS de Lyon, M1 Informatique fondamentale}
+
+\author[R. Versaevel]{\normalsize Romain \textsc{Versaevel}\newline \\ \normalsize Encadré par Pr. David \textsc{Meredith}}
+
+\date{\today}
+
+\begin{document}
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Plan}
+\tableofcontents
+\end{frame}
+
+\section{Motivation, modèle}
+\subsection{Motivation, modèle}
+
+\begin{frame}{Motivation}
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/achildisborn.jpg}
+\end{figure} \bigskip \pause
+
+\begin{block}{\textbf{A Child Is Born: }}
+$B\flat M7;~E\flat m;~B\flat M7;~E\flat m6;~B\flat M9;~E\flat m;~A~halfdim7;~D 7\#9\dots$
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Accords}
+\begin{block}{Définition}
+Un accord est un ensemble d'au moins trois notes.
+\end{block} \bigskip \pause
+
+\begin{figure}
+\centering
+\includegraphics[height = 1.4cm]{images/chordletter.jpg} ~~~~~~~~~~~~
+\includegraphics[height = 1.4cm]{images/chordstaff.jpg}
+\end{figure} \bigskip
+
+\uncover<3->{
+\begin{center}
+\Huge
+\only<1,2,3>{\begin{tabular}{c}
+$B\flat M7$
+\end{tabular}}
+\only<4>{\begin{tabular}{ccc}
+$B\flat$ & & $M7$
+\end{tabular}}
+\end{center}}
+\end{frame}
+
+
+
+
+\begin{frame}{Modèle mathématique}
+Les notes sont des nombres. \bigskip \pause
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+%$A$&$A\#/B\flat$&$B$&$C$&$C\#/D\flat$&$D$&$D\#/E\flat$&$E$&$F$&$F\#/G\flat$&$G$ \\ \hline
+%La&&Si&Do&&Ré&&Mi&Fa&&Sol& \\ \hline
+%$A$&$A\#$&$B$&$C$&$C\#$&$D$&$D\#$&$E$&$F$&$F\#$&$G$&$G\#$ \\
+&$A\#$&&&$C\#$&&$D\#$&&&$F\#$&&$G\#$ \\
+$A$&$=$&$B$&$C$&$=$&$D$&$=$&$E$&$F$&$=$&$G$&$=$ \\
+&$B\flat$&&&$D\flat$&&$E\flat$&&&$G\flat$&&$A\flat$ \\ \hline
+0&1&2&3&4&5&6&7&8&9&10&11 \\ \hline
+\end{tabular} \bigskip \pause
+
+\begin{center}
+\LARGE\begin{tabular}{ccc}
+$B\flat$ & & $M7$ \uncover<4>{\\
+$1$ & $+$ & $\{0;4;7;10\}$}
+\end{tabular}
+\end{center}
+\end{frame}
+
+\section{Algorithmes de compression}
+
+\subsection{LZ77}
+
+\begin{frame}{Lempel-Ziv 77}
+\pause
+\begin{figure}
+\centering
+\includegraphics[height = 4cm]{images/lempel.jpg} \hspace{0.5cm} \pause
+\includegraphics[height = 4cm]{images/ziv.jpg} \hspace{0.5cm} \pause
+\includegraphics[height = 4cm]{images/77.jpg}
+\end{figure}
+\end{frame}
+
+\begin{frame}{LZ77: un aperçu}
+\begin{block}{Entrée}
+$\texttt{I}=ABCABCABD$
+\end{block}
+
+\bigskip \bigskip
+
+\begin{block}{Sortie}
+$(0,0,A)$,
+$(0,0,B)$,
+$(0,0,C)$,
+$(3,5,D)$
+\end{block}
+\end{frame}
+
+
+\subsection{Diagonal patterns}
+
+\begin{frame}{Motifs diagonaux (1)}
+\begin{figure}
+\centering
+\only<1>{\includegraphics[width = 6cm]{images/diagonals0.jpg}}
+\only<2>{\includegraphics[width = 6cm]{images/diagonals1.jpg}}
+\only<3>{\includegraphics[width = 6cm]{images/diagonals2.jpg}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Motifs diagonaux (2)}
+
+\begin{center}
+\begin{tabular}{|ll|}
+\hline
+\multicolumn{2}{|l|}{\textbf{Algorithme}} \\ \hline & \\
+1& Lister les motifs \\
+2& Trouver une couverture \\ & \\ \hline
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Motifs diagonaux (3)}
+\begin{block}{Entrée}
+$\texttt{I}=
+B;D 7;G;B\flat 7;E\flat;A m7;D 7;G;B\flat 7;E\flat;F\# 7;B;F m7;B\flat 7;E\flat$
+\end{block} \pause
+
+\begin{block}{Motifs}
+\begin{itemize}
+\item[$\triangleright$] $B$ --- $\{0;11\}$;
+\item[$\triangleright$] $B\flat 7;~E\flat$ --- $\{3;8;13\}$;
+\item[$\triangleright$] $D7;~G;~B\flat 7;~E\flat$ --- $\{1;6\}$; \pause
+\item[$\triangleright$] $D7$ --- $\{1;6\}$, $G$ --- $\{2;7\}$\dots
+\end{itemize}
+\end{block} \pause
+
+\begin{block}{Couverture}
+\begin{itemize}
+\item[$\triangleright$] $B$ --- $\{0;11\}$;
+\item[$\triangleright$] $B\flat 7;~E\flat$ --- $\{13\}$;
+\item[$\triangleright$] $D7;~G;~B\flat 7;~E\flat$ --- $\{1;6\}$;
+\item[$\triangleright$] $Am7$ --- $\{5\}$, $F\#7$ --- $\{10\}$, $Fm7$ --- $\{12\}$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Motifs diagonaux (4)}
+\only<1,2>{\begin{tabular}{ccccccccccccccc}
+\rotatebox{90}{$B$} & \rotatebox{90}{$D 7$} & \rotatebox{90}{$G$} & \rotatebox{90}{$B\flat 7$} & \rotatebox{90}{$E\flat$} & \rotatebox{90}{$A m7$} & \rotatebox{90}{$D 7$} & \rotatebox{90}{$G$} & \rotatebox{90}{$B\flat 7$} & \rotatebox{90}{$E\flat$} & \rotatebox{90}{$F\# 7$} & \rotatebox{90}{$B$} & \rotatebox{90}{$F m7$} & \rotatebox{90}{$B\flat 7$} & \rotatebox{90}{$E\flat$} \\ \hline \uncover<2>{\\
+\rotatebox{90}{$B$} &&&&&&&&&&& \rotatebox{90}{$B$} \\
+& \rotatebox{90}{$D 7$} & \rotatebox{90}{$G$} & \rotatebox{90}{$B\flat 7$} & \rotatebox{90}{$E\flat$} && \rotatebox{90}{$D 7$} & \rotatebox{90}{$G$} & \rotatebox{90}{$B\flat 7$} & \rotatebox{90}{$E\flat$} \\
+&&&&& \rotatebox{90}{$A m7$} \\
+&&&&&&&&&& \rotatebox{90}{$F\# 7$} \\
+&&&&&&&&&&&& \rotatebox{90}{$F m7$} \\
+&&&&&&&&&&&&& \rotatebox{90}{$B\flat 7$} & \rotatebox{90}{$E\flat$}}
+\end{tabular}}
+
+\only<3>{\begin{tabular}{ccccccccccccccc}
+\color{bleuclair} \rotatebox{90}{$B$} & \color{rose} \rotatebox{90}{$D 7$} & \color{rose} \rotatebox{90}{$G$} & \color{rose} \rotatebox{90}{$B\flat 7$} & \color{rose} \rotatebox{90}{$E\flat$} & \color{green} \rotatebox{90}{$A m7$} & \color{rose} \rotatebox{90}{$D 7$} & \color{rose} \rotatebox{90}{$G$} & \color{rose} \rotatebox{90}{$B\flat 7$} & \color{rose} \rotatebox{90}{$E\flat$} & \color{red} \rotatebox{90}{$F\# 7$} & \color{bleuclair} \rotatebox{90}{$B$} & \color{blue} \rotatebox{90}{$F m7$} & \color{orange} \rotatebox{90}{$B\flat 7$} & \color{orange} \rotatebox{90}{$E\flat$} \\ \hline \\
+\color{bleuclair} \rotatebox{90}{$B$} &&&&&&&&&&& \color{bleuclair} \rotatebox{90}{$B$} \\
+& \color{rose} \rotatebox{90}{$D 7$} & \color{rose} \rotatebox{90}{$G$} & \color{rose} \rotatebox{90}{$B\flat 7$} & \color{rose} \rotatebox{90}{$E\flat$} && \color{rose} \rotatebox{90}{$D 7$} & \color{rose} \rotatebox{90}{$G$} & \color{rose} \rotatebox{90}{$B\flat 7$} & \color{rose} \rotatebox{90}{$E\flat$} \\
+&&&&& \color{green} \rotatebox{90}{$A m7$} \\
+&&&&&&&&&& \color{red} \rotatebox{90}{$F\# 7$} \\
+&&&&&&&&&&&& \color{blue} \rotatebox{90}{$F m7$} \\
+&&&&&&&&&&&&& \color{orange} \rotatebox{90}{$B\flat 7$} & \color{orange} \rotatebox{90}{$E\flat$}
+\end{tabular}}
+\end{frame}
+
+
+\section{Mesures de similarité}
+\subsection{Mesures de similarité}
+
+\begin{frame}{Vers une compression \emph{avec perte}}
+\begin{align*}
+\Large
+C & = C' \\
+\uncover<2> {
+& \downarrow \\
+C &\sim C'}
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Toutes les mesures}
+\begin{itemize}
+\item[$\triangleright$] égalité de la note fondamentale;
+\item[$\triangleright$] équivalence par transposition;
+\item[$\triangleright$] équivalence des \emph{PCS-Prime};
+\only<2>{\color{blue}}
+\item[$\triangleright$] F1-score;
+\item[$\triangleright$] \emph{similarity index} d'Isaacson;
+\item[$\triangleright$] mesure de Lewin;
+\item[$\triangleright$] mesure de Morris;
+\item[$\triangleright$] mesure de Rahn;
+\item[$\triangleright$] mesure de Teitelbaum.
+\end{itemize}
+\end{frame}
+
+
+
+\section{Résultats}
+
+\begin{frame}{Évaluation}
+\begin{block}{Facteur de compression}
+\Large \uncover<2>{
+$\frac{|\text{Entrée}|}{|\text{Sortie}|}$}
+\end{block}
+
+\bigskip
+
+\begin{block}{Facteur de conservation}
+\Large \uncover<2>{
+$\frac{|\{i~|~\textsc{decompress}(\textsc{compress}(\text{Entrée}))[i] = \text{Entrée}[i]\}|}{|\text{Entrée}|}$ }
+\end{block}
+\end{frame}
+
+
+\subsection{Comparaison des mesures utilisées}
+
+\begin{frame}{Comparaison des mesures (1)}
+
+\begin{figure}
+\centering
+\includegraphics[width = 7cm]{images/RfC77.jpg}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Comparaison des mesures (2)}
+\only<1> {
+\begin{figure}
+\centering
+\includegraphics[width = 5cm]{images/F1Diag.jpg} \hspace{0.5cm}
+\includegraphics[width = 5cm]{images/IsaacsonDiag.jpg}
+\end{figure}}
+
+\only<2> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/F1Diag.jpg}
+\end{figure}}
+
+\only<3> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/IsaacsonDiag.jpg}
+\end{figure}}
+\end{frame}
+
+
+
+\subsection{Comparaison des algorithmes}
+
+\begin{frame}{Comparaison des algorithmes (1)}
+\only<1> {
+\begin{figure}
+\centering
+\includegraphics[width = 5cm]{images/Rahn77.jpg} \hspace{0.5cm}
+\includegraphics[width = 5cm]{images/RahnDiag.jpg}
+\end{figure}}
+
+\only<2> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/Rahn77.jpg}
+\end{figure}}
+
+\only<3> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/RahnDiag.jpg}
+\end{figure}}
+\end{frame}
+
+
+
+\begin{frame}{Comparaison des algorithmes (2)}
+\only<1> {
+\begin{figure}
+\centering
+\includegraphics[width = 5cm]{images/Morris77.jpg} \hspace{0.5cm}
+\includegraphics[width = 5cm]{images/MorrisDiag.jpg}
+\end{figure}}
+
+\only<2> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/Morris77.jpg}
+\end{figure}}
+
+\only<3> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/MorrisDiag.jpg}
+\end{figure}}
+\end{frame}
+
+
+
+\begin{frame}{Comparaison des algorithmes (3)}
+\only<1> {
+\begin{figure}
+\centering
+\includegraphics[width = 5cm]{images/RfC77.jpg} \hspace{0.5cm}
+\includegraphics[width = 5cm]{images/RfCDiag.jpg}
+\end{figure}}
+
+\only<2> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/RfC77.jpg}
+\end{figure}}
+
+\only<3> {
+\begin{figure}
+\centering
+\includegraphics[width = 9cm]{images/RfCDiag.jpg}
+\end{figure}}
+\end{frame}
+
+
+\section*{Fin}
+
+\begin{frame}
+\begin{figure}
+\centering
+\includegraphics[width = 10cm]{images/taf.jpg}
+\end{figure}
+\end{frame}
+
+\begin{frame}{LZ77: exemple}
+\begin{block}{Entrée}
+$\texttt{I}=ABCABCABD$
+\end{block}
+
+\bigskip
+
+\only<2> {
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Étape}&\multicolumn{5}{|c|}{\textbf{Buffer}} & \multicolumn{9}{|c|}{\textbf{Entrée} (\guill{Aperçu})} \\
+\hline
+0&&&&&&A&B&C&A&B&C&A&B&D\\
+\hline
+\end{tabular}}
+
+\only<3> {
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Étape}&\multicolumn{5}{|c|}{\textbf{Buffer}} & \multicolumn{9}{|c|}{\textbf{Entrée} (\guill{Aperçu})} \\
+\hline
+0&&&&&&A&B&C&A&B&C&A&B&D\\
+\hline
+1&&&&&A&B&C&A&B&C&A&B&D&\\
+\hline
+\end{tabular}}
+
+\only<4> {
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Étape}&\multicolumn{5}{|c|}{\textbf{Buffer}} & \multicolumn{9}{|c|}{\textbf{Entrée} (\guill{Aperçu})} \\
+\hline
+0&&&&&&A&B&C&A&B&C&A&B&D\\
+\hline
+1&&&&&A&B&C&A&B&C&A&B&D&\\
+\hline
+2&&&&A&B&C&A&B&C&A&B&D&&\\
+\hline
+\end{tabular}}
+
+\only<5> {
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Étape}&\multicolumn{5}{|c|}{\textbf{Buffer}} & \multicolumn{9}{|c|}{\textbf{Entrée} (\guill{Aperçu})} \\
+\hline
+0&&&&&&A&B&C&A&B&C&A&B&D\\
+\hline
+1&&&&&A&B&C&A&B&C&A&B&D&\\
+\hline
+2&&&&A&B&C&A&B&C&A&B&D&&\\
+\hline
+3&&&A&B&C&A&B&C&A&B&D&&&\\
+\hline
+\end{tabular}}
+
+\bigskip
+
+\begin{block}{Sortie}
+$\textbf<2>{(0,0,A)}$,
+$\textbf<3>{(0,0,B)}$,
+$\textbf<4>{(0,0,C)}$,
+$\textbf<5>{(3,5,D)}$
+\end{block}
+\end{frame}
+
+\begin{frame}{LZ77 : décompression}
+\begin{block}{Entrée}
+$\texttt{I}=ABCABCABD$
+\end{block} \bigskip
+
+\begin{tabular}{ll}
+Décompression & Compression \\
+\uncover<3->{$A$} & $\textbf<2,3>{(0,0,A)}$ \\
+\uncover<5->{$B$} & $\textbf<4,5>{(0,0,B)}$ \\
+\uncover<7->{$C$} & $\textbf<6,7>{(0,0,C)}$ \\
+\uncover<9->{$A$} & $\textbf<8,9,10,11>{(3,5,D)}$ \\
+\uncover<9->{$B$} & \\
+\uncover<9->{$C$} & \\
+\uncover<10->{$A$} & \\
+\uncover<10->{$B$} & \\
+\uncover<11->{$D$} & \\
+\end{tabular}
+\end{frame}
+
+
+\begin{frame}{Matrices}
+\begin{figure}
+\centering
+\only<1>{\includegraphics[width = 7cm]{images/pretty1.jpg}}
+\only<2>{\includegraphics[width = 7cm]{images/pretty2.jpg}}
+\only<3>{\includegraphics[width = 7cm]{images/pretty3.jpg}}
+\only<4>{\includegraphics[width = 7cm]{images/pretty4.jpg}}
+\end{figure}
+\end{frame}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+

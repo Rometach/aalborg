@@ -1,0 +1,12 @@
+\beamer@endinputifotherversion {3.24pt}
+\select@language {french}
+\beamer@sectionintoc {1}{Motivation, mod\IeC {\`e}le}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Motivation, mod\IeC {\`e}le}{4}{0}{1}
+\beamer@sectionintoc {2}{Algorithmes de compression}{14}{0}{2}
+\beamer@subsectionintoc {2}{1}{LZ77}{15}{0}{2}
+\beamer@subsectionintoc {2}{2}{Diagonal patterns}{20}{0}{2}
+\beamer@sectionintoc {3}{Mesures de similarit\IeC {\'e}}{31}{0}{3}
+\beamer@subsectionintoc {3}{1}{Mesures de similarit\IeC {\'e}}{32}{0}{3}
+\beamer@sectionintoc {4}{R\IeC {\'e}sultats}{36}{0}{4}
+\beamer@subsectionintoc {4}{1}{Comparaison des mesures utilis\IeC {\'e}es}{39}{0}{4}
+\beamer@subsectionintoc {4}{2}{Comparaison des algorithmes}{43}{0}{4}
