@@ -7,6 +7,11 @@ Gold~NE Abdallah~SA.
 \newblock In {\em Joint Sound and Music Computing Conference and International
   Computer Music Conference 2014}, 2014.
 
+\bibitem{musicmaths}
+Raymond~Clare Archibald.
+\newblock Mathematicians and music.
+\newblock {\em American Mathematical Monthly}, pages 1--25, 1924.
+
 \bibitem{aucouturier2002finding}
 Jean-Julien Aucouturier and Mark Sandler.
 \newblock Finding repeating patterns in acoustic musical signals: Applications
@@ -20,6 +25,11 @@ Darrell Conklin and Christina Anagnostopoulou.
 \newblock Representation and discovery of multiple viewpoint patterns.
 \newblock In {\em Proceedings of the International Computer Music Conference},
   pages 479--485. Citeseer, 2001.
+
+\bibitem{cormen}
+Thomas~H Cormen.
+\newblock {\em Introduction to algorithms}.
+\newblock MIT press, 2009.
 
 \bibitem{bracket2}
 Stefano Crespi-Reghizzi.
@@ -64,6 +74,11 @@ Eric~J Isaacson.
 Philip~N Johnson-Laird.
 \newblock Jazz improvisation: A theory at the computational level.
 \newblock {\em Representing musical structure, London}, pages 291--325, 1991.
+
+\bibitem{karpNP}
+Richard~M Karp.
+\newblock {\em Reducibility among combinatorial problems}.
+\newblock Springer, 1972.
 
 \bibitem{patminr}
 Olivier Lartillot.

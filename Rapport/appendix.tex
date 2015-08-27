@@ -70,7 +70,7 @@
 
 \section{List and definitions of all similarity measures}
 
-\subsubsection*{Equality, root notes, translation}
+\subsubsection*{Equality, root notes, transposition}
 
 Let us consider two chords $C_1 = R_1 H_1$ and $C_2 = R_2 H_2$, where $R_i$ denotes the root note and $H_i$ the harmonic label.
 The first three similarity measures are then defined by:
@@ -80,12 +80,12 @@ The first three similarity measures are then defined by:
 \end{equation*}
 
 \begin{equation*}
-\mathfrak{M}_{translation}(C_1,C_2) = 1 \Leftrightarrow H_1 = H_2
+\mathfrak{M}_{transposition}(C_1,C_2) = 1 \Leftrightarrow H_1 = H_2
 \end{equation*}
 
 \begin{align*}
 \mathfrak{M}_{eq}(C_1,C_2) = 1 & \Leftrightarrow C_1 = C_2 \\
-& \Leftrightarrow \mathfrak{M}_{root}(C_1,C_2) = \mathfrak{M}_{translation}(C_1,C_2) = 1
+& \Leftrightarrow \mathfrak{M}_{root}(C_1,C_2) = \mathfrak{M}_{transposition}(C_1,C_2) = 1
 \end{align*}
 
 
@@ -94,7 +94,7 @@ The first three similarity measures are then defined by:
 Formally, $\mathfrak{M}_{PCS}(C_1,C_2) = 1$ if and only if $C_1$ can be obtained from $C_2$ by combining the following two operations:
 
 \begin{align*}
-\text{translation} :~& \mathcal{P}([0,12])\times\mathbb{N} \longrightarrow \mathcal{P}([0,12]) \\
+\text{transposition} :~& \mathcal{P}([0,12])\times\mathbb{N} \longrightarrow \mathcal{P}([0,12]) \\
  & (\{x_i\}_i, t) \longmapsto \{(x_i+t)\mod 12\}_i \\
 \text{inversion} :~& \mathcal{P}([0,12]) \longrightarrow \mathcal{P}([0,12]) \\
  & \{x_i\}_i \longmapsto \{(12-x_i)\}_i
@@ -105,28 +105,28 @@ The algorithmical way to compute $\mathfrak{M}_{PCS}(C_1,C_2)$ is a bit technica
 
 \subsubsection*{Morris', Rahn's, Lewin's, Teitelbaum's and Isaacson's measures}
 
-All the following measures imply the use of \emph{interval vectors}, as defined in the main report. Hence, let us now for more clarity call the two chords to compare $X$ and $Y$. Their interval vectors are $IV_X=(x_1,\dots,x_6)$ and $IV_Y=(y_1,\dots,y_6)$. We also define $D(X,Y)$, the difference vector $((y_1-x_1),\dots,(y_6-x_6))$.
+All the following measures imply the use of \emph{interval vectors}, as defined in the main report. Let us now for more clarity denote the two chords to compare by $X$ and $Y$, and their respective interval vectors by $IV_X=(x_1,\dots,x_6)$ and $IV_Y=(y_1,\dots,y_6)$. We also define $D(X,Y)$, the difference vector $((y_1-x_1),\dots,(y_6-x_6))$.
 
-Morris' measure is the sum of absolute values of the coordinates of $D$:
+Morris' measure is the sum of absolute values of the coordinates of $D$ (city-block distance applied to the interval vector):
 
 \begin{align*}
-\mathfrak{M}_{Morris}(X,Y)& = \sum_{i=1}^6 \left|D(X,Y)\right|& = \sum_{i=1}^6 \left|y_i-x_i\right|
+\mathfrak{M}_{Morris}(X,Y)& = \sum_{i=1}^6 \left|D(X,Y)\right| = \sum_{i=1}^6 \left|y_i-x_i\right|
 \end{align*}
 
-Rahn's measure sums the entries of the interval vectors of $X$ and $Y$, but only for the coordinates $i$ such that both $IV(X)_i$ and $IV(Y)_i$ are non-zero (if for instance $X$ has intervals of length $4$ but $Y$ does not, these are not taken into account). It is then scaled in order to get values in $[0,1]$:
+Rahn's measure is the sum of the entries of the interval vectors of $X$ and $Y$, but only for the coordinates $i$ such that both $IV(X)_i$ and $IV(Y)_i$ are non-zero (if for instance $X$ has intervals of length $4$ but $Y$ does not, these are not taken into account). It is then scaled in order to get values in $[0,1]$:
 
 
 \begin{align*}
 \mathfrak{M}_{Rahn}(X,Y) = \sum_{i=1}^6 \left[\left(IV(X)_i+IV(Y)_i\right)\cdot\textbf{1}_{IV(X)_i\geq1\text{ and }IV(Y)_i\geq1}\right] \cdot \frac{2}{|X|(|X|-1)+|Y|(|Y|-1)}
 \end{align*}
 
-Lewin's measure consists in the sum of the square roots of products of the coordinates of $IV(X)$ and $IV(Y)$ (like in Rahn's, a single coordinate is equal to $0$ leads to a zero term). It is also properly scales:
+Lewin's measure is the sum of the square roots of products of the coordinates of $IV(X)$ and $IV(Y)$ (like for Rahn's measure, a single coordinate equal to $0$ leads to a zero term). It is also properly scaled:
 
 \begin{align*}
 \mathfrak{M}_{Lewin}(X,Y) = \sum_{i=1}^6 \left[\sqrt{IV(X)_i\cdot IV(Y)_i}\right] \cdot \frac{2}{\sqrt{|X|(|X|-1)|Y|(|Y|-1)}}
 \end{align*}
 
-Teitelbaum's measure is the euclidean distance applied on the interval vectors:
+Teitelbaum's measure is the euclidean distance applied to the interval vectors:
 
 \begin{align*}
 \mathfrak{M}_{Teitebaum}(X,Y) = \sqrt{\sum_{i=1}^6 \left[(IV(X)_i-IV(Y)_i)^2\right]}
@@ -140,9 +140,10 @@ Finally, and as described in the main report, Isaacson's similarity index is the
 
 \subsubsection*{Similarity of sequences}
 
-%For all measures, two chord sequences $(C_i)_{1\leq i\leq n}$ and $(C_'i)_{1\leq i\leq n}$ of the same length $n$ will be considered similar according to a certain threshold $t$ if $\forall 0\leq i\leq n, \mathfrak{M}(C_i,C'_i) \geq t$\footnote{I did keep the definitions from the original papers, so no homogenization has been made, and for some a better similarity means being closer to $0$, so it would be $\leq$ instead of $\geq$}.
+For all measures, two chord sequences $(C_i)_{1\leq i\leq n}$ and $(C'_i)_{1\leq i\leq n}$ of the same length $n$ are considered similar according to a certain threshold $t$ 
+if and only if $\mathfrak{M}(C_i,C'_i) \geq t$ for all $i\in [0,n]$\footnote{~~I kept the definitions from the original papers, so no homogenization has been made, and for some measures a better similarity means being closer to $0$, so it would be \guill{$\leq$} instead of \guill{$\geq$}.}.
 
-The only exception is $\mathfrak{M}_{translation}$, which allows a more precise extension to sequences: the \emph{difference} (in the mapping to $\mathbb{Z}/12\mathbb{Z}$) between corresponding notes should all be the same: $\exists d \in \mathbb{Z}/12\mathbb{Z}, \forall 0\leq i\leq n, \mathfrak{M}_{translation}(C_i,C'_i) = true \wedge (C'_i-C_i)\mod12 = d$.
+The only exception is $\mathfrak{M}_{transposition}$, which allows a more precise extension to sequences: the \emph{difference} (in the mapping to $\mathbb{Z}/12\mathbb{Z}$) between corresponding notes should all be the same: $\exists d \in \mathbb{Z}/12\mathbb{Z}, \forall i\in [0,n], \mathfrak{M}_{transposition}(C_i,C'_i) = 1 \wedge (C'_i-C_i)\mod12 = d$.
 
 For instance, if we consider the sequences:
 
@@ -159,14 +160,14 @@ $S$ and $S'$ are similar ($d=-7\mod12=5$), but $S$ and $S''$ are not (the differ
 
 \newpage
 
-\section{LZ77: a full example example}
+\section{LZ77: a full example}
 
-Here I give an example of an execution of the LZ77 algorithm (without restriction on the buffer and preview sizes). The algorithm pseudo-code is recalled in algorithm \ref{algolz77}.
+In this section I give an illustrative example of an execution of the LZ77 algorithm (without restriction on the buffer and preview sizes). The pseudo-code of the algorithm is recalled in Algorithm \ref{algolz77}.
 
 \begin{algorithm}
 \setstretch{1.5}
 \caption{LZ77 \label{algolz77}}
-\SetKwData{jjj}{j} \SetKwData{III}{I} \SetKwData{nnn}{n} \SetKwData{pref}{$\pi$} \SetKwData{aaa}{a} \SetKwData{bbb}{b} \SetKwData{buffer}{buffer} \SetKwData{LLL}{L}
+\SetKwData{jjj}{j} \SetKwData{III}{$\texttt{I}$} \SetKwData{nnn}{n} \SetKwData{pref}{$\pi$} \SetKwData{aaa}{a} \SetKwData{bbb}{b} \SetKwData{buffer}{$\texttt{buffer}$} \SetKwData{LLL}{$\texttt{L}$}
 \SetKwFunction{push}{push} \SetKwFunction{pop}{pop} \SetKwFunction{front}{front} \SetKwFunction{size}{size}
 
 \KwIn{Queue of Chords $\III=(C_1, \dots, C_n)$.}
@@ -200,7 +201,7 @@ Here I give an example of an execution of the LZ77 algorithm (without restrictio
 }
 \end{algorithm}
 
-Let us consider the input data $\texttt{I}=ABCABCABD$. The letters represent chords with no particular harmonic indication (regular major chords). However they could obviously represent anything else: the LZ77 algorithm is a general algorithm for any stream of symbols.
+Let us consider the input data $\texttt{I}=ABCABCABD$. These letters could represent chords with no particular harmonic indication (regular major chords~---~this is for the clarity of the example, but of course it works exactly the same way with harmonic labels). However they could obviously represent anything else: the LZ77 algorithm is a general algorithm for any stream of symbols.
 
 During the execution, this input will be gradually transferred to the \texttt{buffer}, which is originally empty: \\
 
@@ -244,11 +245,13 @@ Now, we have the prefix $ABCAB$ of $ABCABD$ which begins in the \texttt{buffer}.
 
 \texttt{I} is then empty: the algorithm returns \texttt{L} = $(0,0,A)$, $(0,0,B)$, $(0,0,C)$, $(3,5,D)$.
 
-Considering Chords have the same size as integers, our original sequence had a weight of $9$ and the output of $4\cdot3=12$. The compression factor is then $\frac{9}{12}=0.75$, which is bad (it is lower than $1$ the \guill{compressed} sequence is in fact heavier than the input); this is completely normal on small instances.
+Considering that chords have the same size as integers, the input sequence had a weight of $9$ and the output of $4\cdot3=12$. The compression factor is then $\frac{9}{12}=0.75$, which is bad (it is lower than $1$: the \guill{compressed} sequence is in fact heavier than the input); this often happens on on small instances.
 
 
 \newpage
 \section{Diagonal pattern decomposition: all algorithms}
+
+In this section I give pseudo-codes for all the methods used by the diagonal patterns algorithm, and a complexity analysis.
 
 \subsection*{Listing the patterns}
 
@@ -257,7 +260,7 @@ Algorithm \ref{patlist} shows how the diagonal patterns are selected.
 \begin{algorithm}
 \setstretch{1.5}
 \caption{Pattern listing \label{patlist}}
-\SetKwData{iii}{i} \SetKwData{jjj}{j} \SetKwData{III}{I} \SetKwData{Pat}{$\Pi$} \SetKwData{pattern}{$\pi$}
+\SetKwData{iii}{i} \SetKwData{jjj}{j} \SetKwData{III}{$\texttt{I}$} \SetKwData{Pat}{$\Pi$} \SetKwData{pattern}{$\pi$}
 \SetKwFunction{insert}{insert} \SetKwFunction{similar}{similar}
 
 \KwIn{Sequence of chords $\III=(C_1, \dots, C_n)$.}
@@ -284,10 +287,11 @@ Algorithm \ref{patlist} shows how the diagonal patterns are selected.
 }
 \end{algorithm}
 
-Where \texttt{insert} creates a new pattern in $\Pi$ if $\pi$ has not been seen yet, or adds an occurrence to it if it is already in $\Pi$. With a hash table, this is performed in $\bigO{1}$. In my implementation, I did not use a hash table so an exhaustive search for the pattern has to be done. Comparing the possibly new pattern $\pi$ with a pattern already in $\Pi$ is $\bigO{1}$ if they have different lengths and $\bigO{|\pi|}$ if they have the same length. There can be at most $\bigO{|I|^2}$ patterns in $\Pi$, among them at most $|I|$ of size $|\pi|$, and $|\pi|$ is at most $|I|$. Hence this step has a cost of $\bigO{|I|^2+|I|\cdot|I|}=\bigO{|I|^2}$.
+Where \texttt{insert} creates a new pattern in $\Pi$ if $\pi$ has not been seen yet, or adds an occurrence to it if $\pi$ is already in $\Pi$. With a hash table, this operation is performed in $\bigO{1}$. In my implementation, I could not use a hash table, because it is not robust to the use of similarity measures. So, it is necessary to search for a pattern possibly similar to $\pi$ in $\Pi$. Comparing $\pi$ with a pattern already in $\Pi$ is $\bigO{1}$ if they have different lengths and $\bigO{|\pi|}$ if they have the same length. There can be at most $\bigO{|\texttt{I}|^2}$ patterns in $\Pi$, among them at most $|\texttt{I}|$ of size $|\pi|$, and $|\pi|$ is at most $|\texttt{I}|$. Hence this step has a cost of $\bigO{|\texttt{I}|^2+|\texttt{I}|\cdot|\texttt{I}|}=\bigO{|\texttt{I}|^2}$.
 
-Overall complexity is then $\bigO{|I|^2}$ with a hash table and $\bigO{|I|^4}$ in my current implementation.
+Overall complexity is then $\bigO{|\texttt{I}|^2}$ with a hash table and $\bigO{|\texttt{I}|^4}$ in my current implementation.
 
+\newpage
 
 \subsection*{Set cover}
 
@@ -324,7 +328,7 @@ Algorithms \ref{setcover1} and \ref{setcover2} describe the two heuristics I use
 }
 \end{algorithm}
 
-For algorithm \ref{setcover1}, computing \texttt{gain} or determining the useless occurrences of a pattern can be $\bigO{|I|^2}$ (in the --extreme-- worst case of a pattern of length $|I|/2$ occurring $|I|/2$, for instance). There can be $\bigO{|I|^2}$ in $\Pi$ and at most $\bigO{|I|}$ steps are necessary. Overall worst-case complexity is then be $\bigO{|I|^5}$. Yet, the actual running time is very reasonable, and lower than algorithm \ref{patlist}; a more precise analysis could be carried to have a better idea of the complexity.
+For Algorithm \ref{setcover1}, computing \texttt{gain} or determining the useless occurrences of a pattern can be $\bigO{|\texttt{I}|^2}$ (in the --extreme-- worst case of a pattern of length $|\texttt{I}|/2$ occurring $|\texttt{I}|/2$ times, for instance), $\texttt{I}$ being the original input. There can be $\bigO{|\texttt{I}|^2}$ patterns in $\Pi$ and at most $\bigO{|\texttt{I}|}$ steps are necessary. Overall worst-case complexity is then $\bigO{|\texttt{I}|^5}$. Yet, the actual running time is very reasonable, and lower than Algorithm \ref{patlist}. Maybe a more precise or amortized analysis could be carried (especially about $|\Pi|$) to obtain a tighter bound.
 
 \begin{algorithm}
 \setstretch{1.5}
@@ -346,20 +350,20 @@ For algorithm \ref{setcover1}, computing \texttt{gain} or determining the useles
 }
 \end{algorithm}
 
-For algorithm \ref{setcover2}, there can be $\bigO{|I|^2}$ patterns and browsing the occurrences of a pattern to determine if they can be removed or not may take $\bigO{|I|^2}$. Sorting costing only $\bigO{|I|\cdot\log(|I|)}$, overall worst-case complexity is $\bigO{|I|^4}$; but as for algorithm \ref{setcover1} the actual running time is short.
+For Algorithm \ref{setcover2}, browsing all the occurrences of all patterns has complexity $\bigO{|\texttt{I}|^2}$ (the set of all the patterns is included in the upper triangle of the binary matrix). Sorting costing only $\bigO{|\texttt{I}|\cdot\log(|\texttt{I}|)}$, overall worst-case complexity is $\bigO{|\texttt{I}|^2}$.
 
 
 \subsection*{Maximizing the recovery factor}
 
-As for the computation of the recovery factor, it is simply performed by algorithm \ref{recoveryaux}. The decompression is built in the order of the patterns are given (the information in the first ones may be erased by the content of further ones). So this order is important. Hence the patterns are sorted beforehand by decreasing length, under the hypothesis that the longest patterns include more probably approximations, while the shortest ones have better chances to represent a single chord. The accuracy of this hypothesis is not obvious; I conducted short tests to choose the best way of sorting and empirically this one was the best; however I think more complete tests and a theoretical analysis should be conducted.
+As for the computation of the recovery factor, it is simply performed by Algorithm \ref{recoveryaux}. The decompression is built in the order the patterns are given (the information in the first ones may be erased by the content of further ones). So this order is important. Hence the patterns are sorted beforehand by increasing number of occurrences. The reason for this sorting criterion is not obvious; I conducted short tests to choose the best way of sorting and empirically this one was the best; however I think more complete tests and a theoretical analysis should be conducted.
 
-The sort is done at the beginning of algorithm \ref{recoverymin}. Then, for each pattern, the similar sequence in the input maximizing the recovery is chosen. When computing again the recovery factor, only the chords finally taken into account will be impacted, so this indeed results in a maximized configuration of the patterns.
+The sort is done at the beginning of Algorithm \ref{recoverymin}. Then, for each pattern, the sequence similar to it in the input maximizing the recovery is chosen. When computing again the recovery factor, only the chords finally taken into account will be impacted, so this indeed results in a configuration of the patterns maximizing the recovery factor.
 
 \begin{algorithm}
 \setstretch{1.5}
 \caption{Recovery factor \label{recoveryaux}}
 \SetKwData{iii}{i} \SetKwData{jjj}{j}
-\SetKwData{Pat}{$\Pi$} \SetKwData{rf}{rec\_factor} \SetKwData{pat}{$\pi$}  \SetKwData{dec}{decompression} \SetKwData{III}{I}
+\SetKwData{Pat}{$\Pi$} \SetKwData{rf}{rec\_factor} \SetKwData{pat}{$\pi$}  \SetKwData{dec}{decompression} \SetKwData{III}{$\texttt{I}$}
 \SetKwFunction{gain}{gain} \SetKwFunction{weight}{weight} \SetKwFunction{sort}{sort}
 
 \KwIn{Covering list of patterns \Pat, chord sequence \III.}
@@ -375,7 +379,7 @@ The sort is done at the beginning of algorithm \ref{recoverymin}. Then, for each
 	}
 	$\rf \longleftarrow 0$
 	
-	\Pour{\iii \De $1$ \A $|I|$} {
+	\Pour{\iii \De $1$ \A $|\texttt{I}|$} {
 		\Si{$\dec[\iii]=\III[\iii]$} {
 			\rf++
 		}
@@ -384,15 +388,15 @@ The sort is done at the beginning of algorithm \ref{recoverymin}. Then, for each
 }
 \end{algorithm}
 
-We have $|\Pi|\leq|I|$ (a better analysis of \ref{setcover1} and \ref{setcover2} may lead to a tighter bound). Moreover, for any $\pi\in\Pi$, the sum of its number of occurrences and its length is $\bigO{|I|}$, since there is no redundant occurrence (covering what the other occurrences of the same pattern already cover). So the complexity of algorithm \ref{recoveryaux} is $\bigO{|I|^2}$.
+The number of patterns in $\Pi$ is at most $|\texttt{I}|$, since $Pi$ covers $|\texttt{I}|$ with no useless patterns (this is the case after both \ref{setcover1} and \ref{setcover2}). Moreover, for any $\pi\in\Pi$, the sum of its number of occurrences and its length is $\bigO{|\texttt{I}|}$, again since there is no redundant occurrence after \ref{setcover1} and \ref{setcover2}. So the complexity of Algorithm \ref{recoveryaux} is $\bigO{|\texttt{I}|^2}$.
 
-For algorithm \ref{recoverymin}, we still have $|\Pi|\leq|I|$; and the sequences similar to $\pi$ have already be computed, so doing an actual search is not necessary, and there are at most $\bigO{|I|}$ such sequences to test. Overall complexity is then $\bigO{|I|^4}$. Of course, this algorithm could be optimised, especially with more pre-computation (for instance, knowing exactly for each pattern what positions it affects in the decompression would reduce the overall complexity to $\bigO{|I|^2}$); but this is not currently the case in my implementation.
+For Algorithm \ref{recoverymin}, we still have $|\Pi|\leq|\texttt{I}|$; and the sequences similar to $\pi$ have already been computed, so doing an actual search is not necessary, and there are at most $\bigO{|\texttt{I}|}$ such sequences to test. Overall complexity is then $\bigO{|\texttt{I}|^4}$. Of course, this algorithm could be optimised, especially with more pre-computation (for instance, knowing exactly for each pattern what positions it affects in the decompression would reduce the overall complexity to $\bigO{|\texttt{I}|^2}$); but this is not currently the case in my implementation.
 
 \begin{algorithm}
 \setstretch{1.5}
 \caption{Recovery factor maximization \label{recoverymin}}
 \SetKwData{iii}{i} \SetKwData{jjj}{j}
-\SetKwData{Pat}{$\Pi$} \SetKwData{rf}{rec\_factor} \SetKwData{pat}{$\pi$} \SetKwData{patpat}{$\pi'$} \SetKwData{dec}{decompression} \SetKwData{III}{I}
+\SetKwData{Pat}{$\Pi$} \SetKwData{rf}{rec\_factor} \SetKwData{pat}{$\pi$} \SetKwData{patpat}{$\pi'$} \SetKwData{dec}{decompression} \SetKwData{III}{$\texttt{I}$}
 \SetKwFunction{gain}{gain} \SetKwFunction{recf}{recovery\_factor} \SetKwFunction{sort}{sort}
 
 \KwIn{Covering list of patterns \Pat, chord sequence \III.}
@@ -421,7 +425,7 @@ For algorithm \ref{recoverymin}, we still have $|\Pi|\leq|I|$; and the sequences
 
 \section{All results}
 
-Here I give all the numerical results I obtained (compression factors and recovery factors, for different measures and different thresholds).
+In this section I give all the numerical results I obtained (compression factors and recovery factors, for different measures and different thresholds).
 
 \subsection*{Measures without thresholds}
 
@@ -433,7 +437,7 @@ The results of the measures without thresholds are listed in the following array
             & Compression & Recovery & Compression       & Recovery \\ \hline
 Equality    & 0.931258    & 1        & 1.20672           & 1        \\ \hline
 Root notes  & 1.22421     & 0.634401 & 1.46531           & 0.517409 \\ \hline
-Translation & 1.27305     & 0.531337 & 1.39689           & 0.463788 \\ \hline
+transposition & 1.27305     & 0.531337 & 1.39689           & 0.463788 \\ \hline
 PCS-prime   & 1.33706     & 0.502786 & 1.42744           & 0.419916 \\ \hline
 \end{tabular}
 
@@ -446,35 +450,35 @@ The curves of compression and recovery factors of the other measures are shown o
 \centering
 \includegraphics[width=7cm]{images/Morris77.jpg}\hspace{0.5cm}
 \includegraphics[width=7cm]{images/MorrisDiag.jpg}
-\caption{Results with Morris' measure (left: LZ77, right: diagonal patterns)\label{morris}}
+\caption{Results with Morris' measure (left: LZ77, right: diagonal patterns).\label{morris}}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=7cm]{images/Rahn77.jpg}\hspace{0.5cm}
 \includegraphics[width=7cm]{images/RahnDiag.jpg}
-\caption{Results with Rahn's measure (left: LZ77, right: diagonal patterns)\label{rahn}}
+\caption{Results with Rahn's measure (left: LZ77, right: diagonal patterns).\label{rahn}}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=7cm]{images/Lewin77.jpg}\hspace{0.5cm}
 \includegraphics[width=7cm]{images/LewinDiag.jpg}
-\caption{Results with Lewin's measure (left: LZ77, right: diagonal patterns)\label{lewin}}
+\caption{Results with Lewin's measure (left: LZ77, right: diagonal patterns).\label{lewin}}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=7cm]{images/Teitelbaum77.jpg}\hspace{0.5cm}
 \includegraphics[width=7cm]{images/TeitelbaumDiag.jpg}
-\caption{Results with Teitelbaum' measure (left: LZ77, right: diagonal patterns)\label{teitelbaum}}
+\caption{Results with Teitelbaum' measure (left: LZ77, right: diagonal patterns).\label{teitelbaum}}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=7cm]{images/Isaacson77.jpg}\hspace{0.5cm}
 \includegraphics[width=7cm]{images/IsaacsonDiag.jpg}
-\caption{Results with Isaacson' measure (left: LZ77, right: diagonal patterns)\label{isaacson}}
+\caption{Results with Isaacson' measure (left: LZ77, right: diagonal patterns).\label{isaacson}}
 \end{figure}
 
 \clearpage

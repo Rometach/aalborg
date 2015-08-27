@@ -1,21 +1,21 @@
 \select@language {english}
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}
 \contentsline {section}{\numberline {2}Computer music}{3}{section.2}
-\contentsline {subsection}{\numberline {2.1}Short presentation, history, research areas}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.1}Short presentation and research areas}{3}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Computational music analysis}{4}{subsection.2.2}
 \contentsline {section}{\numberline {3}Analysing jazz chord sequences}{5}{section.3}
 \contentsline {subsection}{\numberline {3.1}Motivation}{5}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Chord similarities}{6}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Introduction}{6}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}List of used measures}{7}{subsubsection.3.2.2}
-\contentsline {subsection}{\numberline {3.3}Compression algorithms}{8}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Definitions}{9}{subsubsection.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.2}Lempel-Ziv 77 (LZ77)}{10}{subsubsection.3.3.2}
-\contentsline {subsubsection}{\numberline {3.3.3}Diagonal pattern decomposition}{11}{subsubsection.3.3.3}
+\contentsline {subsection}{\numberline {3.2}Compression algorithms}{6}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Lempel-Ziv 77 (LZ77)}{7}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Diagonal pattern decomposition}{8}{subsubsection.3.2.2}
+\contentsline {subsection}{\numberline {3.3}Similarity measures for chords}{9}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}A mathematical model of chords}{9}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}List of used measures}{10}{subsubsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.3}Improvement of the compression algorithms}{11}{subsubsection.3.3.3}
 \contentsline {subsection}{\numberline {3.4}Results}{13}{subsection.3.4}
 \contentsline {section}{\numberline {4}Other and further work}{16}{section.4}
-\contentsline {subsection}{\numberline {4.1}Segmentation? Grammatical inference?}{16}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.1}Segmentation and grammatical inference}{16}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Improving the compression scheme}{17}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}The Lr2Cr8 project}{17}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.3}The Lrn2Cre8 project}{17}{subsection.4.3}
 \contentsline {section}{\numberline {5}Conclusion}{18}{section.5}
 \contentsline {section}{\numberline {6}Bibliography}{19}{section.6}

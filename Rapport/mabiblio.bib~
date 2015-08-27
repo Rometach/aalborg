@@ -1,9 +1,9 @@
 % Grammars
 
 @conference{goldabdallah,
-  author={Abdallah SA, Gold NE}
-  title={Comparing models of symbolic music using probabilistic grammars and probabilistic programming}
-  booktitle={Joint Sound and Music Computing Conference and International Computer Music Conference 2014}
+  author={Abdallah SA, Gold NE},
+  title={Comparing models of symbolic music using probabilistic grammars and probabilistic programming},
+  booktitle={Joint Sound and Music Computing Conference and International Computer Music Conference 2014},
   year={2014}
 }
 
@@ -247,6 +247,15 @@
 
 % The harmonic musical surface and two novel representation schemes Emilios Cambouropoulos
 
+@article{musicmaths,
+  title={Mathematicians and music},
+  author={Archibald, Raymond Clare},
+  journal={American Mathematical Monthly},
+  pages={1--25},
+  year={1924},
+  publisher={JSTOR}
+}
+
 @book{rameau,
   title={Nouveau syst{\^e}me de musique th{\'e}orique, o{\`u} l'on d{\'e}couvre le principe de toutes les r{\`e}gles n{\'e}cessaires {\`a} la pratique: pour servir d'introduction au Trait{\'e} de l'harmonie},
   author={Rameau, Jean Philippe},
@@ -269,6 +278,20 @@
   title = {Lrn2Cre8 Project homepage: http://lrn2cre8.eu/},
   url = {http://lrn2cre8.eu/},
   urldate = {2015-05-15}
+}
+
+@book{cormen,
+  title={Introduction to algorithms},
+  author={Cormen, Thomas H},
+  year={2009},
+  publisher={MIT press}
+}
+
+@book{karp,
+  title={Reducibility among combinatorial problems},
+  author={Karp, Richard M},
+  year={1972},
+  publisher={Springer}
 }
 
 

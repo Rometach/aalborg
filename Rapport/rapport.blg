@@ -6,45 +6,45 @@ Database file #1: mabiblio.bib
 Warning--empty journal in jazzgrammar1
 Warning--there's a number but no volume in survey2
 Warning--empty year in patminr
-You've used 25 entries,
+You've used 28 entries,
             2118 wiz_defined-function locations,
-            645 strings with 7716 characters,
-and the built_in function-call counts, 7857 in all, are:
-= -- 812
-> -- 248
-< -- 10
-+ -- 108
-- -- 76
-* -- 450
-:= -- 1246
-add.period$ -- 76
-call.type$ -- 25
-change.case$ -- 113
+            661 strings with 7949 characters,
+and the built_in function-call counts, 8608 in all, are:
+= -- 885
+> -- 269
+< -- 11
++ -- 117
+- -- 82
+* -- 482
+:= -- 1372
+add.period$ -- 85
+call.type$ -- 28
+change.case$ -- 123
 chr.to.int$ -- 0
-cite$ -- 28
-duplicate$ -- 355
-empty$ -- 676
-format.name$ -- 76
-if$ -- 1709
+cite$ -- 31
+duplicate$ -- 395
+empty$ -- 747
+format.name$ -- 82
+if$ -- 1873
 int.to.chr$ -- 0
-int.to.str$ -- 25
-missing$ -- 25
-newline$ -- 126
-num.names$ -- 48
-pop$ -- 132
+int.to.str$ -- 28
+missing$ -- 30
+newline$ -- 141
+num.names$ -- 54
+pop$ -- 152
 preamble$ -- 1
-purify$ -- 89
+purify$ -- 98
 quote$ -- 0
-skip$ -- 271
+skip$ -- 296
 stack$ -- 0
-substring$ -- 541
-swap$ -- 102
-text.length$ -- 10
+substring$ -- 575
+swap$ -- 110
+text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 96
+type$ -- 104
 warning$ -- 3
-while$ -- 87
-width$ -- 27
-write$ -- 266
+while$ -- 96
+width$ -- 30
+write$ -- 297
 (There were 3 warnings)

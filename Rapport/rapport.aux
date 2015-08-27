@@ -24,10 +24,11 @@
 \@writefile{toc}{\select@language{english}}
 \@writefile{lof}{\select@language{english}}
 \@writefile{lot}{\select@language{english}}
+\citation{musicmaths}
 \citation{rameau}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}{section.1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Computer music}{3}{section.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Short presentation, history, research areas}{3}{subsection.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Short presentation and research areas}{3}{subsection.2.1}}
 \citation{goldabdallah}
 \citation{markov1}
 \citation{markov2}
@@ -37,35 +38,42 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Computational music analysis}{4}{subsection.2.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Analysing jazz chord sequences}{5}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Motivation}{5}{subsection.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Lead sheet with the beginning of Louis Armstrong's \emph  {What a wonderful world}}}{5}{figure.1}}
+\newlabel{motivation}{{3.1}{5}{Motivation}{subsection.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Lead sheet with the beginning of Louis Armstrong's \emph  {What a wonderful world}.}}{5}{figure.1}}
 \newlabel{waww}{{1}{5}{Lead sheet with the beginning of Louis Armstrong's \emph {What a wonderful world}}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Chord similarities}{6}{subsection.3.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Introduction}{6}{subsubsection.3.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Compression algorithms}{6}{subsection.3.2}}
+\newlabel{algos}{{3.2}{6}{Compression algorithms}{subsection.3.2}{}}
+\citation{lempelziv}
+\citation{lempelziv}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Lempel-Ziv 77 (LZ77)}{7}{subsubsection.3.2.1}}
+\newlabel{algolz77}{{1}{7}{Lempel-Ziv 77 (LZ77)}{algocf.1}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces LZ77 }}{7}{algocf.1}}
+\citation{karpNP}
+\citation{cormen}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Diagonal pattern decomposition}{8}{subsubsection.3.2.2}}
+\newlabel{compressiondiagonal}{{3.2.2}{8}{Diagonal pattern decomposition}{subsubsection.3.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces A binary matrix and the diagonal search for patterns.}}{8}{figure.2}}
+\newlabel{diagonals}{{2}{8}{A binary matrix and the diagonal search for patterns}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Similarity measures for chords}{9}{subsection.3.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}A mathematical model of chords}{9}{subsubsection.3.3.1}}
+\newlabel{chordmodel}{{3.3.1}{9}{A mathematical model of chords}{subsubsection.3.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A keyboard with note names and their mapped values in $\mathbb  {Z}/12\mathbb  {Z}$.}}{9}{figure.3}}
+\newlabel{keyboard}{{3}{9}{A keyboard with note names and their mapped values in $\mathbb {Z}/12\mathbb {Z}$}{figure.3}{}}
 \citation{forte}
 \citation{isaacson}
 \citation{lewin}
 \citation{morris}
 \citation{rahn}
 \citation{teitelbaum}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces A keyboard with notes names and their equivalent in $\mathbb  {Z}/12\mathbb  {Z}$}}{7}{figure.2}}
-\newlabel{keyboard}{{2}{7}{A keyboard with notes names and their equivalent in $\mathbb {Z}/12\mathbb {Z}$}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}List of used measures}{7}{subsubsection.3.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Compression algorithms}{8}{subsection.3.3}}
-\citation{lempelziv}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Definitions}{9}{subsubsection.3.3.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Lempel-Ziv 77 (LZ77)}{10}{subsubsection.3.3.2}}
-\newlabel{algolz77}{{1}{10}{Lempel-Ziv 77 (LZ77)}{algocf.1}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces LZ77 }}{10}{algocf.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Diagonal pattern decomposition}{11}{subsubsection.3.3.3}}
-\newlabel{compressiondiagonal}{{3.3.3}{11}{Diagonal pattern decomposition}{subsubsection.3.3.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A binary matrix and the diagonal search for patterns}}{11}{figure.3}}
-\newlabel{diagonals}{{3}{11}{A binary matrix and the diagonal search for patterns}{figure.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Binary matrices for the same piece, the second using a similarity measure (F1 score)}}{12}{figure.4}}
-\newlabel{loose}{{4}{12}{Binary matrices for the same piece, the second using a similarity measure (F1 score)}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}List of used measures}{10}{subsubsection.3.3.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Improvement of the compression algorithms}{11}{subsubsection.3.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Binary matrices for \emph  {Giant Steps}, the second using a similarity measure (F1 score).}}{12}{figure.4}}
+\newlabel{loose}{{4}{12}{Binary matrices for \emph {Giant Steps}, the second using a similarity measure (F1 score)}{figure.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Results}{13}{subsection.3.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Link between recovery and compression factors (left: LZ77, right: diagonal patterns)}}{13}{figure.5}}
+\newlabel{resultsmeasures}{{3.4}{13}{Comparison between measures}{section*.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Link between recovery and compression factors (left: LZ77, right: diagonal patterns).}}{13}{figure.5}}
 \newlabel{rfc}{{5}{13}{Link between recovery and compression factors (left: LZ77, right: diagonal patterns)}{figure.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Diagonal compression with Isaacson's measure}}{14}{figure.6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Diagonal compression with Isaacson's measure.}}{14}{figure.6}}
 \newlabel{isaacson}{{6}{14}{Diagonal compression with Isaacson's measure}{figure.6}{}}
 \citation{goldabdallah}
 \citation{bibliogrammar}
@@ -76,8 +84,8 @@
 \citation{jazzgrammar3}
 \citation{jazzgrammar4}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Other and further work}{16}{section.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Segmentation? Grammatical inference?}{16}{subsection.4.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Several binary matrices revealing geometrical structure}}{16}{figure.7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Segmentation and grammatical inference}{16}{subsection.4.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Several binary matrices revealing geometrical structure.}}{16}{figure.7}}
 \newlabel{pretty}{{7}{16}{Several binary matrices revealing geometrical structure}{figure.7}{}}
 \citation{aucouturier2002finding}
 \citation{aucouturier2002finding}
@@ -85,38 +93,41 @@
 \citation{patminr}
 \citation{bracket2}
 \citation{bracket1}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces An ``approximate diagonal pattern'' (figure from \cite  {aucouturier2002finding}) }}{17}{figure.8}}
-\newlabel{aucouturier}{{8}{17}{An \guill {approximate diagonal pattern} (figure from \cite {aucouturier2002finding})}{figure.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Improving the compression scheme}{17}{subsection.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}The Lr2Cr8 project}{17}{subsection.4.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Analysis of a piece with \textsc  {PatMinr} and resulting bracketing}}{18}{figure.9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces An \IeC {\textquotedblleft }approximate diagonal pattern\IeC {\textquotedblright } (figure from \cite  {aucouturier2002finding}).}}{17}{figure.8}}
+\newlabel{aucouturier}{{8}{17}{An \guill {approximate diagonal pattern} (figure from \cite {aucouturier2002finding})}{figure.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}The Lrn2Cre8 project}{17}{subsection.4.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Analysis of a piece with \textsc  {PatMinr} and resulting bracketing.}}{18}{figure.9}}
 \newlabel{bracket}{{9}{18}{Analysis of a piece with \textsc {PatMinr} and resulting bracketing}{figure.9}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{18}{section.5}}
 \bibstyle{plain}
 \bibdata{mabiblio}
 \bibcite{goldabdallah}{1}
-\bibcite{aucouturier2002finding}{2}
-\bibcite{markov3}{3}
-\bibcite{bracket2}{4}
-\bibcite{jazzgrammar1}{5}
-\bibcite{bibliogrammar}{6}
-\bibcite{forte}{7}
-\bibcite{survey1}{8}
-\bibcite{survey2}{9}
-\bibcite{isaacson}{10}
-\bibcite{jazzgrammar4}{11}
-\bibcite{patminr}{12}
-\bibcite{lewin}{13}
+\bibcite{musicmaths}{2}
+\bibcite{aucouturier2002finding}{3}
+\bibcite{markov3}{4}
+\bibcite{cormen}{5}
+\bibcite{bracket2}{6}
+\bibcite{jazzgrammar1}{7}
+\bibcite{bibliogrammar}{8}
+\bibcite{forte}{9}
+\bibcite{survey1}{10}
+\bibcite{survey2}{11}
+\bibcite{isaacson}{12}
+\bibcite{jazzgrammar4}{13}
+\bibcite{karpNP}{14}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Bibliography}{19}{section.6}}
-\bibcite{Lrn2Cre8}{14}
-\bibcite{cosiatec}{15}
-\bibcite{morris}{16}
-\bibcite{markov1}{17}
-\bibcite{markov2}{18}
-\bibcite{rahn}{19}
-\bibcite{rameau}{20}
-\bibcite{jazzgrammar2}{21}
-\bibcite{bracket1}{22}
-\bibcite{jazzgrammar3}{23}
-\bibcite{teitelbaum}{24}
-\bibcite{lempelziv}{25}
+\bibcite{patminr}{15}
+\bibcite{lewin}{16}
+\bibcite{Lrn2Cre8}{17}
+\bibcite{cosiatec}{18}
+\bibcite{morris}{19}
+\bibcite{markov1}{20}
+\bibcite{markov2}{21}
+\bibcite{rahn}{22}
+\bibcite{rameau}{23}
+\bibcite{jazzgrammar2}{24}
+\bibcite{bracket1}{25}
+\bibcite{jazzgrammar3}{26}
+\bibcite{teitelbaum}{27}
+\bibcite{lempelziv}{28}

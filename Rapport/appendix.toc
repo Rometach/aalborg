@@ -1,6 +1,6 @@
 \select@language {english}
 \contentsline {section}{\numberline {1}List and definitions of all similarity measures}{2}{section.1}
-\contentsline {section}{\numberline {2}LZ77: a full example example}{5}{section.2}
+\contentsline {section}{\numberline {2}LZ77: a full example}{5}{section.2}
 \contentsline {section}{\numberline {3}Diagonal pattern decomposition: all algorithms}{7}{section.3}
 \contentsline {section}{\numberline {4}All results}{11}{section.4}
 \contentsline {section}{\numberline {5}Implementation details}{14}{section.5}

@@ -1,3 +1,7 @@
+set xlabel "Threshold"
+set ylabel "Compression factor"
+set y2label "Recovery factor"
+
 # DIAGONAL (Compression & Recovery)
 set y2range [0:1]
 set y2tics
@@ -121,6 +125,10 @@ set terminal wxt
 
 # LZ77 (R=f(C))
 
+set xlabel "Compression factor"
+set ylabel "Recovery factor"
+unset y2tics
+
 set xrange [1:9]
 plot "LZ77/AllSorted.dat" using 1:2 title 'F1' with line, "LZ77/AllSorted.dat" using 3:4 title 'Isaacson' with line, "LZ77/AllSorted.dat" using 5:6 title 'Rahn' with line, "LZ77/AllSorted.dat" using 7:8 title 'Lewin' with line, "LZ77/AllSorted.dat" using 9:10 title 'Teitelbaum' with line, "LZ77/AllSorted.dat" using 11:12 title 'Morris' with line, "LZ77/AllSorted.dat" using 13:14 title 'Equality' with points, "LZ77/AllSorted.dat" using 15:16 title 'PCS-prime' with points, "LZ77/AllSorted.dat" using 17:18 title 'Translation' with points, "LZ77/AllSorted.dat" using 19:20 title 'Root note' with points, 
 set terminal png
@@ -129,7 +137,7 @@ set title "Recovery = f(Compression)"
 replot
 set terminal wxt
 
-set xrange [1:2]
+set xrange [1.2:2]
 plot "LZ77/AllSorted.dat" using 1:2 title 'F1' with line, "LZ77/AllSorted.dat" using 3:4 title 'Isaacson' with line, "LZ77/AllSorted.dat" using 5:6 title 'Rahn' with line, "LZ77/AllSorted.dat" using 7:8 title 'Lewin' with line, "LZ77/AllSorted.dat" using 9:10 title 'Teitelbaum' with line, "LZ77/AllSorted.dat" using 11:12 title 'Morris' with line, "LZ77/AllSorted.dat" using 13:14 title 'Equality' with points, "LZ77/AllSorted.dat" using 15:16 title 'PCS-prime' with points, "LZ77/AllSorted.dat" using 17:18 title 'Translation' with points, "LZ77/AllSorted.dat" using 19:20 title 'Root note' with points, 
 set terminal png
 set output "LZ77/RfC2.png"
@@ -141,6 +149,7 @@ set terminal wxt
 # DIAGONAL (R=f(C))
 
 set yrange [0:0.7]
+set xrange [1:9]
 plot "Diagonal/AllSorted.dat" using 1:2 title 'F1' with line, "Diagonal/AllSorted.dat" using 3:4 title 'Isaacson' with line, "Diagonal/AllSorted.dat" using 5:6 title 'Rahn' with line, "Diagonal/AllSorted.dat" using 7:8 title 'Lewin' with line, "Diagonal/AllSorted.dat" using 9:10 title 'Teitelbaum' with line, "Diagonal/AllSorted.dat" using 11:12 title 'Morris' with line, "Diagonal/AllSorted.dat" using 13:14 title 'Equality' with points, "Diagonal/AllSorted.dat" using 15:16 title 'PCS-prime' with points, "Diagonal/AllSorted.dat" using 17:18 title 'Translation' with points, "Diagonal/AllSorted.dat" using 19:20 title 'Root note' with points, 
 set terminal png
 set output "Diagonal/RfC.png"
